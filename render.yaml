@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: aps-tracker-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.10.12"
+      - key: ENV
+        value: "production"
+      - key: ALLOWED_ORIGINS
+        sync: false # Set this in Render dashboard to your Netlify URL
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
