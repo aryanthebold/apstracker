@@ -5,7 +5,7 @@ import os
 # Allowed origins — restrict to your deployed frontend domain(s).
 # Set ALLOWED_ORIGINS in .env as a comma-separated list for production.
 _raw_origins = os.environ.get("ALLOWED_ORIGINS", "http://localhost:3000")
-ALLOWED_ORIGINS = [o.strip() for o in _raw_origins.split(",") if o.strip()]
+ALLOWED_ORIGINS = [o.strip().rstrip("/") for o in _raw_origins.split(",") if o.strip()]
 
 ENV = os.environ.get("ENV", "production")
 
