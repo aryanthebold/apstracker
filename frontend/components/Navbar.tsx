@@ -90,6 +90,24 @@ export default function Navbar() {
         </div>
       </header>
 
+      {/* Mobile Header (Top) */}
+      <header className="sticky top-0 z-50 w-full pt-4 pb-2 px-4 md:hidden bg-bg-primary/80 backdrop-blur-xl border-b border-border-subtle/50 flex items-center justify-between pointer-events-auto">
+         <Link href="/" className="flex items-center gap-2 group">
+            <span
+              className="text-xl font-extrabold tracking-wide transition-all duration-300 group-hover:opacity-90"
+              style={{ fontFamily: 'var(--font-coolvetica), "Coolvetica", cursive' }}
+            >
+              <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+                APS
+              </span>
+              <span className="text-text-primary"> Tracker</span>
+            </span>
+            <span className="rounded-full bg-accent-primary/10 border border-accent-primary/20 px-1.5 py-0.5 text-[8px] text-accent-primary font-bold tracking-widest uppercase">
+              GL Bajaj
+            </span>
+         </Link>
+      </header>
+
       {/* Mobile Navigation — bottom bar */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border-subtle bg-bg-secondary/80 backdrop-blur-2xl flex justify-around py-2 px-2 md:hidden safe-area-inset-bottom">
         {navLinks.map((link) => {

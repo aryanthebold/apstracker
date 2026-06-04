@@ -59,6 +59,7 @@ function ConstellationBackground() {
 
     // ── Resize ─────────────────────────────────────────────────────────────
     const resize = () => {
+      if (!canvas) return;
       W = canvas.offsetWidth;
       H = canvas.offsetHeight;
       canvas.width = W;
@@ -113,6 +114,12 @@ function ConstellationBackground() {
 
     // ── Draw ────────────────────────────────────────────────────────────────
     const draw = () => {
+      // Don't draw if the canvas is hidden (e.g. on mobile)
+      if (W === 0 || H === 0) {
+        animId = requestAnimationFrame(draw);
+        return;
+      }
+      
       t++;
       ctx.clearRect(0, 0, W, H);
 
@@ -268,7 +275,7 @@ function ConstellationBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className="absolute inset-0 w-full h-full pointer-events-none hidden md:block"
       style={{ zIndex: 0 }}
       aria-hidden="true"
     />
