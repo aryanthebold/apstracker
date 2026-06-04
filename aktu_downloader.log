@@ -1,0 +1,1014 @@
+12:01:56  INFO      Starting download for 10 roll numbers (2405110100001 → 2405110100010)
+12:01:56  INFO      PDFs will be saved to: C:\Users\drary\OneDrive\Documents\Projects\APS Tracker\result
+
+12:01:56  INFO      ====== WebDriver manager ======
+12:01:58  INFO      Get LATEST chromedriver version for google-chrome
+12:01:58  INFO      There is no [win64] chromedriver "148.0.7778.178" for browser google-chrome "148.0.7778" in cache
+12:01:59  INFO      There is no [win64] chromedriver "148.0.7778.178" for browser google-chrome "148.0.7778" in cache
+12:01:59  INFO      Get LATEST chromedriver version for google-chrome
+12:02:00  INFO      WebDriver version 148.0.7778.178 selected
+12:02:00  INFO      Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/148.0.7778.178/win64/chromedriver-win64.zip
+12:02:00  INFO      About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/148.0.7778.178/win64/chromedriver-win64.zip
+12:02:01  INFO      Driver downloading response is 200
+12:02:02  INFO      Driver has been saved in cache [C:\Users\drary\.wdm\drivers\chromedriver\win64\148.0.7778.178]
+12:02:06  INFO      [1/10] Processing 2405110100001 ...
+12:02:07  ERROR     ❌  Error for roll 2405110100001: Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=148.0.7778.216)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3ca0e4]
+	chromedriver!(No symbol) [0x7ff71c3ba4c1]
+	chromedriver!(No symbol) [0x7ff71c3bc3af]
+	chromedriver!(No symbol) [0x7ff71c3baa63]
+	chromedriver!(No symbol) [0x7ff71c3ba22b]
+	chromedriver!(No symbol) [0x7ff71c3b9ee1]
+	chromedriver!(No symbol) [0x7ff71c3b7b11]
+	chromedriver!(No symbol) [0x7ff71c3b8272]
+	chromedriver!(No symbol) [0x7ff71c3d1866]
+	chromedriver!(No symbol) [0x7ff71c4756c4]
+	chromedriver!(No symbol) [0x7ff71c45005a]
+	chromedriver!(No symbol) [0x7ff71c47486f]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:07  WARNING      Retrying (1/2) ...
+12:02:09  ERROR     ❌  Error for roll 2405110100001: Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=148.0.7778.216)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3ca0e4]
+	chromedriver!(No symbol) [0x7ff71c3ba4c1]
+	chromedriver!(No symbol) [0x7ff71c3bc3af]
+	chromedriver!(No symbol) [0x7ff71c3baa63]
+	chromedriver!(No symbol) [0x7ff71c3ba22b]
+	chromedriver!(No symbol) [0x7ff71c3b9ee1]
+	chromedriver!(No symbol) [0x7ff71c3b7b11]
+	chromedriver!(No symbol) [0x7ff71c3b8272]
+	chromedriver!(No symbol) [0x7ff71c3d1866]
+	chromedriver!(No symbol) [0x7ff71c4756c4]
+	chromedriver!(No symbol) [0x7ff71c45005a]
+	chromedriver!(No symbol) [0x7ff71c47486f]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:09  WARNING      Retrying (2/2) ...
+12:02:11  ERROR     ❌  Error for roll 2405110100001: Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=148.0.7778.216)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3ca0e4]
+	chromedriver!(No symbol) [0x7ff71c3ba4c1]
+	chromedriver!(No symbol) [0x7ff71c3bc3af]
+	chromedriver!(No symbol) [0x7ff71c3baa63]
+	chromedriver!(No symbol) [0x7ff71c3ba22b]
+	chromedriver!(No symbol) [0x7ff71c3b9ee1]
+	chromedriver!(No symbol) [0x7ff71c3b7b11]
+	chromedriver!(No symbol) [0x7ff71c3b8272]
+	chromedriver!(No symbol) [0x7ff71c3d1866]
+	chromedriver!(No symbol) [0x7ff71c4756c4]
+	chromedriver!(No symbol) [0x7ff71c45005a]
+	chromedriver!(No symbol) [0x7ff71c47486f]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:11  ERROR        Giving up on 2405110100001 after 2 retries.
+12:02:14  INFO      [2/10] Processing 2405110100002 ...
+12:02:14  ERROR     ❌  Error for roll 2405110100002: Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=148.0.7778.216)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3ca0e4]
+	chromedriver!(No symbol) [0x7ff71c3ba4c1]
+	chromedriver!(No symbol) [0x7ff71c3bc3af]
+	chromedriver!(No symbol) [0x7ff71c3baa63]
+	chromedriver!(No symbol) [0x7ff71c3ba22b]
+	chromedriver!(No symbol) [0x7ff71c3b9ee1]
+	chromedriver!(No symbol) [0x7ff71c3b7b11]
+	chromedriver!(No symbol) [0x7ff71c3b8272]
+	chromedriver!(No symbol) [0x7ff71c3d1866]
+	chromedriver!(No symbol) [0x7ff71c4756c4]
+	chromedriver!(No symbol) [0x7ff71c45005a]
+	chromedriver!(No symbol) [0x7ff71c47486f]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:14  WARNING      Retrying (1/2) ...
+12:02:16  ERROR     ❌  Error for roll 2405110100002: Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=148.0.7778.216)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3ca0e4]
+	chromedriver!(No symbol) [0x7ff71c3ba4c1]
+	chromedriver!(No symbol) [0x7ff71c3bc3af]
+	chromedriver!(No symbol) [0x7ff71c3baa63]
+	chromedriver!(No symbol) [0x7ff71c3ba22b]
+	chromedriver!(No symbol) [0x7ff71c3b9ee1]
+	chromedriver!(No symbol) [0x7ff71c3b7b11]
+	chromedriver!(No symbol) [0x7ff71c3b8272]
+	chromedriver!(No symbol) [0x7ff71c3d1866]
+	chromedriver!(No symbol) [0x7ff71c4756c4]
+	chromedriver!(No symbol) [0x7ff71c45005a]
+	chromedriver!(No symbol) [0x7ff71c47486f]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:16  WARNING      Retrying (2/2) ...
+12:02:18  ERROR     ❌  Error for roll 2405110100002: Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=148.0.7778.216)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3ca0e4]
+	chromedriver!(No symbol) [0x7ff71c3ba4c1]
+	chromedriver!(No symbol) [0x7ff71c3bc3af]
+	chromedriver!(No symbol) [0x7ff71c3baa63]
+	chromedriver!(No symbol) [0x7ff71c3ba22b]
+	chromedriver!(No symbol) [0x7ff71c3b9ee1]
+	chromedriver!(No symbol) [0x7ff71c3b7b11]
+	chromedriver!(No symbol) [0x7ff71c3b8272]
+	chromedriver!(No symbol) [0x7ff71c3d1866]
+	chromedriver!(No symbol) [0x7ff71c4756c4]
+	chromedriver!(No symbol) [0x7ff71c45005a]
+	chromedriver!(No symbol) [0x7ff71c47486f]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:18  ERROR        Giving up on 2405110100002 after 2 retries.
+12:02:21  INFO      [3/10] Processing 2405110100003 ...
+12:02:21  ERROR     ❌  Error for roll 2405110100003: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=148.0.7778.216); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3b8a92]
+	chromedriver!(No symbol) [0x7ff71c3dee6c]
+	chromedriver!(No symbol) [0x7ff71c4571b0]
+	chromedriver!(No symbol) [0x7ff71c474172]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:21  WARNING      Retrying (1/2) ...
+12:02:23  ERROR     ❌  Error for roll 2405110100003: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:23  WARNING      Retrying (2/2) ...
+12:02:25  ERROR     ❌  Error for roll 2405110100003: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:25  ERROR        Giving up on 2405110100003 after 2 retries.
+12:02:28  INFO      [4/10] Processing 2405110100004 ...
+12:02:28  ERROR     ❌  Error for roll 2405110100004: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:28  WARNING      Retrying (1/2) ...
+12:02:30  ERROR     ❌  Error for roll 2405110100004: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:30  WARNING      Retrying (2/2) ...
+12:02:32  ERROR     ❌  Error for roll 2405110100004: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:32  ERROR        Giving up on 2405110100004 after 2 retries.
+12:02:35  INFO      [5/10] Processing 2405110100005 ...
+12:02:35  ERROR     ❌  Error for roll 2405110100005: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:35  WARNING      Retrying (1/2) ...
+12:02:37  ERROR     ❌  Error for roll 2405110100005: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:37  WARNING      Retrying (2/2) ...
+12:02:39  ERROR     ❌  Error for roll 2405110100005: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:39  ERROR        Giving up on 2405110100005 after 2 retries.
+12:02:42  INFO      [6/10] Processing 2405110100006 ...
+12:02:42  ERROR     ❌  Error for roll 2405110100006: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:42  WARNING      Retrying (1/2) ...
+12:02:44  ERROR     ❌  Error for roll 2405110100006: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:44  WARNING      Retrying (2/2) ...
+12:02:46  ERROR     ❌  Error for roll 2405110100006: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:46  ERROR        Giving up on 2405110100006 after 2 retries.
+12:02:49  INFO      [7/10] Processing 2405110100007 ...
+12:02:49  ERROR     ❌  Error for roll 2405110100007: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:49  WARNING      Retrying (1/2) ...
+12:02:51  ERROR     ❌  Error for roll 2405110100007: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:51  WARNING      Retrying (2/2) ...
+12:02:53  ERROR     ❌  Error for roll 2405110100007: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:53  ERROR        Giving up on 2405110100007 after 2 retries.
+12:02:56  INFO      [8/10] Processing 2405110100008 ...
+12:02:56  ERROR     ❌  Error for roll 2405110100008: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:56  WARNING      Retrying (1/2) ...
+12:02:58  ERROR     ❌  Error for roll 2405110100008: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:02:58  WARNING      Retrying (2/2) ...
+12:03:00  ERROR     ❌  Error for roll 2405110100008: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:03:00  ERROR        Giving up on 2405110100008 after 2 retries.
+12:03:03  INFO      [9/10] Processing 2405110100009 ...
+12:03:03  ERROR     ❌  Error for roll 2405110100009: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:03:03  WARNING      Retrying (1/2) ...
+12:03:05  ERROR     ❌  Error for roll 2405110100009: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:03:05  WARNING      Retrying (2/2) ...
+12:03:07  ERROR     ❌  Error for roll 2405110100009: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:03:07  ERROR        Giving up on 2405110100009 after 2 retries.
+12:03:10  INFO      [10/10] Processing 2405110100010 ...
+12:03:10  ERROR     ❌  Error for roll 2405110100010: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:03:10  WARNING      Retrying (1/2) ...
+12:03:12  ERROR     ❌  Error for roll 2405110100010: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:03:12  WARNING      Retrying (2/2) ...
+12:03:14  ERROR     ❌  Error for roll 2405110100010: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:03:14  ERROR        Giving up on 2405110100010 after 2 retries.
+12:03:19  INFO      
+==================================================
+12:03:19  INFO        Done!  ✅ 0/10 downloaded
+12:03:19  INFO        ❌ Failed (10): 2405110100001, 2405110100002, 2405110100003, 2405110100004, 2405110100005, 2405110100006, 2405110100007, 2405110100008, 2405110100009, 2405110100010
+12:03:19  INFO        Failed list saved to: result\failed_roll_numbers.txt
+12:03:19  INFO      ==================================================
+12:27:22  INFO      Starting download for 440 roll numbers (2200001 → 2200440)
+12:27:22  INFO      PDFs will be saved to: C:\Users\drary\OneDrive\Documents\Projects\APS Tracker\aktu_results
+
+12:27:22  INFO      ====== WebDriver manager ======
+12:27:23  INFO      Driver [C:\Users\drary\.wdm\drivers\chromedriver\win64\148.0.7778.178\chromedriver-win64/chromedriver.exe] found in cache by browser version
+12:27:23  INFO      [1/440] Processing 2200001 ...
+12:27:23  ERROR     ❌  Error for roll 2200001: Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=148.0.7778.216)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3ca0e4]
+	chromedriver!(No symbol) [0x7ff71c3ba4c1]
+	chromedriver!(No symbol) [0x7ff71c3bc3af]
+	chromedriver!(No symbol) [0x7ff71c3baa63]
+	chromedriver!(No symbol) [0x7ff71c3ba22b]
+	chromedriver!(No symbol) [0x7ff71c3b9ee1]
+	chromedriver!(No symbol) [0x7ff71c3b7b11]
+	chromedriver!(No symbol) [0x7ff71c3b8272]
+	chromedriver!(No symbol) [0x7ff71c3d1866]
+	chromedriver!(No symbol) [0x7ff71c4756c4]
+	chromedriver!(No symbol) [0x7ff71c45005a]
+	chromedriver!(No symbol) [0x7ff71c47486f]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:27:23  WARNING      Retrying (1/2) ...
+12:27:25  ERROR     ❌  Error for roll 2200001: Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=148.0.7778.216)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3ca0e4]
+	chromedriver!(No symbol) [0x7ff71c3ba4c1]
+	chromedriver!(No symbol) [0x7ff71c3bc3af]
+	chromedriver!(No symbol) [0x7ff71c3baa63]
+	chromedriver!(No symbol) [0x7ff71c3ba22b]
+	chromedriver!(No symbol) [0x7ff71c3b9ee1]
+	chromedriver!(No symbol) [0x7ff71c3b7b11]
+	chromedriver!(No symbol) [0x7ff71c3b8272]
+	chromedriver!(No symbol) [0x7ff71c3d1866]
+	chromedriver!(No symbol) [0x7ff71c4756c4]
+	chromedriver!(No symbol) [0x7ff71c45005a]
+	chromedriver!(No symbol) [0x7ff71c47486f]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:27:25  WARNING      Retrying (2/2) ...
+12:27:28  ERROR     ❌  Error for roll 2200001: Message: target frame detached
+  (failed to check if window was closed: disconnected: Unable to receive message from renderer)
+  (Session info: chrome=148.0.7778.216)
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c3b9e70]
+	chromedriver!(No symbol) [0x7ff71c3b8ca6]
+	chromedriver!(No symbol) [0x7ff71c3dee6c]
+	chromedriver!(No symbol) [0x7ff71c4571b0]
+	chromedriver!(No symbol) [0x7ff71c474172]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:27:28  ERROR        Giving up on 2200001 after 2 retries.
+12:27:31  INFO      [2/440] Processing 2200002 ...
+12:27:31  ERROR     ❌  Error for roll 2200002: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=148.0.7778.216); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3b8a92]
+	chromedriver!(No symbol) [0x7ff71c3dee6c]
+	chromedriver!(No symbol) [0x7ff71c4571b0]
+	chromedriver!(No symbol) [0x7ff71c474172]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:27:31  WARNING      Retrying (1/2) ...
+12:27:33  ERROR     ❌  Error for roll 2200002: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:27:33  WARNING      Retrying (2/2) ...
+12:27:35  ERROR     ❌  Error for roll 2200002: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:27:35  ERROR        Giving up on 2200002 after 2 retries.
+12:27:38  INFO      [3/440] Processing 2200003 ...
+12:27:38  ERROR     ❌  Error for roll 2200003: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:27:38  WARNING      Retrying (1/2) ...
+12:27:46  INFO      Batch: 2405110100001 → 2405110100010  (10 roll numbers)
+12:27:46  INFO      Output: C:\Users\drary\OneDrive\Documents\Projects\APS Tracker\aktu_results
+
+12:27:46  INFO      ====== WebDriver manager ======
+12:27:47  INFO      Driver [C:\Users\drary\.wdm\drivers\chromedriver\win64\148.0.7778.178\chromedriver-win64/chromedriver.exe] found in cache by browser version
+12:27:47  INFO      🔓  Unlocking session with roll number: 1305650004 ...
+12:28:21  INFO      ✅  Session unlocked! DOB gate is now bypassed for this session.
+12:28:21  INFO      [1/10] Fetching 2405110100001 ...
+12:29:11  INFO        ✅  Saved → 2405110100001.pdf
+12:29:13  INFO      [2/10] Fetching 2405110100002 ...
+12:29:32  ERROR       ❌  Error for 2405110100002: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=148.0.7778.216); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd5ad]
+	chromedriver!(No symbol) [0x7ff71c3b8a92]
+	chromedriver!(No symbol) [0x7ff71c3dee6c]
+	chromedriver!(No symbol) [0x7ff71c4571b0]
+	chromedriver!(No symbol) [0x7ff71c474172]
+	chromedriver!(No symbol) [0x7ff71c419df8]
+	chromedriver!(No symbol) [0x7ff71c41ace3]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!GetHandleVerifier [0x7ff71c671bc4+1e674]
+	chromedriver!GetHandleVerifier [0x7ff71c671d54+1e804]
+	chromedriver!GetHandleVerifier [0x7ff71c6560e7+2b97]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:29:32  WARNING     Retry 1/2 ...
+12:29:34  ERROR       ❌  Error for 2405110100002: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:29:34  WARNING     Retry 2/2 ...
+12:29:36  INFO        Re-unlocking session ...
+12:29:36  INFO      🔓  Unlocking session with roll number: 1305650004 ...
+12:29:36  ERROR     Session unlock failed: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:29:36  ERROR       ❌  Error for 2405110100002: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff71c667de5+14895]
+	chromedriver!GetHandleVerifier [0x7ff71c667e50+14900]
+	chromedriver!(No symbol) [0x7ff71c3cd396]
+	chromedriver!(No symbol) [0x7ff71c418e76]
+	chromedriver!(No symbol) [0x7ff71c44ff62]
+	chromedriver!(No symbol) [0x7ff71c449d7f]
+	chromedriver!(No symbol) [0x7ff71c449543]
+	chromedriver!(No symbol) [0x7ff71c396325]
+	chromedriver!GetHandleVerifier [0x7ff71c97cc49+3296f9]
+	chromedriver!GetHandleVerifier [0x7ff71c977375+323e25]
+	chromedriver!GetHandleVerifier [0x7ff71c99bc82+348732]
+	chromedriver!GetHandleVerifier [0x7ff71c686045+32af5]
+	chromedriver!GetHandleVerifier [0x7ff71c68ecec+3b79c]
+	chromedriver!(No symbol) [0x7ff71c3950bc]
+	chromedriver!GetHandleVerifier [0x7ff71cae0b18+48d5c8]
+	KERNEL32!BaseThreadInitThunk [0x7ff9b0cbe957+17]
+	ntdll!RtlUserThreadStart [0x7ff9b134427c+2c]
+
+12:29:36  ERROR       Giving up on 2405110100002
