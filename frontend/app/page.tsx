@@ -376,16 +376,24 @@ export default function HomePage() {
         </div>
 
         {/* Scroll hint */}
-        <div className="animate-fade-in-up delay-500 absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-30 hover:opacity-60 transition-opacity">
+        <button 
+          onClick={() => {
+            const nextSection = document.getElementById('explore');
+            if (nextSection) {
+              nextSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className="animate-fade-in-up delay-500 absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-30 hover:opacity-60 transition-opacity cursor-pointer"
+        >
           <span className="text-[9px] uppercase tracking-[0.2em] text-text-secondary">Scroll goes brrrrrrrrrr</span>
           <ChevronDown className="h-3 w-3 text-text-secondary animate-bounce" />
-        </div>
+        </button>
       </section>
 
       {/* =============================================
           SECTION 2: Features Bento Grid
           ============================================= */}
-      <section className="w-full max-w-5xl mx-auto py-20 px-4 md:px-8 space-y-14">
+      <section id="explore" className="w-full max-w-5xl mx-auto py-20 px-4 md:px-8 space-y-14">
 
         {/* Section heading */}
         <div className="text-center max-w-2xl mx-auto space-y-3">
