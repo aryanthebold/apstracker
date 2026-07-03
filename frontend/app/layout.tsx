@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import PageTransition from "@/components/PageTransition";
 import { Toaster } from "react-hot-toast";
+import ConstellationBackground from "@/components/ConstellationBackground";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col text-text-primary font-sans selection:bg-accent-primary/30 selection:text-accent-primary relative">
         {/* Floating Iridescent Background Mesh */}
         <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-[#080A0F]">
+          <ConstellationBackground />
           {/* Primary violet/indigo blob — top left */}
           <div className="absolute top-[-15%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-br from-violet-700/18 via-indigo-800/15 to-blue-900/12 blur-[120px] animate-blob-float-1" />
           {/* Fuchsia/purple blob — bottom right */}
