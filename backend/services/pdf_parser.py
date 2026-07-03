@@ -1,26 +1,24 @@
-import pdfplumber
+import fitz  # pymupdf
 import re
 
-def parse_pdf(file_path: str):
+def parse_pdf(file_bytes: bytes):
     """
     Parses the AKTU Result PDF and extracts structured data.
+    Accepts raw PDF bytes directly (no temp file needed).
     """
     data = {
         "student": {},
         "semesters": [],
         "overall": {}
     }
-    
-    with pdfplumber.open(file_path) as pdf:
-        text = ""
-        for page in pdf.pages:
-            extracted = page.extract_text()
-            if extracted:
-                text += extracted + "\n"
-                
-    # NOTE: Debug file-write removed — do NOT write PII to disk in production.
-    # To debug locally, temporarily log `text` to stdout only.
-            
+
+    # Extract all text using pymupdf (5-10x faster than pdfplumber)
+    doc = fitz.open(stream=file_bytes, filetype="pdf")
+    text = ""
+    for page in doc:
+        text += page.get_text() + "\n"
+    doc.close()
+
     # 2. Extract header block
     name_match = re.search(r"Name\s*:\s*([^\n]+)", text, re.IGNORECASE)
     if name_match:

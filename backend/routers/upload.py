@@ -3,8 +3,9 @@ from services.pdf_parser import parse_pdf
 from services.db import get_student_by_roll, save_parsed_result
 from routers.rate_limit import upload_limiter
 import os
-import tempfile
 import hmac
+import asyncio
+from functools import partial
 
 router = APIRouter(prefix="/upload", tags=["Upload"])
 
@@ -49,13 +50,11 @@ async def upload_result(
     if not content.startswith(PDF_MAGIC):
         raise HTTPException(status_code=400, detail="Uploaded file is not a valid PDF.")
 
-    # 6. Parse PDF from temp file
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-        tmp.write(content)
-        tmp_path = tmp.name
-
+    # 6. Parse PDF in a thread pool — keeps the asyncio event loop unblocked
+    #    parse_pdf now accepts raw bytes directly (no temp file needed)
     try:
-        parsed_data = parse_pdf(tmp_path)
+        loop = asyncio.get_event_loop()
+        parsed_data = await loop.run_in_executor(None, parse_pdf, content)
 
         student_info = parsed_data.get("student", {})
         roll_number = student_info.get("roll_number")
@@ -77,8 +76,8 @@ async def upload_result(
                 detail="Roll number not found in the batch. You cannot upload results for other batches.",
             )
 
-        # 8. Save parsed data to DB
-        save_parsed_result(student["id"], roll_number, parsed_data)
+        # 8. Save parsed data to DB (with parallel operations inside)
+        await save_parsed_result(student["id"], roll_number, parsed_data)
 
         return {"message": "Result uploaded and parsed successfully", "roll_number": roll_number}
 
@@ -87,6 +86,3 @@ async def upload_result(
     except Exception:
         # Never leak internal error details to the client
         raise HTTPException(status_code=500, detail="An internal error occurred while processing the PDF.")
-    finally:
-        if os.path.exists(tmp_path):
-            os.remove(tmp_path)
