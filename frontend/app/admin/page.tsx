@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   adminFetchAllStudents,
   adminFetchNotSubmitted,
@@ -182,8 +183,20 @@ export default function AdminPage() {
   const renderStudentModal = () => {
     if (!selectedStudentId) return null;
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-        <div className="bg-bg-primary border border-border-subtle rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 15 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 15 }}
+          transition={{ type: 'spring', duration: 0.35, bounce: 0.15 }}
+          className="bg-bg-primary border border-border-subtle rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative"
+        >
           <button onClick={() => { setSelectedStudentId(null); setStudentDetails(null); }} className="absolute top-4 right-4 p-2 bg-bg-secondary hover:bg-bg-tertiary rounded-full transition-colors z-10">
             <X className="h-5 w-5 text-text-secondary" />
           </button>
@@ -202,7 +215,7 @@ export default function AdminPage() {
               <>
                 {/* Profile Card */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="glass-panel p-5 rounded-xl space-y-3 relative overflow-hidden">
+                  <div className="panel-solid p-5 rounded-xl space-y-3 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/5 blur-3xl -mr-10 -mt-10 rounded-full pointer-events-none"></div>
                     <h3 className="text-sm uppercase tracking-wider text-text-secondary font-semibold border-b border-border-subtle pb-2 mb-3">Personal Details</h3>
                     <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-sm">
@@ -215,7 +228,7 @@ export default function AdminPage() {
                     </div>
                   </div>
                   
-                  <div className="glass-panel p-5 rounded-xl space-y-3 relative overflow-hidden">
+                  <div className="panel-solid p-5 rounded-xl space-y-3 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-accent-success/5 blur-3xl -mr-10 -mt-10 rounded-full pointer-events-none"></div>
                     <h3 className="text-sm uppercase tracking-wider text-text-secondary font-semibold border-b border-border-subtle pb-2 mb-3">Academic Summary</h3>
                     {studentDetails.result ? (
@@ -231,10 +244,10 @@ export default function AdminPage() {
                     )}
                   </div>
                 </div>
-
+ 
                 {/* Ongoing Backs section */}
                 {studentDetails.semesters.some(s => s.subjects.some(sub => sub.is_back || sub.grade === 'F')) && (
-                  <div className="glass-panel p-5 rounded-xl border-accent-danger/30 bg-accent-danger/5">
+                  <div className="panel-solid p-5 rounded-xl border-accent-danger/30 bg-accent-danger/5">
                     <h3 className="text-sm uppercase tracking-wider text-accent-danger font-bold border-b border-accent-danger/20 pb-2 mb-3 flex items-center gap-2">
                       <AlertOctagon className="h-4 w-4" /> Ongoing Backs
                     </h3>
@@ -262,13 +275,13 @@ export default function AdminPage() {
                     </div>
                   </div>
                 )}
-
+ 
                 {/* Semester Breakdown */}
                 {studentDetails.semesters.length > 0 && (
                   <div className="space-y-4">
                     <h3 className="text-sm uppercase tracking-wider text-text-secondary font-semibold">Semester-wise Results</h3>
                     {studentDetails.semesters.map(sem => (
-                      <div key={sem.id} className="glass-panel p-4 rounded-xl border border-border-subtle overflow-hidden">
+                      <div key={sem.id} className="panel-solid p-4 rounded-xl border border-border-subtle overflow-hidden">
                         <div className="flex justify-between items-center mb-3 pb-3 border-b border-border-subtle">
                           <span className="font-semibold text-text-primary text-base">Semester {sem.semester}</span>
                           <div className="flex gap-4 text-sm font-medium">
@@ -311,8 +324,8 @@ export default function AdminPage() {
               <div className="text-center text-text-secondary py-12">Failed to load details.</div>
             )}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     );
   };
 
@@ -375,7 +388,9 @@ export default function AdminPage() {
 
   return (
     <div className="flex-1 pt-8 pb-28 px-4 md:px-8 max-w-7xl mx-auto w-full space-y-7 relative">
-      {renderStudentModal()}
+      <AnimatePresence>
+        {selectedStudentId && renderStudentModal()}
+      </AnimatePresence>
       
       {/* Admin header */}
       <ScrollReveal direction="down" duration={500}>

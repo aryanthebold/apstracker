@@ -4,6 +4,7 @@ import Link from 'next/link';
 import StatsBar from '@/components/StatsBar';
 import { Award, UploadCloud, Search, BookOpen, ExternalLink, ArrowRight, Sparkles, ChevronDown } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import SmoothScroll from '@/components/SmoothScroll';
 
 // ─── Constellation Canvas ────────────────────────────────────────────────────
 function ConstellationBackground() {
@@ -284,7 +285,8 @@ function ConstellationBackground() {
 
 export default function HomePage() {
   return (
-    <div className="w-full flex flex-col min-h-screen text-text-primary selection:bg-accent-primary/30 selection:text-accent-primary">
+    <SmoothScroll>
+      <div className="w-full flex flex-col min-h-screen text-text-primary selection:bg-accent-primary/30 selection:text-accent-primary">
 
       {/* =============================================
           SECTION 1: Hero
@@ -321,8 +323,7 @@ export default function HomePage() {
           {/* Main Logo */}
           <div className="animate-fade-in-up delay-100 space-y-0">
             <h1
-              className="text-[4rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold tracking-[0.06em] logo-glow-gradient leading-none select-none"
-              style={{ fontFamily: 'var(--font-coolvetica), "Coolvetica", cursive' }}
+              className="text-[3.8rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-black tracking-tighter sm:tracking-[0.06em] logo-glow-gradient leading-none select-none font-figtree sm:font-coolvetica"
             >
               APS Tracker
             </h1>
@@ -483,5 +484,6 @@ export default function HomePage() {
         </div>
       </section>
     </div>
+    </SmoothScroll>
   );
 }

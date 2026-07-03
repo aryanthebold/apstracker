@@ -125,6 +125,11 @@ body {
   border: 1px solid var(--border-subtle);
 }
 
+.panel-solid {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
 .glass-panel-hover {
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
