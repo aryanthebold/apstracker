@@ -14,7 +14,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "APS Batch Tracker — GL Bajaj (2024-28)",
+  title: "APS Tracker- GL Bajaj (2024-28)",
   description: "Academic Leaderboard & Result Tracker for GL Bajaj CSE/CST Batch of 2024-28. Upload your result PDFs, view analytics, and check subject toppers.",
 };
 

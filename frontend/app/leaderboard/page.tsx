@@ -105,7 +105,7 @@ export default function LeaderboardPage() {
   const listStartRank = 4 + page * PAGE_SIZE;
 
   return (
-    <main className="flex-1 pt-8 pb-28 max-w-7xl mx-auto px-4 md:px-8 overflow-hidden w-full">
+    <div className="flex-1 pt-8 pb-28 max-w-7xl mx-auto px-4 md:px-8 w-full">
       {/* Page Header */}
       <ScrollReveal direction="down" duration={500}>
         <div className="page-header mb-8">
@@ -219,6 +219,6 @@ export default function LeaderboardPage() {
           </ScrollReveal>
         )}
       </div>
-    </main>
+    </div>
   );
 }
