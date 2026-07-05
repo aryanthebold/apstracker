@@ -4,12 +4,10 @@ import Link from 'next/link';
 import StatsBar from '@/components/StatsBar';
 import { Award, UploadCloud, Search, BookOpen, ExternalLink, ArrowRight, Sparkles, ChevronDown } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import SmoothScroll from '@/components/SmoothScroll';
 
 
 export default function HomePage() {
   return (
-    <SmoothScroll>
       <div className="w-full flex flex-col min-h-screen text-text-primary selection:bg-accent-primary/30 selection:text-accent-primary">
 
       {/* =============================================
@@ -207,6 +205,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-    </SmoothScroll>
   );
 }

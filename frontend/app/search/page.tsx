@@ -108,7 +108,8 @@ export default function SearchPage() {
       </ScrollReveal>
 
       {/* Results Container */}
-      <div className="space-y-4 max-w-xl mx-auto">
+      <ScrollReveal delay={200} direction="up" className="w-full">
+        <div className="space-y-4 max-w-xl mx-auto">
         {query.trim().length > 0 && query.trim().length < 3 && (
           <p className="text-center text-xs text-text-secondary">
             Keep typing... Enter at least 3 characters.
@@ -156,8 +157,13 @@ export default function SearchPage() {
                     <FileText className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm text-text-primary leading-tight">
+                    <h3 className="font-semibold text-sm text-text-primary leading-tight flex items-center gap-2">
                       {student.name}
+                      {student.has_ufm && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-sm font-bold bg-red-500/20 text-red-500 border border-red-500/30">
+                          UFM
+                        </span>
+                      )}
                     </h3>
                     <p className="text-[10px] text-text-secondary font-mono mt-0.5">
                       {student.roll_number} · {student.branch === 'CSE_AIML' ? 'CSE AI/ML' : student.branch}
@@ -205,13 +211,21 @@ export default function SearchPage() {
                     <div className="space-y-4">
                       {/* Overall stats */}
                       {details.result && (
-                        <div className="grid grid-cols-1 bg-bg-primary/50 border border-border-subtle/80 rounded-lg p-3 text-xs">
+                        <div className="grid grid-cols-1 bg-bg-primary/50 border border-border-subtle/80 rounded-lg p-3 text-xs gap-2">
                           <div>
                             <span className="text-text-secondary block">Overall SGPA:</span>
                             <span className="font-mono font-bold text-accent-primary text-base">
                               {details.result.overall_sgpa ? details.result.overall_sgpa.toFixed(2) : 'N/A'}
                             </span>
                           </div>
+                          {details.result.raw_session_summary?.includes("UFM_FLAG") && (
+                            <div className="pt-2 border-t border-border-subtle">
+                              <span className="text-red-500 font-semibold block text-[11px] mb-0.5">UFM REMARKS</span>
+                              <span className="text-[10px] text-text-secondary">
+                                {details.result.raw_session_summary.split("UFM_FLAG:")[1]?.trim()}
+                              </span>
+                            </div>
+                          )}
                         </div>
                       )}
 
@@ -265,7 +279,8 @@ export default function SearchPage() {
             </div>
           );
         })}
-      </div>
+        </div>
+      </ScrollReveal>
     </div>
   );
 }

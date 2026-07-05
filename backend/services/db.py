@@ -66,7 +66,7 @@ async def save_parsed_result(student_id: str, roll_number: str, parsed_data: dic
         "overall_sgpa": overall_sgpa,
         "total_backs": total_backs,
         "has_backs": has_backs,
-        "raw_session_summary": parsed_data.get("overall_result_status")
+        "raw_session_summary": parsed_data.get("overall", {}).get("result_status")
     }
 
     # 4. Build semester and subject rows

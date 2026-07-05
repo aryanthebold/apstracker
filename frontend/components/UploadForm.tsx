@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { uploadResult } from '@/lib/api';
 import { UploadCloud, FileText, CheckCircle2, AlertCircle, RefreshCw, X, Loader2, Sparkles } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -17,6 +18,15 @@ export default function UploadForm() {
   const [inviteCode, setInviteCode] = useState('');
   const [files, setFiles] = useState<FileStatus[]>([]);
   const [globalStatus, setGlobalStatus] = useState<'idle' | 'submitting' | 'completed'>('idle');
+
+  const parentRef = useRef<HTMLDivElement>(null);
+
+  const rowVirtualizer = useVirtualizer({
+    count: files.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 78,
+    overscan: 5,
+  });
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const validFiles = acceptedFiles.filter(f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
@@ -167,53 +177,80 @@ export default function UploadForm() {
 
         {/* File List */}
         {files.length > 0 && (
-          <div className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
-            {files.map((fileStatus, index) => (
-              <div
-                key={index}
-                className={`glass-panel p-3 rounded-xl flex items-center justify-between transition-all table-row-glow animate-row-reveal ${fileStatus.status === 'success' ? 'border-accent-success/30 bg-accent-success/5' :
-                    fileStatus.status === 'error' ? 'border-accent-danger/30 bg-accent-danger/5' :
-                      'hover:border-accent-primary/30'
-                  }`}
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <div className="flex items-center gap-3 overflow-hidden">
-                  <div className={`p-2 rounded-lg shrink-0 ${fileStatus.status === 'success' ? 'bg-accent-success/20 text-accent-success' :
-                      fileStatus.status === 'error' ? 'bg-accent-danger/20 text-accent-danger' :
-                        'bg-bg-tertiary text-text-secondary'
-                    }`}>
-                    {fileStatus.status === 'success' ? <CheckCircle2 className="w-5 h-5" /> :
-                      fileStatus.status === 'error' ? <AlertCircle className="w-5 h-5" /> :
-                        fileStatus.status === 'uploading' ? <Loader2 className="w-5 h-5 animate-spin text-accent-primary" /> :
-                          <FileText className="w-5 h-5" />}
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-sm font-semibold text-text-primary truncate">
-                      {fileStatus.file.name}
-                    </span>
-                    <span className="text-xs text-text-secondary truncate">
-                      {fileStatus.status === 'success' ? (
-                        <span className="text-accent-success font-medium">Roll: {fileStatus.rollNumber}</span>
-                      ) : fileStatus.status === 'error' ? (
-                        <span className="text-accent-danger font-medium">{fileStatus.errorMsg}</span>
-                      ) : (
-                        `${(fileStatus.file.size / 1024).toFixed(1)} KB`
-                      )}
-                    </span>
-                  </div>
-                </div>
-
-                {fileStatus.status !== 'uploading' && (
-                  <button
-                    type="button"
-                    onClick={() => removeFile(index)}
-                    className="p-2 hover:bg-bg-tertiary rounded-lg text-text-secondary hover:text-accent-danger transition-colors shrink-0"
+          <div
+            ref={parentRef}
+            className="max-h-60 overflow-y-auto pr-2 custom-scrollbar"
+          >
+            <div
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`,
+                width: '100%',
+                position: 'relative',
+              }}
+            >
+              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                const index = virtualRow.index;
+                const fileStatus = files[index];
+                return (
+                  <div
+                    key={virtualRow.key}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: `${virtualRow.size}px`,
+                      transform: `translateY(${virtualRow.start}px)`,
+                      paddingBottom: '12px'
+                    }}
                   >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-            ))}
+                    <div
+                      className={`h-full glass-panel p-3 rounded-xl flex items-center justify-between transition-all table-row-glow animate-row-reveal ${fileStatus.status === 'success' ? 'border-accent-success/30 bg-accent-success/5' :
+                          fileStatus.status === 'error' ? 'border-accent-danger/30 bg-accent-danger/5' :
+                            'hover:border-accent-primary/30'
+                        }`}
+                      style={{ animationDelay: `${(index % 10) * 50}ms` }}
+                    >
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <div className={`p-2 rounded-lg shrink-0 ${fileStatus.status === 'success' ? 'bg-accent-success/20 text-accent-success' :
+                            fileStatus.status === 'error' ? 'bg-accent-danger/20 text-accent-danger' :
+                              'bg-bg-tertiary text-text-secondary'
+                          }`}>
+                          {fileStatus.status === 'success' ? <CheckCircle2 className="w-5 h-5" /> :
+                            fileStatus.status === 'error' ? <AlertCircle className="w-5 h-5" /> :
+                              fileStatus.status === 'uploading' ? <Loader2 className="w-5 h-5 animate-spin text-accent-primary" /> :
+                                <FileText className="w-5 h-5" />}
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-sm font-semibold text-text-primary truncate">
+                            {fileStatus.file.name}
+                          </span>
+                          <span className="text-xs text-text-secondary truncate">
+                            {fileStatus.status === 'success' ? (
+                              <span className="text-accent-success font-medium">Roll: {fileStatus.rollNumber}</span>
+                            ) : fileStatus.status === 'error' ? (
+                              <span className="text-accent-danger font-medium">{fileStatus.errorMsg}</span>
+                            ) : (
+                              `${(fileStatus.file.size / 1024).toFixed(1)} KB`
+                            )}
+                          </span>
+                        </div>
+                      </div>
+
+                      {fileStatus.status !== 'uploading' && (
+                        <button
+                          type="button"
+                          onClick={() => removeFile(index)}
+                          className="p-2 hover:bg-bg-tertiary rounded-lg text-text-secondary hover:text-accent-danger transition-colors shrink-0"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 

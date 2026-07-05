@@ -26,13 +26,23 @@ def search_student(q: str = Query(..., min_length=3, max_length=50)):
     # value is passed as a bound parameter, not interpolated into raw SQL.
     res = (
         supabase.table("students")
-        .select("id, roll_number, name, branch, has_submitted")
+        .select("id, roll_number, name, branch, has_submitted, results(raw_session_summary)")
         .or_(f"name.ilike.%{q}%,roll_number.ilike.%{q}%")
         .limit(25)  # Cap results to avoid data-scraping via wildcard search
         .execute()
     )
 
-    return {"data": res.data}
+    data = []
+    for item in res.data:
+        has_ufm = False
+        results = item.pop("results", [])
+        if results and results[0].get("raw_session_summary"):
+            if "UFM_FLAG" in results[0]["raw_session_summary"]:
+                has_ufm = True
+        item["has_ufm"] = has_ufm
+        data.append(item)
+
+    return {"data": data}
 
 
 @router.get("/stats", dependencies=[Depends(general_limiter)])

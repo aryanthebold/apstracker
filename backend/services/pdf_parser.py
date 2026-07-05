@@ -49,6 +49,15 @@ def parse_pdf(file_bytes: bytes):
     if overall_res_match:
         data["overall"]["result_status"] = overall_res_match.group(1).strip()
 
+    # Search for UFM remarks
+    ufm_match = re.search(r"Remarks\s*:\s*([^\n]*UFM[^\n]*)", text, re.IGNORECASE)
+    if ufm_match:
+        ufm_text = ufm_match.group(1).strip()
+        if "result_status" in data["overall"]:
+            data["overall"]["result_status"] += f" | UFM_FLAG: {ufm_text}"
+        else:
+            data["overall"]["result_status"] = f"UFM_FLAG: {ufm_text}"
+
     # 4. Split into semesters
     sem_blocks = re.split(r"(?i)\bSemester\s*:\s*(\d+)", text)
     

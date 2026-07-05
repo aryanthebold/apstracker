@@ -121,7 +121,8 @@ export default function SubjectToppersPage() {
           No records submitted for Semester {semester} yet. Try uploading results first!
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+        <ScrollReveal delay={150} direction="up" className="w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
           {toppersList.map((subject, subjectIndex) => (
             <div
               key={subject.subject_code}
@@ -204,7 +205,8 @@ export default function SubjectToppersPage() {
               </div>
             </div>
           ))}
-        </div>
+          </div>
+        </ScrollReveal>
       )}
     </div>
   );

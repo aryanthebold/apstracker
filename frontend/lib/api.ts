@@ -9,6 +9,7 @@ export interface Student {
   branch: 'CSE' | 'CSE_AIML' | 'CST' | string;
   gender: string | null;
   has_submitted: boolean;
+  has_ufm?: boolean;
   created_at: string;
 }
 

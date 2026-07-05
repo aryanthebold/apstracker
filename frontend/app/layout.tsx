@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import PageTransition from "@/components/PageTransition";
 import { Toaster } from "react-hot-toast";
 import ConstellationBackground from "@/components/ConstellationBackground";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
@@ -112,7 +113,9 @@ export default function RootLayout({
         />
         <Navbar />
         <main className="flex-1 flex flex-col pb-20 md:pb-0">
-          <PageTransition>{children}</PageTransition>
+          <SmoothScroll>
+            <PageTransition>{children}</PageTransition>
+          </SmoothScroll>
         </main>
       </body>
     </html>
