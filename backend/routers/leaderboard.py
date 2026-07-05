@@ -33,7 +33,7 @@ def get_overall_leaderboard(
     sort: str = Query("sgpa", regex="^(sgpa|backs)$"),
     order: str = Query("desc", regex="^(asc|desc)$"),
     has_backs: Optional[bool] = None,
-    limit: int = Query(50, ge=1, le=100),
+    limit: int = Query(50, ge=1, le=200),
     offset: int = Query(0, ge=0),
 ):
     branch = _validate_branch(branch)

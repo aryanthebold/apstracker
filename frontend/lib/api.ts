@@ -95,7 +95,7 @@ export async function fetchLeaderboard(params: LeaderboardFilterParams = {}): Pr
   if (params.order) url.searchParams.append('order', params.order);
   if (params.has_backs !== undefined) url.searchParams.append('has_backs', String(params.has_backs));
   if (params.limit) url.searchParams.append('limit', String(params.limit));
-  if (params.offset) url.searchParams.append('offset', String(params.offset));
+  if (params.offset !== undefined) url.searchParams.append('offset', String(params.offset));
 
   const res = await fetch(url.toString());
   if (!res.ok) throw new Error('Failed to fetch leaderboard');
