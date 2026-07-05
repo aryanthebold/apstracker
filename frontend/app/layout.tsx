@@ -26,9 +26,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jetbrainsMono.variable} h-full antialiased dark`}
+      className={`${jetbrainsMono.variable} antialiased dark`}
     >
-      <body className="min-h-full flex flex-col text-text-primary font-sans selection:bg-accent-primary/30 selection:text-accent-primary relative">
+      <body className="min-h-screen flex flex-col text-text-primary font-sans selection:bg-accent-primary/30 selection:text-accent-primary relative">
         {/* Floating Iridescent Background Mesh */}
         <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-[#080A0F]">
           <ConstellationBackground />

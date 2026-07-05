@@ -67,7 +67,7 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
 
   return (
     <section className="rounded-3xl border border-border-subtle bg-bg-glass overflow-hidden mt-8 w-full">
-      <div className="w-full overflow-x-auto custom-scrollbar">
+      <div className="w-full overflow-x-auto custom-scrollbar" data-lenis-prevent="true">
         <table className="w-full text-left border-collapse table-fixed min-w-[700px]">
           <thead className="sticky top-0 bg-bg-secondary/90 backdrop-blur-md z-20">
             <tr>

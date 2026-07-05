@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 
 export default function ConstellationBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: -9999, y: -9999 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -37,10 +36,8 @@ export default function ConstellationBackground() {
       maxLife: number;
     }
 
-    const NUM_STARS = 200;
-    const MAX_DIST = 160;
-    const MOUSE_DIST = 200;
-    const MOUSE_PUSH = 80; // px repulsion radius
+    const NUM_STARS = 75;
+    const MAX_DIST = 180;
 
     let stars: Star[] = [];
     let meteors: Meteor[] = [];
@@ -101,12 +98,7 @@ export default function ConstellationBackground() {
       });
     };
 
-    // ── Mouse tracking ─────────────────────────────────────────────────────
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    };
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
+
 
     // ── Draw ────────────────────────────────────────────────────────────────
     const draw = () => {
@@ -118,9 +110,6 @@ export default function ConstellationBackground() {
       
       t++;
       ctx.clearRect(0, 0, W, H);
-
-      const mx = mouseRef.current.x;
-      const my = mouseRef.current.y;
 
       // Spawn meteor periodically
       if (t >= nextMeteor) {
@@ -162,17 +151,8 @@ export default function ConstellationBackground() {
         m.life++;
       }
 
-      // ── Update stars with mouse repulsion & parallax ───────────────────
+      // ── Update stars with parallax ───────────────────
       for (const s of stars) {
-        // Mouse repulsion
-        const dx = s.x - mx;
-        const dy = s.y - my;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MOUSE_PUSH && dist > 0) {
-          const force = (MOUSE_PUSH - dist) / MOUSE_PUSH;
-          s.x += (dx / dist) * force * 2.5;
-          s.y += (dy / dist) * force * 2.5;
-        }
 
         s.x = (s.x + s.vx + W) % W;
         s.y = (s.y + s.vy + H) % H;
@@ -191,13 +171,7 @@ export default function ConstellationBackground() {
           const tierBoost = (stars[i].tier + stars[j].tier) * 0.15 + 0.7;
           const lineAlpha = fade * fade * tierBoost * 0.32 * Math.min(stars[i].alpha, stars[j].alpha);
 
-          // Mouse proximity boosts nearby lines
-          const midX = (stars[i].x + stars[j].x) / 2;
-          const midY = (stars[i].y + stars[j].y) / 2;
-          const mdist = Math.sqrt((midX - mx) ** 2 + (midY - my) ** 2);
-          const mouseFactor = mdist < MOUSE_DIST ? 1 + (1 - mdist / MOUSE_DIST) * 2 : 1;
-
-          const finalAlpha = Math.min(lineAlpha * mouseFactor, 0.9);
+          const finalAlpha = Math.min(lineAlpha, 0.9);
           const [c1, c2] = [TIER_COLORS[stars[i].tier], TIER_COLORS[stars[j].tier]];
 
           const grad = ctx.createLinearGradient(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
@@ -218,16 +192,10 @@ export default function ConstellationBackground() {
         const [cr] = TIER_COLORS[s.tier];
         const glowR = s.r * (s.tier === 2 ? 9 : s.tier === 1 ? 7 : 5);
 
-        // Mouse proximity extra glow
-        const ddx = s.x - mx;
-        const ddy = s.y - my;
-        const mdist = Math.sqrt(ddx * ddx + ddy * ddy);
-        const mglow = mdist < MOUSE_DIST ? (1 - mdist / MOUSE_DIST) * 0.6 : 0;
-
         // Outer glow
         const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowR);
-        glow.addColorStop(0, `rgba(${cr},${(s.alpha + mglow) * 0.7})`);
-        glow.addColorStop(0.4, `rgba(${cr},${(s.alpha + mglow) * 0.15})`);
+        glow.addColorStop(0, `rgba(${cr},${s.alpha * 0.7})`);
+        glow.addColorStop(0.4, `rgba(${cr},${s.alpha * 0.15})`);
         glow.addColorStop(1, `rgba(${cr},0)`);
         ctx.beginPath();
         ctx.arc(s.x, s.y, glowR, 0, Math.PI * 2);
@@ -236,13 +204,13 @@ export default function ConstellationBackground() {
 
         // Core star
         ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r + mglow * 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(230,220,255,${Math.min(s.alpha + mglow, 1)})`;
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(230,220,255,${Math.min(s.alpha, 1)})`;
         ctx.fill();
 
         // Sparkle cross for bright stars
         if (s.tier === 2) {
-          const arm = s.r * 3 + mglow * 4;
+          const arm = s.r * 3;
           ctx.strokeStyle = `rgba(255,255,255,${s.alpha * 0.4})`;
           ctx.lineWidth = 0.7;
           ctx.beginPath();
@@ -264,7 +232,6 @@ export default function ConstellationBackground() {
     return () => {
       cancelAnimationFrame(animId);
       ro.disconnect();
-      window.removeEventListener('mousemove', onMouseMove);
     };
   }, []);
 
