@@ -220,8 +220,59 @@ export default function ConstellationBackground() {
         }
       }
 
+      // ── Cursor Interaction (Glow and Repel) ────────────────────────────
+      if (typeof mouseX !== 'undefined' && mouseX >= 0 && mouseY >= 0) {
+        // Draw glow
+        const mouseGlow = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 350);
+        mouseGlow.addColorStop(0, `rgba(180, 140, 255, 0.12)`);
+        mouseGlow.addColorStop(0.4, `rgba(140, 120, 255, 0.05)`);
+        mouseGlow.addColorStop(1, `rgba(140, 120, 255, 0)`);
+        ctx.beginPath();
+        ctx.arc(mouseX, mouseY, 350, 0, Math.PI * 2);
+        ctx.fillStyle = mouseGlow;
+        ctx.fill();
+
+        // Connect stars to cursor and repel
+        for (const s of stars) {
+          const dx = s.x - mouseX;
+          const dy = s.y - mouseY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          
+          if (dist < 200) {
+            // Draw connection to cursor
+            const lineAlpha = (1 - dist / 200) * 0.4 * s.alpha;
+            ctx.beginPath();
+            ctx.moveTo(s.x, s.y);
+            ctx.lineTo(mouseX, mouseY);
+            ctx.strokeStyle = `rgba(180, 160, 255, ${lineAlpha})`;
+            ctx.lineWidth = 0.5 + s.tier * 0.2;
+            ctx.stroke();
+
+            // Repel slightly
+            s.x += dx * 0.015;
+            s.y += dy * 0.015;
+          }
+        }
+      }
+
       animId = requestAnimationFrame(draw);
     };
+
+    let mouseX = -1000;
+    let mouseY = -1000;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+    
+    const handleMouseLeave = () => {
+      mouseX = -1000;
+      mouseY = -1000;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseout', handleMouseLeave);
 
     const ro = new ResizeObserver(() => { resize(); spawnStars(); });
     ro.observe(canvas);
@@ -230,6 +281,8 @@ export default function ConstellationBackground() {
     animId = requestAnimationFrame(draw);
 
     return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseout', handleMouseLeave);
       cancelAnimationFrame(animId);
       ro.disconnect();
     };
