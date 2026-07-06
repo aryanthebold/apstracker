@@ -27,7 +27,7 @@ export default function Podium({ topEntries }: PodiumProps) {
     <section className="mt-8 mb-16 relative">
       <div className="absolute inset-0 bg-accent-primary/5 blur-[120px] rounded-full -z-10 translate-y-[-50%] pointer-events-none"></div>
       <div className="flex flex-col md:flex-row items-end justify-center gap-8 md:gap-0 mt-20">
-        
+
         {/* Rank 2 */}
         {rank2 && (
           <div className="order-2 md:order-1 flex flex-col items-center w-full md:w-1/3 group">
@@ -79,7 +79,7 @@ export default function Podium({ topEntries }: PodiumProps) {
               </span>
               <div className="mt-6 flex flex-col items-center gap-2">
                 <div className="px-4 py-1 rounded-full border border-accent-gold/30 bg-accent-gold/10">
-                  <span className="text-xs uppercase font-bold tracking-wider text-accent-gold">DEAN'S LIST</span>
+                  <span className="text-xs uppercase font-bold tracking-wider text-accent-gold">hahaha</span>
                 </div>
               </div>
             </div>
