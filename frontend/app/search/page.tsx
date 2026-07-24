@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { searchStudents, fetchStudentDetails, Student, StudentDetails } from '@/lib/api';
-import { Search, Loader2, FileText, ChevronDown, ChevronUp, AlertCircle, UploadCloud } from 'lucide-react';
+import { Search, Loader2, FileText, ChevronDown, ChevronUp, AlertCircle, UploadCloud, Award } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
@@ -141,6 +141,7 @@ export default function SearchPage() {
           const isExpanded = expandedRoll === student.roll_number;
           const details = studentDetails[student.roll_number];
           const isLoading = loadingDetails[student.roll_number];
+          const studentRank = student.rank || details?.result?.rank;
 
           return (
             <div
@@ -171,7 +172,13 @@ export default function SearchPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 text-right">
+                <div className="flex items-center gap-2 md:gap-3 text-right">
+                  {student.has_submitted && studentRank && (
+                    <span className="inline-flex items-center gap-1 font-mono font-bold px-2 py-0.5 rounded-full text-[10px] text-accent-gold bg-accent-gold/10 border border-accent-gold/20 shadow-sm">
+                      <Award className="h-3 w-3 text-accent-gold" />
+                      #{studentRank}
+                    </span>
+                  )}
                   <div className="text-right">
                     <span
                       className={`inline-flex items-center gap-1 font-semibold px-2 py-0.5 rounded-full text-[10px] border ${student.has_submitted
@@ -211,15 +218,21 @@ export default function SearchPage() {
                     <div className="space-y-4">
                       {/* Overall stats */}
                       {details.result && (
-                        <div className="grid grid-cols-1 bg-bg-primary/50 border border-border-subtle/80 rounded-lg p-3 text-xs gap-2">
+                        <div className="grid grid-cols-2 bg-bg-primary/50 border border-border-subtle/80 rounded-lg p-3 text-xs gap-2">
                           <div>
                             <span className="text-text-secondary block">Overall SGPA:</span>
                             <span className="font-mono font-bold text-accent-primary text-base">
                               {details.result.overall_sgpa ? details.result.overall_sgpa.toFixed(2) : 'N/A'}
                             </span>
                           </div>
+                          <div>
+                            <span className="text-text-secondary block">Leaderboard Rank:</span>
+                            <span className="font-mono font-bold text-accent-gold text-base">
+                              {details.result.rank ? `#${details.result.rank}` : 'N/A'}
+                            </span>
+                          </div>
                           {details.result.raw_session_summary?.includes("UFM_FLAG") && (
-                            <div className="pt-2 border-t border-border-subtle">
+                            <div className="col-span-2 pt-2 border-t border-border-subtle">
                               <span className="text-red-500 font-semibold block text-[11px] mb-0.5">UFM REMARKS</span>
                               <span className="text-[10px] text-text-secondary">
                                 {details.result.raw_session_summary.split("UFM_FLAG:")[1]?.trim()}

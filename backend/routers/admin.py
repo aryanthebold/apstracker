@@ -38,9 +38,27 @@ def verify_admin(
 def get_all_students():
     supabase = get_db()
     res = supabase.table("students").select(
-        "id, roll_number, name, branch, has_submitted, created_at"
+        "id, roll_number, name, branch, has_submitted, created_at, results(overall_sgpa)"
     ).execute()
-    return {"data": res.data}
+
+    all_results = (
+        supabase.table("results")
+        .select("roll_number, overall_sgpa, total_backs")
+        .not_.is_("overall_sgpa", "null")
+        .order("overall_sgpa", desc=True)
+        .order("total_backs", desc=False)
+        .execute()
+    )
+    rank_map = {r["roll_number"]: idx for idx, r in enumerate(all_results.data, start=1)}
+
+    data = []
+    for item in res.data:
+        results = item.pop("results", [])
+        item["overall_sgpa"] = results[0].get("overall_sgpa") if (results and len(results) > 0) else None
+        item["rank"] = rank_map.get(item["roll_number"])
+        data.append(item)
+
+    return {"data": data}
 
 
 @router.get("/not-submitted", dependencies=[Depends(verify_admin)])
@@ -61,10 +79,101 @@ def get_all_backs():
     # Optionally we can fetch all subject_marks where is_back=True
     backs_res = supabase.table("subject_marks").select("*, students(*)").eq("is_back", True).execute()
 
+    all_results = (
+        supabase.table("results")
+        .select("roll_number, overall_sgpa, total_backs")
+        .not_.is_("overall_sgpa", "null")
+        .order("overall_sgpa", desc=True)
+        .order("total_backs", desc=False)
+        .execute()
+    )
+    rank_map = {r["roll_number"]: idx for idx, r in enumerate(all_results.data, start=1)}
+
+    for item in res.data:
+        item["rank"] = rank_map.get(item["roll_number"])
+
     return {
         "students_with_backs": res.data,
         "back_subjects": backs_res.data
     }
+
+
+@router.get("/ufm-students", dependencies=[Depends(verify_admin)])
+def get_ufm_students():
+    """Returns all students who have a UFM_FLAG in their result summary."""
+    supabase = get_db()
+
+    # Fetch results containing UFM_FLAG
+    res = (
+        supabase.table("results")
+        .select("roll_number, overall_sgpa, total_backs, raw_session_summary, students(*)")
+        .like("raw_session_summary", "%UFM_FLAG%")
+        .execute()
+    )
+
+    all_results = (
+        supabase.table("results")
+        .select("roll_number, overall_sgpa, total_backs")
+        .not_.is_("overall_sgpa", "null")
+        .order("overall_sgpa", desc=True)
+        .order("total_backs", desc=False)
+        .execute()
+    )
+    rank_map = {r["roll_number"]: idx for idx, r in enumerate(all_results.data, start=1)}
+
+    data = []
+    for item in res.data:
+        # Extract UFM remark from summary string
+        ufm_remark = None
+        if item.get("raw_session_summary") and "UFM_FLAG:" in item["raw_session_summary"]:
+            ufm_remark = item["raw_session_summary"].split("UFM_FLAG:")[1].strip()
+        item["ufm_remark"] = ufm_remark
+        item["rank"] = rank_map.get(item["roll_number"])
+        data.append(item)
+
+    return {"data": data}
+
+
+# Allowlist of valid branch values to prevent injection via PATCH body
+ALLOWED_BRANCHES = {"CSE", "CSE_AIML", "CST", "CST_IOT"}
+
+
+@router.patch("/student/{roll_number}", dependencies=[Depends(verify_admin)])
+def update_student(roll_number: str, payload: dict):
+    """Update a student's name and/or branch. Useful for fixing OCR errors from PDF parsing."""
+    import re
+
+    if not re.match(r"^[A-Za-z0-9]{6,20}$", roll_number):
+        raise HTTPException(status_code=400, detail="Invalid roll number format")
+
+    # Only allow updating name and branch — never id, roll_number, has_submitted etc.
+    allowed_fields = {"name", "branch"}
+    update_data = {k: v for k, v in payload.items() if k in allowed_fields}
+
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No valid fields to update. Allowed: name, branch")
+
+    if "branch" in update_data:
+        if update_data["branch"] not in ALLOWED_BRANCHES:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid branch. Must be one of: {', '.join(sorted(ALLOWED_BRANCHES))}",
+            )
+
+    if "name" in update_data:
+        name = update_data["name"].strip()
+        # Names: letters, spaces, dots, hyphens, apostrophes — max 100 chars
+        if not re.match(r"^[A-Za-z\s.\-']{1,100}$", name):
+            raise HTTPException(status_code=400, detail="Invalid name format")
+        update_data["name"] = name
+
+    supabase = get_db()
+    student_res = supabase.table("students").select("id").eq("roll_number", roll_number).execute()
+    if not student_res.data:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    supabase.table("students").update(update_data).eq("roll_number", roll_number).execute()
+    return {"message": f"Student {roll_number} updated successfully", "updated": update_data}
 
 
 @router.delete("/student/{roll_number}", dependencies=[Depends(verify_admin)])

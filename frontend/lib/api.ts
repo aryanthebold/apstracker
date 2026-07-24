@@ -10,6 +10,8 @@ export interface Student {
   gender: string | null;
   has_submitted: boolean;
   has_ufm?: boolean;
+  rank?: number | null;
+  overall_sgpa?: number | null;
   created_at: string;
 }
 
@@ -24,6 +26,7 @@ export interface OverallResult {
   raw_session_summary: string | null;
   uploaded_at: string;
   updated_at: string;
+  rank?: number | null;
   students?: Student;
 }
 
@@ -207,5 +210,42 @@ export async function adminDeleteStudentResult(rollNumber: string, token: string
     headers: getAdminHeaders(token),
   });
   if (!res.ok) throw new Error('Unauthorized or failed to delete student result');
+  return res.json();
+}
+
+export interface UFMStudent {
+  roll_number: string;
+  overall_sgpa: number | null;
+  total_backs: number;
+  ufm_remark: string | null;
+  rank: number | null;
+  students: Student;
+}
+
+export async function adminFetchUFMStudents(token: string): Promise<{ data: UFMStudent[] }> {
+  const res = await fetch(`${API_BASE_URL}/admin/ufm-students`, {
+    headers: getAdminHeaders(token),
+  });
+  if (!res.ok) throw new Error('Unauthorized or failed to fetch UFM students');
+  return res.json();
+}
+
+export async function adminUpdateStudent(
+  rollNumber: string,
+  data: { name?: string; branch?: string },
+  token: string
+): Promise<{ message: string; updated: Record<string, string> }> {
+  const res = await fetch(`${API_BASE_URL}/admin/student/${rollNumber}`, {
+    method: 'PATCH',
+    headers: {
+      ...getAdminHeaders(token),
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to update student' }));
+    throw new Error(err.detail || 'Failed to update student');
+  }
   return res.json();
 }
