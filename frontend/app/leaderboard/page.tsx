@@ -27,7 +27,7 @@ function LeaderboardSkeleton() {
           </thead>
           <tbody className="divide-y divide-border-subtle">
             {[...Array(8)].map((_, i) => (
-              <tr key={i} className="animate-row-reveal" style={{ animationDelay: `${i * 60}ms` }}>
+              <tr key={i} className="animate-tr-fade" style={{ animationDelay: `${i * 60}ms` }}>
                 <td className="px-6 py-5"><div className="skeleton-shimmer h-9 w-9 rounded-full" /></td>
                 <td className="px-6 py-5">
                   <div className="flex items-center gap-3">

@@ -92,7 +92,7 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
               const isLoading = loadingDetails[entry.roll_number];
  
               // Styling based on rank
-              let rowClass = "transition-all duration-300 ease-out cursor-pointer animate-row-reveal table-row-glow ";
+              let rowClass = "transition-colors duration-200 ease-out cursor-pointer animate-tr-fade tr-glow ";
               let rankColor = "text-text-primary";
               let badgeColor = "border-border-subtle";
 
@@ -118,7 +118,7 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                   <tr
                     onClick={() => toggleRow(entry.roll_number)}
                     className={rowClass}
-                    style={{ animationDelay: `${Math.min(index, 20) * 45}ms`, animationFillMode: 'both' }}
+                    style={{ animationDelay: `${Math.min(index, 20) * 45}ms` }}
                   >
                     <td className="relative pl-4 pr-1 py-6">
                       {/* Left hover indicator line */}
