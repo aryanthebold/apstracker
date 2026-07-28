@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { LeaderboardEntry, fetchStudentDetails, StudentDetails } from '@/lib/api';
 import { ChevronDown, ChevronUp, Loader2, X } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import AnimatedNumber from '@/components/AnimatedNumber';
 
 interface LeaderboardTableProps {
   entries: LeaderboardEntry[];
@@ -59,8 +60,11 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
 
   if (entries.length === 0) {
     return (
-      <div className="glass-panel rounded-xl p-12 text-center mt-8">
-        <p className="text-text-secondary">No records found matching filters.</p>
+      <div className="glass-panel rounded-xl p-12 text-center mt-8 animate-fade-in-up">
+        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-bg-tertiary border border-border-subtle flex items-center justify-center animate-glow-pulse">
+          <span className="text-text-secondary text-xl">∅</span>
+        </div>
+        <p className="text-text-secondary font-sans text-sm">No records found matching filters.</p>
       </div>
     );
   }
@@ -88,7 +92,7 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
               const isLoading = loadingDetails[entry.roll_number];
  
               // Styling based on rank
-              let rowClass = "transition-all duration-300 ease-out cursor-pointer animate-tr-fade ";
+              let rowClass = "transition-all duration-300 ease-out cursor-pointer animate-row-reveal table-row-glow ";
               let rankColor = "text-text-primary";
               let badgeColor = "border-border-subtle";
 
@@ -154,7 +158,7 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                     </td>
                     <td className="px-6 py-6 font-sans text-base font-extrabold text-center">
                       <span className={rank <= 3 ? rankColor : 'text-text-primary'}>
-                        {entry.overall_sgpa ? entry.overall_sgpa.toFixed(2) : 'N/A'}
+                        <AnimatedNumber value={entry.overall_sgpa} enabled={true} />
                       </span>
                     </td>
                     <td className="px-6 py-6 text-center text-text-secondary">
@@ -226,7 +230,9 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                                     >
                                       <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
                                         <h4 className="font-sans text-[11px] font-bold text-text-primary uppercase tracking-wider">Semester {sem.semester}</h4>
-                                        <span className="font-sans text-xs text-accent-primary font-extrabold">SGPA: {sem.sgpa ? sem.sgpa.toFixed(2) : 'N/A'}</span>
+                                        <span className="font-sans text-xs text-accent-primary font-extrabold">
+                                          SGPA: <AnimatedNumber value={sem.sgpa} enabled={isExpanded} />
+                                        </span>
                                       </div>
                                       <ul className="space-y-4">
                                         {sem.subjects.map((sub, subIndex) => {

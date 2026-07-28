@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { searchStudents, fetchStudentDetails, Student, StudentDetails } from '@/lib/api';
 import { Search, Loader2, FileText, ChevronDown, ChevronUp, AlertCircle, UploadCloud, Award } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
+import AnimatedNumber from '@/components/AnimatedNumber';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 
@@ -222,7 +223,7 @@ export default function SearchPage() {
                           <div>
                             <span className="text-text-secondary block">Overall SGPA:</span>
                             <span className="font-mono font-bold text-accent-primary text-base">
-                              {details.result.overall_sgpa ? details.result.overall_sgpa.toFixed(2) : 'N/A'}
+                              <AnimatedNumber value={details.result.overall_sgpa} enabled={isExpanded} />
                             </span>
                           </div>
                           <div>
