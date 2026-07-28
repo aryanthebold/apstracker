@@ -64,8 +64,8 @@
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-tertiary);
 
-  --font-syne: "Plus Jakarta Sans", sans-serif;
-  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-syne: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-sans: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-coolvetica: "Coolvetica", "Brush Script MT", cursive;
   --font-figtree: "Figtree", sans-serif;

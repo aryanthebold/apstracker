@@ -236,9 +236,9 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
 
                                           return (
                                             <li key={sub.id} className="flex flex-col gap-1.5">
-                                              <div className="flex justify-between text-[12px] font-sans">
-                                                <span className="text-text-secondary font-medium truncate pr-2 max-w-[180px]">{sub.subject_name}</span>
-                                                <span className="text-accent-primary font-bold whitespace-nowrap">
+                                              <div className="flex justify-between text-sm font-sans">
+                                                <span className="text-text-secondary font-semibold truncate pr-2 max-w-[180px]">{sub.subject_name}</span>
+                                                <span className="text-accent-primary font-extrabold whitespace-nowrap text-[13px]">
                                                   {sub.grade || '-'} | {obtained}/{maxMarks}
                                                 </span>
                                               </div>

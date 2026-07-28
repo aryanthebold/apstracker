@@ -155,18 +155,33 @@ export async function uploadResult(file: File, inviteCode: string): Promise<{ me
   formData.append('file', file);
   formData.append('invite_code', inviteCode);
 
-  const res = await fetch(`${API_BASE_URL}/upload/`, {
-    method: 'POST',
-    body: formData,
-  });
+  // 30-second hard timeout — matches the server-side PROCESS_TIMEOUT_SECONDS + network buffer
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30_000);
 
-  if (!res.ok) {
-    const errorData = await res.json().catch(() => ({ detail: 'Unknown error uploading result' }));
-    throw new Error(errorData.detail || 'Upload failed');
+  try {
+    const res = await fetch(`${API_BASE_URL}/upload/`, {
+      method: 'POST',
+      body: formData,
+      signal: controller.signal,
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({ detail: 'Unknown error uploading result' }));
+      throw new Error(errorData.detail || 'Upload failed');
+    }
+
+    return res.json();
+  } catch (err: any) {
+    if (err.name === 'AbortError') {
+      throw new Error('Upload timed out. The server took too long — please try again.');
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  return res.json();
 }
+
 
 // Admin Helpers
 function getAdminHeaders(token: string) {

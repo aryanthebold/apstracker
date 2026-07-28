@@ -1,164 +1,207 @@
 import fitz  # pymupdf
 import re
+import sys
+from typing import Optional
 
-def parse_pdf(file_bytes: bytes):
+# ── Pre-compiled regexes (compiled once at import, ~15% faster per call) ──────
+_RE_NAME   = re.compile(r"Name\s*:\s*([^\n]+)", re.IGNORECASE)
+_RE_ROLL   = re.compile(r"Roll\s*(?:No\.?)?\s*:\s*([A-Za-z0-9]+)", re.IGNORECASE)
+_RE_ENR    = re.compile(r"Enrollment\s*(?:No\.?)?\s*:\s*([A-Z0-9]+)", re.IGNORECASE)
+_RE_FATHER = re.compile(r"Father['\s]?s?\s*Name\s*:\s*([^\n]+)", re.IGNORECASE)
+_RE_BRANCH = re.compile(r"Branch\s*(?:Code\s*&\s*Name)?\s*:\s*([^\n]+)", re.IGNORECASE)
+_RE_GENDER = re.compile(r"Gender\s*:\s*([A-Za-z]+)", re.IGNORECASE)
+_RE_RESULT = re.compile(r"Result\s*Status\s*:\s*([^\n]+)", re.IGNORECASE)
+_RE_UFM    = re.compile(r"Remarks\s*:\s*([^\n]*UFM[^\n]*)", re.IGNORECASE)
+_RE_SEM    = re.compile(r"(?i)\bSemester\s*:\s*(\d+)")
+_RE_SGPA   = re.compile(r"SGPA\s*:\s*([\d.]+)")
+_RE_STATUS = re.compile(r"Result\s*Status\s*:\s*([^\n]+)")
+_RE_MARKS  = re.compile(r"Total\s*Marks(?:\s*Obt\.?)?\s*:\s*(\d+)", re.IGNORECASE)
+_RE_DOD    = re.compile(r"Date\s*of\s*Declaration\s*:\s*([\d\/-]+)")
+
+# Subject line regex — non-greedy name (.+?) prevents consuming the type token.
+# Handles full names (Theory/Practical/CA) and AKTU abbreviations (TH/PR/IA).
+_RE_SUBJECT = re.compile(
+    r"^([A-Z0-9]{3,})\s+(.+?)\s+(Theory|Practical|CA|TH|PR|IA)\s*(.*?)$",
+    re.MULTILINE,
+)
+
+# Valid grade: one or more uppercase letters, optionally followed by '+'
+_RE_GRADE = re.compile(r"^[A-Z][A-Z+]*$")
+
+
+# ── Small helpers ──────────────────────────────────────────────────────────────
+
+def _safe_int(s: str) -> int:
+    """Convert a string to int, stripping asterisks (back-paper marks). Returns 0 on failure."""
+    s = s.strip().replace("*", "")
+    return int(s) if s.isdigit() else 0
+
+
+def _parse_date(raw: str) -> Optional[str]:
+    """Normalise AKTU date strings (DD/MM/YY, DD/MM/YYYY, YYYY/MM/DD, etc.) → ISO 8601."""
+    try:
+        parts = re.split(r"[/\-]", raw.strip())
+        if len(parts) == 3:
+            p0, p1, p2 = parts[0].strip(), parts[1].strip(), parts[2].strip()
+            if len(p2) in (2, 4):            # DD/MM/YY or DD/MM/YYYY
+                year  = p2 if len(p2) == 4 else f"20{p2}"
+                return f"{year}-{int(p1):02d}-{int(p0):02d}"
+            elif len(p0) in (2, 4):          # YYYY/MM/DD or YY/MM/DD
+                year  = p0 if len(p0) == 4 else f"20{p0}"
+                return f"{year}-{int(p1):02d}-{int(p2):02d}"
+    except Exception:
+        pass
+    return raw
+
+
+def _parse_subject_rest(rest: str):
     """
-    Parses the AKTU Result PDF and extracts structured data.
-    Accepts raw PDF bytes directly (no temp file needed).
+    Parse the trailing columns after the subject-type token:
+        internal  external  [back_paper]  grade
+
+    Returns (internal_marks, external_marks, grade).
     """
-    data = {
-        "student": {},
-        "semesters": [],
-        "overall": {}
-    }
+    parts = [p for p in rest.split() if p]
 
-    # Extract all text using pymupdf (5-10x faster than pdfplumber)
-    doc = fitz.open(stream=file_bytes, filetype="pdf")
-    text = ""
-    for page in doc:
-        text += page.get_text() + "\n"
-    doc.close()
+    internal   = 0
+    external   = 0
+    grade      = ""
+    back_paper = "--"
 
-    # 2. Extract header block
-    name_match = re.search(r"Name\s*:\s*([^\n]+)", text, re.IGNORECASE)
-    if name_match:
-        data["student"]["name"] = name_match.group(1).strip()
-        
-    roll_match = re.search(r"Roll\s*(?:No\.?)?\s*:\s*(\d+)", text, re.IGNORECASE)
-    if roll_match:
-        data["student"]["roll_number"] = roll_match.group(1).strip()
-        
-    enr_match = re.search(r"Enrollment\s*(?:No\.?)?\s*:\s*([A-Z0-9]+)", text, re.IGNORECASE)
-    if enr_match:
-        data["student"]["enrollment_number"] = enr_match.group(1).strip()
-        
-    father_match = re.search(r"Father['\s]?s\s*Name\s*:\s*([^\n]+)", text, re.IGNORECASE)
-    if father_match:
-        data["student"]["father_name"] = father_match.group(1).strip()
-        
-    branch_match = re.search(r"Branch\s*(?:Code\s*&\s*Name)?\s*:\s*([^\n]+)", text, re.IGNORECASE)
-    if branch_match:
-        data["student"]["branch"] = branch_match.group(1).strip()
-        
-    gender_match = re.search(r"Gender\s*:\s*([A-Z]+)", text, re.IGNORECASE)
-    if gender_match:
-        data["student"]["gender"] = gender_match.group(1).strip()
-        
-    # Overall result status
-    overall_res_match = re.search(r"Result\s*Status\s*:\s*([^\n]+)", text, re.IGNORECASE)
-    if overall_res_match:
-        data["overall"]["result_status"] = overall_res_match.group(1).strip()
+    if len(parts) >= 1 and parts[0] != "--":
+        internal = _safe_int(parts[0])
+    if len(parts) >= 2 and parts[1] != "--":
+        external = _safe_int(parts[1])
+    # Third token: could be a back-paper numeric mark or grade
+    if len(parts) >= 3:
+        tok = parts[2].replace("*", "")
+        if tok.isdigit():
+            back_paper = parts[2]   # numeric → back-paper attempt score
+        elif _RE_GRADE.match(tok):
+            grade = tok             # letter → this is the grade early (3-col format)
+    # Last token: usually the grade letter
+    if parts and _RE_GRADE.match(parts[-1]):
+        grade = parts[-1]
 
-    # Search for UFM remarks
-    ufm_match = re.search(r"Remarks\s*:\s*([^\n]*UFM[^\n]*)", text, re.IGNORECASE)
-    if ufm_match:
-        ufm_text = ufm_match.group(1).strip()
-        if "result_status" in data["overall"]:
-            data["overall"]["result_status"] += f" | UFM_FLAG: {ufm_text}"
-        else:
-            data["overall"]["result_status"] = f"UFM_FLAG: {ufm_text}"
+    # Back-paper mark supersedes the originally extracted external mark
+    if back_paper != "--":
+        external = _safe_int(back_paper)
 
-    # 4. Split into semesters
-    sem_blocks = re.split(r"(?i)\bSemester\s*:\s*(\d+)", text)
-    
-    semesters_dict = {}
+    return internal, external, grade
+
+
+# ── Main parser ────────────────────────────────────────────────────────────────
+
+def parse_pdf(file_bytes: bytes) -> dict:
+    """
+    Parse raw AKTU Result PDF bytes → structured dict.
+    No temp file is created; bytes are passed directly to PyMuPDF.
+    """
+    data: dict = {"student": {}, "semesters": [], "overall": {}}
+
+    # 1. Extract full text ─────────────────────────────────────────────────────
+    try:
+        doc = fitz.open(stream=file_bytes, filetype="pdf")
+        pages = [page.get_text() for page in doc]
+        doc.close()
+    except Exception as exc:
+        print(f"[pdf_parser] fitz extraction failed: {exc}", file=sys.stderr)
+        return data   # return empty structure; caller validates
+
+    text = "\n".join(pages)
+
+    # 2. Student header fields ─────────────────────────────────────────────────
+    if m := _RE_NAME.search(text):
+        data["student"]["name"] = m.group(1).strip()
+    if m := _RE_ROLL.search(text):
+        data["student"]["roll_number"] = m.group(1).strip()
+    if m := _RE_ENR.search(text):
+        data["student"]["enrollment_number"] = m.group(1).strip()
+    if m := _RE_FATHER.search(text):
+        data["student"]["father_name"] = m.group(1).strip()
+    if m := _RE_BRANCH.search(text):
+        data["student"]["branch"] = m.group(1).strip()
+    if m := _RE_GENDER.search(text):
+        data["student"]["gender"] = m.group(1).strip()
+
+    # 3. Overall result status + UFM flag ──────────────────────────────────────
+    if m := _RE_RESULT.search(text):
+        data["overall"]["result_status"] = m.group(1).strip()
+    if m := _RE_UFM.search(text):
+        ufm_text = m.group(1).strip()
+        existing = data["overall"].get("result_status", "")
+        data["overall"]["result_status"] = (
+            f"{existing} | UFM_FLAG: {ufm_text}" if existing else f"UFM_FLAG: {ufm_text}"
+        )
+
+    # 4. Split text into per-semester blocks ───────────────────────────────────
+    sem_blocks = _RE_SEM.split(text)
+    semesters_dict: dict[int, dict] = {}
+
     if len(sem_blocks) > 1:
         for i in range(1, len(sem_blocks), 2):
-            sem_num = int(sem_blocks[i])
-            block = sem_blocks[i+1]
-            
-            # 5a. Extract sem info
-            sgpa_match = re.search(r"SGPA\s*:\s*([\d\.]+)", block)
-            sgpa = float(sgpa_match.group(1)) if sgpa_match else None
-            
-            status_match = re.search(r"Result\s*Status\s*:\s*([^\n]+)", block)
-            result_status = status_match.group(1).strip() if status_match else None
-            
-            total_marks_match = re.search(r"Total\s*Marks(?:\s*Obt\.?)?\s*:\s*(\d+)", block, re.IGNORECASE)
-            total_marks = int(total_marks_match.group(1)) if total_marks_match else None
-            
-            dod_match = re.search(r"Date\s*of\s*Declaration\s*:\s*([\d\/-]+)", block)
-            dod = None
-            if dod_match:
-                raw_dod = dod_match.group(1).strip()
-                try:
-                    parts = re.split(r'[/-]', raw_dod)
-                    if len(parts) == 3:
-                        p0, p1, p2 = parts[0].strip(), parts[1].strip(), parts[2].strip()
-                        # If year is at the end (e.g. DD/MM/YY or DD/MM/YYYY)
-                        if len(p2) in (2, 4):
-                            year = p2 if len(p2) == 4 else f"20{p2}"
-                            month = f"{int(p1):02d}"
-                            day = f"{int(p0):02d}"
-                            dod = f"{year}-{month}-{day}"
-                        # If year is at the beginning (e.g. YY/MM/DD or YYYY/MM/DD)
-                        elif len(p0) in (2, 4):
-                            year = p0 if len(p0) == 4 else f"20{p0}"
-                            month = f"{int(p1):02d}"
-                            day = f"{int(p2):02d}"
-                            dod = f"{year}-{month}-{day}"
-                        else:
-                            dod = raw_dod
-                    else:
-                        dod = raw_dod
-                except Exception:
-                    dod = raw_dod
-            
-            sem_data = {
-                "semester": sem_num,
-                "sgpa": sgpa,
-                "result_status": result_status,
-                "total_marks": total_marks,
+            try:
+                sem_num = int(sem_blocks[i])
+                block   = sem_blocks[i + 1]
+            except (IndexError, ValueError):
+                continue
+
+            # Per-semester scalars
+            sgpa          = float(m.group(1)) if (m := _RE_SGPA.search(block)) else None
+            result_status = m.group(1).strip() if (m := _RE_STATUS.search(block)) else None
+            total_marks   = int(m.group(1))    if (m := _RE_MARKS.search(block)) else None
+            dod           = _parse_date(m.group(1).strip()) if (m := _RE_DOD.search(block)) else None
+
+            sem_data: dict = {
+                "semester":            sem_num,
+                "sgpa":                sgpa,
+                "result_status":       result_status,
+                "total_marks":         total_marks,
                 "date_of_declaration": dod,
-                "subjects": [],
-                "backs_in_sem": 0
+                "subjects":            [],
+                "backs_in_sem":        0,
             }
-            
-            # Subject line matching
-            subject_lines_raw = re.findall(r"^([A-Z0-9]+)\s+(.+)\s+(Theory|Practical|CA)\s+(.*)$", block, re.MULTILINE)
-            for sub in subject_lines_raw:
-                code, name, sub_type, rest = sub
-                parts = rest.split()
-                
-                internal = parts[0] if len(parts) > 0 and parts[0] != '--' else '0'
-                external = parts[1] if len(parts) > 1 and parts[1] != '--' else '0'
-                grade = parts[-1] if len(parts) > 0 and re.match(r'^[A-Z\+]+$', parts[-1]) else ''
-                back_paper = parts[2] if len(parts) >= 4 else '--'
-                
-                # Active back is when they have failed (grade F)
-                is_back = (grade == 'F')
+
+            # Subject rows
+            for code, name, sub_type, rest in _RE_SUBJECT.findall(block):
+                try:
+                    internal, external, grade = _parse_subject_rest(rest)
+                except Exception as exc:
+                    print(f"[pdf_parser] subject parse error sem={sem_num} code={code}: {exc}",
+                          file=sys.stderr)
+                    internal = external = 0
+                    grade = ""
+
+                is_back = (grade == "F")
                 if is_back:
                     sem_data["backs_in_sem"] += 1
-                    
-                int_val = int(internal) if internal.isdigit() else 0
-                
-                # If they gave a back paper, the updated mark is in the back_paper column
-                if back_paper != '--':
-                    bp_mark = back_paper.replace('*', '')
-                    ext_val = int(bp_mark) if bp_mark.isdigit() else 0
-                else:
-                    ext_val = int(external) if external.isdigit() else 0
-                    
+
                 sem_data["subjects"].append({
-                    "subject_code": code.strip(),
-                    "subject_name": name.strip(),
-                    "subject_type": sub_type.strip(),
-                    "internal_marks": int_val,
-                    "external_marks": ext_val,
-                    "total_marks": int_val + ext_val,
-                    "grade": grade,
-                    "is_back": is_back
+                    "subject_code":  code.strip(),
+                    "subject_name":  name.strip(),
+                    "subject_type":  sub_type.strip(),
+                    "internal_marks": internal,
+                    "external_marks": external,
+                    "total_marks":    internal + external,
+                    "grade":          grade,
+                    "is_back":        is_back,
                 })
-            
+
+            # Skip placeholder blocks with no usable data
             if not sem_data["subjects"] and sgpa is None:
                 continue
-                
+
             semesters_dict[sem_num] = sem_data
-            
+
     data["semesters"] = [semesters_dict[k] for k in sorted(semesters_dict.keys())]
     return data
 
+
 if __name__ == "__main__":
-    # Test locally
-    print("Testing parser...")
-    # print(parse_pdf("sample.pdf"))
+    print("Testing parser — pass a path as argument")
+    import sys as _sys
+    if len(_sys.argv) > 1:
+        with open(_sys.argv[1], "rb") as fh:
+            result = parse_pdf(fh.read())
+        import json
+        print(json.dumps(result, indent=2, default=str))

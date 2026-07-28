@@ -62,42 +62,53 @@ export default function UploadForm() {
       toast.error('Please enter the invite code');
       return;
     }
-    const pendingFiles = files.filter(f => f.status === 'idle' || f.status === 'error');
-    if (pendingFiles.length === 0) {
+
+    // Snapshot current files so async callbacks always reference the right File objects
+    const snapshot = [...files];
+    const pendingIndices = snapshot
+      .map((_, i) => i)
+      .filter(i => snapshot[i].status === 'idle' || snapshot[i].status === 'error');
+
+    if (pendingIndices.length === 0) {
       toast.error('No pending files to upload');
       return;
     }
 
     setGlobalStatus('submitting');
-
     let allSuccess = true;
 
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].status === 'success') continue;
+    // Upload 3 files concurrently — fast enough to matter, polite enough for the server
+    const CONCURRENCY = 3;
 
+    for (let b = 0; b < pendingIndices.length; b += CONCURRENCY) {
+      const batch = pendingIndices.slice(b, b + CONCURRENCY);
+
+      // Mark batch as uploading before firing requests
       setFiles(prev => {
         const next = [...prev];
-        next[i].status = 'uploading';
+        batch.forEach(i => { next[i] = { ...next[i], status: 'uploading' }; });
         return next;
       });
 
-      try {
-        const response = await uploadResult(files[i].file, inviteCode);
-        setFiles(prev => {
-          const next = [...prev];
-          next[i].status = 'success';
-          next[i].rollNumber = response.roll_number;
-          return next;
-        });
-      } catch (err: any) {
-        allSuccess = false;
-        setFiles(prev => {
-          const next = [...prev];
-          next[i].status = 'error';
-          next[i].errorMsg = err.message || 'Upload failed';
-          return next;
-        });
-      }
+      await Promise.all(
+        batch.map(async (i) => {
+          try {
+            const response = await uploadResult(snapshot[i].file, inviteCode);
+            setFiles(prev => {
+              const next = [...prev];
+              next[i] = { ...next[i], status: 'success', rollNumber: response.roll_number };
+              return next;
+            });
+          } catch (err: any) {
+            allSuccess = false;
+            setFiles(prev => {
+              const next = [...prev];
+              next[i] = { ...next[i], status: 'error', errorMsg: err.message || 'Upload failed' };
+              return next;
+            });
+          }
+        })
+      );
     }
 
     setGlobalStatus('completed');
@@ -107,6 +118,7 @@ export default function UploadForm() {
       toast.error('Some files failed to upload. Please check the list.');
     }
   };
+
 
   const resetForm = () => {
     setFiles([]);

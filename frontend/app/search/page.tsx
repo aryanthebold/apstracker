@@ -261,16 +261,16 @@ export default function SearchPage() {
                               {sem.subjects.map((sub) => (
                                 <div
                                   key={sub.id}
-                                  className="flex justify-between items-center text-[11px] text-text-secondary"
+                                  className="flex justify-between items-center text-xs text-text-secondary"
                                 >
-                                  <span className="truncate max-w-[240px] font-medium text-text-primary">
+                                  <span className="truncate max-w-[240px] font-semibold text-text-primary text-[13px]">
                                     {sub.subject_name}
                                   </span>
                                   <div className="flex gap-2">
-                                    <span className="font-mono text-[9px]">
+                                    <span className="font-mono text-[11px] font-medium text-accent-primary">
                                       {sub.internal_marks ?? '-'}+{sub.external_marks ?? '-'}
                                     </span>
-                                    <span className="font-mono font-bold w-4 text-center text-text-primary">
+                                    <span className="font-mono font-extrabold w-4 text-center text-text-primary text-[12px]">
                                       {sub.grade || '-'}
                                     </span>
                                   </div>

@@ -49,6 +49,6 @@ class RateLimiter:
 
 
 # Pre-built limiters — import & attach via Depends()
-upload_limiter = RateLimiter(max_requests=10, window_seconds=60)   # 10 uploads / min
+upload_limiter = RateLimiter(max_requests=20, window_seconds=60)   # 20 uploads / min
 admin_limiter  = RateLimiter(max_requests=30, window_seconds=60)   # 30 admin calls / min
 general_limiter = RateLimiter(max_requests=60, window_seconds=60)  # 60 general calls / min
