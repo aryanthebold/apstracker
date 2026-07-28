@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { fetchStats, BatchStats } from '@/lib/api';
-import { Users, FileSpreadsheet, Percent, AlertCircle } from 'lucide-react';
+import { Users, TrendingUp, Trophy, ShieldCheck, AlertCircle } from 'lucide-react';
+import AnimatedNumber from '@/components/AnimatedNumber';
 
 interface StatsBarProps {
   initialStats?: BatchStats;
@@ -28,9 +29,9 @@ export default function StatsBar({ initialStats }: StatsBarProps) {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-        {[...Array(3)].map((_, i) => (
-          <div key={i} className="glass-panel rounded-xl p-6 animate-pulse h-28" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="glass-panel rounded-xl p-6 h-28 skeleton-shimmer" />
         ))}
       </div>
     );
@@ -45,52 +46,79 @@ export default function StatsBar({ initialStats }: StatsBarProps) {
     );
   }
 
-  const submissionPercentage = stats.total_students > 0 
-    ? ((stats.total_submitted / stats.total_students) * 100).toFixed(1) 
+  const submissionPercentage = stats.total_students > 0
+    ? ((stats.total_submitted / stats.total_students) * 100).toFixed(1)
     : '0';
+
+  // top_sgpa and clean_records may not be in the API yet — gracefully fallback
+  const topSgpa = (stats as any).top_sgpa ?? null;
+  const cleanRecords = (stats as any).clean_records ?? null;
 
   const cards = [
     {
-      title: 'Submitted Results',
-      value: `${stats.total_submitted}`,
-      subtext: `of ${stats.total_students} students (${submissionPercentage}%)`,
-      icon: FileSpreadsheet,
-      color: 'text-accent-primary',
-    },
-    {
-      title: 'Batch Average SGPA',
-      value: stats.average_sgpa > 0 ? stats.average_sgpa.toFixed(2) : 'N/A',
-      subtext: 'cumulative average',
-      icon: Percent,
-      color: 'text-accent-gold',
-    },
-    {
-      title: 'Total Batch Size',
-      value: `${stats.total_students}`,
-      subtext: 'registered students',
+      title: 'Students Submitted',
+      value: stats.total_submitted,
+      subtext: `of ${stats.total_students} (${submissionPercentage}%)`,
       icon: Users,
-      color: 'text-accent-muted',
+      color: 'text-accent-primary',
+      borderColor: 'border-accent-primary/20',
+      isInteger: true,
+    },
+    {
+      title: 'Batch Avg SGPA',
+      value: stats.average_sgpa > 0 ? stats.average_sgpa : 0,
+      subtext: 'cumulative average',
+      icon: TrendingUp,
+      color: 'text-accent-gold',
+      borderColor: 'border-accent-gold/20',
+      isInteger: false,
+    },
+    {
+      title: 'Top SGPA',
+      value: topSgpa ?? 0,
+      subtext: topSgpa ? 'highest in batch' : 'data unavailable',
+      icon: Trophy,
+      color: 'text-accent-violet',
+      borderColor: 'border-accent-violet/20',
+      isInteger: false,
+    },
+    {
+      title: 'Clean Records',
+      value: cleanRecords ?? 0,
+      subtext: cleanRecords !== null ? 'students with 0 backs' : 'data unavailable',
+      icon: ShieldCheck,
+      color: 'text-accent-success',
+      borderColor: 'border-accent-success/20',
+      isInteger: true,
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
       {cards.map((card, index) => {
         const Icon = card.icon;
         return (
           <div
             key={index}
-            className="glass-panel glass-panel-hover rounded-xl p-5 flex flex-col justify-between"
+            className={`glass-panel rounded-xl p-5 flex flex-col justify-between border ${card.borderColor} hover:scale-[1.02] transition-transform duration-200`}
           >
             <div className="flex items-center justify-between w-full mb-2">
-              <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
                 {card.title}
               </span>
               <Icon className={`h-4 w-4 ${card.color}`} />
             </div>
             <div>
-              <div className="text-2xl md:text-3xl font-mono font-bold text-text-primary tracking-tight">
-                {card.value}
+              <div className={`text-2xl md:text-3xl font-mono font-bold tracking-tight ${card.color}`}>
+                {card.value > 0 ? (
+                  <AnimatedNumber
+                    value={card.value}
+                    decimals={card.isInteger ? 0 : 2}
+                    enabled={true}
+                  />
+                ) : (
+                  <span className="text-text-tertiary text-lg">N/A</span>
+                )}
               </div>
               <p className="text-xs text-text-secondary mt-1 font-medium">{card.subtext}</p>
             </div>

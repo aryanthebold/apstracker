@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Figtree:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap');
 @import url('https://fonts.cdnfonts.com/css/coolvetica');
 @import "tailwindcss";
 
@@ -64,11 +64,11 @@
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-tertiary);
 
-  --font-syne: "Plus Jakarta Sans", "Inter", sans-serif;
-  --font-sans: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-syne: "Syne", sans-serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-coolvetica: "Coolvetica", "Brush Script MT", cursive;
-  --font-figtree: "Figtree", sans-serif;
+  --font-figtree: "DM Sans", sans-serif;
 }
 
 /* =========================================
@@ -92,6 +92,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: -0.01em;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-syne);
+  letter-spacing: -0.02em;
+}
+
+.font-mono, [class*="font-mono"] {
+  font-family: var(--font-mono);
 }
 
 /* =========================================
@@ -759,4 +768,28 @@ body::before {
 
 .avatar-float {
   animation: gentleFloat 3s infinite ease-in-out;
+}
+
+/* =========================================
+   IRIDESCENT GRADIENT
+   ========================================= */
+@keyframes iridescent {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* =========================================
+   SCROLL PROGRESS BAR
+   ========================================= */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: #4F8EF7;
+  z-index: 9999;
+  transform-origin: left;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px rgba(79, 142, 247, 0.6);
 }

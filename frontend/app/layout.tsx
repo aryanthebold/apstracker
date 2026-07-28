@@ -6,6 +6,7 @@ import PageTransition from "@/components/PageTransition";
 import { Toaster } from "react-hot-toast";
 import ConstellationBackground from "@/components/ConstellationBackground";
 import SmoothScroll from "@/components/SmoothScroll";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
@@ -16,6 +17,9 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "APS Tracker- GL Bajaj (2024-28)",
   description: "Academic Leaderboard & Result Tracker for GL Bajaj CSE/CST Batch of 2024-28. Upload your result PDFs, view analytics, and check subject toppers.",
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -111,6 +115,7 @@ export default function RootLayout({
             },
           }}
         />
+        <ScrollProgressBar />
         <Navbar />
         <main className="flex-1 flex flex-col pb-20 md:pb-0">
           <SmoothScroll>

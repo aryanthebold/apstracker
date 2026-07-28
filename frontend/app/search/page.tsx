@@ -99,7 +99,8 @@ export default function SearchPage() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by name or roll number (min 3 chars)..."
+            placeholder="Search by name or roll number..."
+            autoFocus
             className="w-full input-glass rounded-2xl pl-11 pr-12 py-3.5 text-sm shadow-lg shadow-black/10"
           />
           {loading && (
@@ -118,22 +119,23 @@ export default function SearchPage() {
         )}
 
         {debouncedQuery.trim().length >= 3 && results.length === 0 && !loading && (
-          <div className="glass-panel border-accent-gold/20 bg-accent-gold/5 rounded-xl p-8 text-center space-y-4 animate-fade-in-up">
-            <div className="w-12 h-12 bg-accent-gold/10 rounded-full flex items-center justify-center mx-auto text-accent-gold animate-glow-pulse">
-              <AlertCircle className="h-6 w-6" />
-            </div>
+          <div className="glass-panel rounded-xl p-10 text-center space-y-5 animate-fade-in-up">
+            <div className="text-4xl">😕</div>
             <div>
-              <h3 className="font-syne font-bold text-text-primary">No Record Found</h3>
-              <p className="text-xs text-text-secondary mt-1">
-                We couldn't find any student matching &quot;{debouncedQuery}&quot;.
+              <h3 className="font-syne font-bold text-text-primary text-lg">
+                Couldn&apos;t find &quot;{debouncedQuery}&quot; in our records.
+              </h3>
+              <p className="text-sm text-text-secondary mt-2">
+                Know them? Help your batch out!
               </p>
             </div>
             <Link
               href="/upload"
-              className="inline-flex items-center justify-center rounded-lg bg-accent-primary hover:bg-accent-primary/95 text-white font-semibold px-4 py-2 text-xs transition-all active:scale-95 active:opacity-70 hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-bold text-white transition-all active:scale-95 hover:-translate-y-0.5 animate-pulse"
+              style={{ background: 'linear-gradient(135deg, #E91E8C, #9B59B6)', boxShadow: '0 0 20px rgba(233,30,140,0.4)' }}
             >
-              <UploadCloud className="mr-1.5 h-3.5 w-3.5" />
-              Upload Their Result
+              <UploadCloud className="mr-2 h-4 w-4" />
+              Wanna help me? Upload their result ↑
             </Link>
           </div>
         )}

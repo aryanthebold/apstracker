@@ -6,9 +6,50 @@ import FilterBar, { FilterState } from '@/components/FilterBar';
 import LeaderboardTable from '@/components/LeaderboardTable';
 import Podium from '@/components/Podium';
 import ScrollReveal from '@/components/ScrollReveal';
-import { Loader2, Award, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Loader2, Award, AlertCircle, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 
 const PAGE_SIZE = 10;
+
+/** 8 skeleton rows while leaderboard data loads */
+function LeaderboardSkeleton() {
+  return (
+    <section className="rounded-3xl border border-border-subtle bg-bg-glass overflow-hidden mt-8 w-full">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full text-left border-collapse table-fixed min-w-[700px]">
+          <thead className="sticky top-0 bg-bg-secondary/90 backdrop-blur-md z-20">
+            <tr>
+              {['8%', '42%', '20%', '15%', '10%', '5%'].map((w, i) => (
+                <th key={i} style={{ width: w }} className="px-6 py-6">
+                  <div className="skeleton-shimmer h-3 rounded-full w-16" />
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border-subtle">
+            {[...Array(8)].map((_, i) => (
+              <tr key={i} className="animate-row-reveal" style={{ animationDelay: `${i * 60}ms` }}>
+                <td className="px-6 py-5"><div className="skeleton-shimmer h-9 w-9 rounded-full" /></td>
+                <td className="px-6 py-5">
+                  <div className="flex items-center gap-3">
+                    <div className="skeleton-shimmer h-9 w-9 rounded-full shrink-0" />
+                    <div className="space-y-2 flex-1">
+                      <div className="skeleton-shimmer h-3 rounded-full w-3/4" />
+                      <div className="skeleton-shimmer h-2 rounded-full w-1/2" />
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-5"><div className="skeleton-shimmer h-3 rounded-full w-20" /></td>
+                <td className="px-6 py-5"><div className="skeleton-shimmer h-3 rounded-full w-8 mx-auto" /></td>
+                <td className="px-6 py-5"><div className="skeleton-shimmer h-4 rounded-full w-12 mx-auto" /></td>
+                <td className="px-6 py-5"><div className="skeleton-shimmer h-4 w-4 rounded mx-auto" /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
 
 export default function LeaderboardPage() {
   // All-time top 3 — never changes when paginating or filtering list
@@ -20,7 +61,10 @@ export default function LeaderboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(0); // 0-based page index for the list (rank 4+)
+  const [page, setPage] = useState(0);
+
+  // Local name search (client-side)
+  const [localSearch, setLocalSearch] = useState('');
 
   const [filters, setFilters] = useState<FilterState>({
     branch: '',
@@ -45,19 +89,17 @@ export default function LeaderboardPage() {
       setLoading(true);
       setError(null);
 
-      // We fetch from offset 3 (skipping top 3) + current page offset
       const offset = 3 + currentPage * PAGE_SIZE;
 
       fetchLeaderboard({
         branch: activeFilters.branch || undefined,
         sort: activeFilters.sort,
         order: activeFilters.order,
-        limit: PAGE_SIZE + 1, // fetch one extra to know if there's a next page
+        limit: PAGE_SIZE + 1,
         offset,
       })
         .then((res) => {
           setEntries(res.data.slice(0, PAGE_SIZE));
-          // If we got PAGE_SIZE+1 results, there's a next page
           setTotalCount(res.data.length > PAGE_SIZE ? (currentPage + 2) * PAGE_SIZE : (currentPage + 1) * PAGE_SIZE - (PAGE_SIZE - res.data.slice(0, PAGE_SIZE).length));
           setLoading(false);
         })
@@ -69,17 +111,14 @@ export default function LeaderboardPage() {
     []
   );
 
-  // Re-fetch when filters change → reset to page 0
   useEffect(() => {
     setPage(0);
     loadPage(0, filters);
   }, [filters, loadPage]);
 
-  // Re-fetch when page changes
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
     loadPage(newPage, filters);
-    // Scroll to table smoothly
     document.getElementById('leaderboard-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
@@ -87,10 +126,10 @@ export default function LeaderboardPage() {
     setFilters(newFilters);
   };
 
-  // Local name/roll filter applied on top of paginated entries
+  // Local client-side filter by name/roll
   const filteredEntries = entries.filter((entry) => {
-    if (!filters.search) return true;
-    const q = filters.search.toLowerCase();
+    if (!localSearch.trim()) return true;
+    const q = localSearch.toLowerCase();
     return (
       entry.roll_number.toLowerCase().includes(q) ||
       entry.students.name.toLowerCase().includes(q)
@@ -99,7 +138,6 @@ export default function LeaderboardPage() {
 
   const hasNextPage = entries.length === PAGE_SIZE;
   const hasPrevPage = page > 0;
-  // Rank of first list entry = 4 (after podium) + page offset
   const listStartRank = 4 + page * PAGE_SIZE;
 
   return (
@@ -116,6 +154,20 @@ export default function LeaderboardPage() {
             </h1>
           </div>
           <p className="text-[13px] text-text-secondary pl-11">Ranked by cumulative SGPA · </p>
+        </div>
+      </ScrollReveal>
+
+      {/* Local search — fast client-side filter */}
+      <ScrollReveal delay={80} direction="up">
+        <div className="relative max-w-md mb-5">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-text-secondary pointer-events-none" />
+          <input
+            type="text"
+            value={localSearch}
+            onChange={(e) => setLocalSearch(e.target.value)}
+            placeholder="Quick search by name or roll number…"
+            className="w-full input-glass rounded-2xl pl-11 pr-4 py-3 text-sm"
+          />
         </div>
       </ScrollReveal>
 
@@ -141,12 +193,7 @@ export default function LeaderboardPage() {
       {/* ── Paginated list (rank 4+) ── */}
       <div id="leaderboard-list">
         {loading ? (
-          <div className="glass-panel rounded-xl p-24 flex flex-col items-center justify-center gap-4 mt-8 animate-fade-in-up">
-            <Loader2 className="h-8 w-8 animate-spin text-accent-primary" />
-            <span className="font-mono text-sm tracking-wider uppercase text-text-secondary animate-pulse">
-              Loading rankings...
-            </span>
-          </div>
+          <LeaderboardSkeleton />
         ) : error ? (
           <div className="glass-panel border-accent-danger/20 bg-accent-danger/5 rounded-xl p-12 text-center max-w-md mx-auto space-y-4 mt-8 animate-fade-in-up">
             <div className="w-12 h-12 bg-accent-danger/15 rounded-full flex items-center justify-center mx-auto text-accent-danger animate-glow-pulse">
@@ -170,7 +217,6 @@ export default function LeaderboardPage() {
             {/* ── Pagination Controls ── */}
             {(hasPrevPage || hasNextPage) && (
               <div className="flex items-center justify-between mt-6 px-2">
-                {/* Page info */}
                 <p className="text-xs text-text-secondary font-mono">
                   Showing ranks{' '}
                   <span className="text-text-primary font-bold">{listStartRank}</span>
@@ -180,7 +226,6 @@ export default function LeaderboardPage() {
                   </span>
                 </p>
 
-                {/* Buttons */}
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => handlePageChange(page - 1)}
