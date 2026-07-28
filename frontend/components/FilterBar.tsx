@@ -1,13 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { GitBranch, ArrowUpDown, ShieldCheck, ChevronsUpDown } from 'lucide-react';
+import { GitBranch, ArrowUpDown, ChevronsUpDown } from 'lucide-react';
 
 export interface FilterState {
   branch: string;
   sort: 'sgpa' | 'backs';
   order: 'asc' | 'desc';
-  has_backs: boolean | null;
   search?: string;
 }
 
@@ -20,7 +19,6 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
     branch: '',
     sort: 'sgpa',
     order: 'desc',
-    has_backs: null,
     search: '',
   });
 
@@ -40,7 +38,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
   return (
     <section className="flex flex-col gap-5 mb-8 p-6 md:p-7 rounded-3xl bg-bg-secondary/40 border border-border-subtle backdrop-blur-md relative z-30">
       {/* Filter Controls Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 w-full">
 
         {/* Branch Filter */}
         <div className="relative z-10 flex flex-col gap-1.5">
@@ -79,26 +77,6 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
           </div>
         </div>
 
-        {/* Backs Filter */}
-        <div className="relative z-10 flex flex-col gap-1.5">
-          <label className="text-[10px] font-bold text-text-secondary uppercase tracking-[0.15em] pl-1">Records</label>
-          <div className="relative">
-            <ShieldCheck className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-accent-success z-20" />
-            <select
-              value={filters.has_backs === null ? '' : String(filters.has_backs)}
-              onChange={(e) => {
-                const val = e.target.value;
-                updateFilter('has_backs', val === '' ? null : val === 'true');
-              }}
-              className="appearance-none w-full rounded-xl bg-[#0d1017] border border-white/[0.07] hover:border-accent-success/40 focus:border-accent-success/60 focus:ring-2 focus:ring-accent-success/15 pl-10 pr-10 py-3 text-[13px] font-semibold text-[#eef2ff] cursor-pointer transition-all duration-200 outline-none"
-            >
-              <option value="" className="bg-[#0e1118] text-[#eef2ff]">All Records</option>
-              <option value="false" className="bg-[#0e1118] text-[#eef2ff]">No Backs (Clean)</option>
-              <option value="true" className="bg-[#0e1118] text-[#eef2ff]">Has Backs</option>
-            </select>
-            <ChevronsUpDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary z-20" />
-          </div>
-        </div>
 
         {/* Order Filter */}
         <div className="relative z-10 flex flex-col gap-1.5">

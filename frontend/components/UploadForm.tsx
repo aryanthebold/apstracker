@@ -4,7 +4,7 @@ import { useState, useCallback, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { uploadResult } from '@/lib/api';
-import { UploadCloud, FileText, CheckCircle2, AlertCircle, RefreshCw, X, Loader2, Sparkles } from 'lucide-react';
+import { UploadCloud, FileText, CheckCircle2, AlertCircle, RefreshCw, X, Loader2, Sparkles, Trash2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 interface FileStatus {
@@ -177,10 +177,25 @@ export default function UploadForm() {
 
         {/* File List */}
         {files.length > 0 && (
-          <div
-            ref={parentRef}
-            className="max-h-60 overflow-y-auto pr-2 custom-scrollbar"
-          >
+          <div className="space-y-2">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-xs font-bold uppercase text-text-secondary tracking-wider">
+                Selected PDFs ({files.length})
+              </span>
+              <button
+                type="button"
+                onClick={resetForm}
+                disabled={globalStatus === 'submitting'}
+                className="inline-flex items-center gap-1 text-xs text-accent-danger hover:text-accent-danger/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                Clear All
+              </button>
+            </div>
+            <div
+              ref={parentRef}
+              className="max-h-60 overflow-y-auto pr-2 custom-scrollbar"
+            >
             <div
               style={{
                 height: `${rowVirtualizer.getTotalSize()}px`,
@@ -252,7 +267,8 @@ export default function UploadForm() {
               })}
             </div>
           </div>
-        )}
+        </div>
+      )}
 
         <div className="pt-2">
           {globalStatus === 'completed' && files.every(f => f.status === 'success') ? (

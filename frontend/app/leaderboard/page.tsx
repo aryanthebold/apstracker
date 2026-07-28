@@ -26,7 +26,6 @@ export default function LeaderboardPage() {
     branch: '',
     sort: 'sgpa',
     order: 'desc',
-    has_backs: null,
   });
 
   // ── Load fixed top-3 once ──────────────────────────────────────────────────
@@ -53,7 +52,6 @@ export default function LeaderboardPage() {
         branch: activeFilters.branch || undefined,
         sort: activeFilters.sort,
         order: activeFilters.order,
-        has_backs: activeFilters.has_backs !== null ? activeFilters.has_backs : undefined,
         limit: PAGE_SIZE + 1, // fetch one extra to know if there's a next page
         offset,
       })
