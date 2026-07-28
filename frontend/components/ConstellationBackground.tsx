@@ -1,9 +1,16 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function ConstellationBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pathname = usePathname();
+  const isHomeRef = useRef(pathname === '/');
+
+  useEffect(() => {
+    isHomeRef.current = pathname === '/';
+  }, [pathname]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -232,25 +239,27 @@ export default function ConstellationBackground() {
         ctx.fillStyle = mouseGlow;
         ctx.fill();
 
-        // Connect stars to cursor and repel
-        for (const s of stars) {
-          const dx = s.x - mouseX;
-          const dy = s.y - mouseY;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          
-          if (dist < 200) {
-            // Draw connection to cursor
-            const lineAlpha = (1 - dist / 200) * 0.4 * s.alpha;
-            ctx.beginPath();
-            ctx.moveTo(s.x, s.y);
-            ctx.lineTo(mouseX, mouseY);
-            ctx.strokeStyle = `rgba(180, 160, 255, ${lineAlpha})`;
-            ctx.lineWidth = 0.5 + s.tier * 0.2;
-            ctx.stroke();
+        // Connect stars to cursor and repel (ONLY ON HOME PAGE)
+        if (isHomeRef.current) {
+          for (const s of stars) {
+            const dx = s.x - mouseX;
+            const dy = s.y - mouseY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < 200) {
+              // Draw connection to cursor
+              const lineAlpha = (1 - dist / 200) * 0.4 * s.alpha;
+              ctx.beginPath();
+              ctx.moveTo(s.x, s.y);
+              ctx.lineTo(mouseX, mouseY);
+              ctx.strokeStyle = `rgba(180, 160, 255, ${lineAlpha})`;
+              ctx.lineWidth = 0.5 + s.tier * 0.2;
+              ctx.stroke();
 
-            // Repel slightly
-            s.x += dx * 0.015;
-            s.y += dy * 0.015;
+              // Repel slightly
+              s.x += dx * 0.015;
+              s.y += dy * 0.015;
+            }
           }
         }
       }
