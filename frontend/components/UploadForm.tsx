@@ -206,6 +206,7 @@ export default function UploadForm() {
             </div>
             <div
               ref={parentRef}
+              data-lenis-prevent
               className="max-h-60 overflow-y-auto pr-2 custom-scrollbar"
             >
             <div

@@ -290,7 +290,7 @@ export default function AdminPage() {
             )}
           </div>
 
-          <div className="p-6 overflow-y-auto flex-1 space-y-8">
+          <div data-lenis-prevent className="p-6 overflow-y-auto flex-1 space-y-8">
             {loadingDetails ? (
               <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-accent-primary" /></div>
             ) : studentDetails ? (
