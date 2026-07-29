@@ -71,9 +71,9 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
 
   return (
     <section className="rounded-3xl border border-border-subtle bg-bg-glass overflow-hidden mt-8 w-full">
-      <div className="w-full overflow-x-auto custom-scrollbar">
-        <table className="w-full text-left border-collapse table-fixed min-w-[700px]">
-          <thead className="sticky top-0 bg-bg-secondary/90 backdrop-blur-md z-20">
+      <div className="w-full">
+        <table className="w-full text-left border-collapse">
+          <thead className="hidden md:table-header-group sticky top-0 bg-bg-secondary/90 backdrop-blur-md z-20">
             <tr>
               <th className="pl-4 pr-1 py-6 font-sans text-[11px] font-bold text-text-secondary uppercase tracking-[0.12em] w-[8%]">Rank</th>
               <th className="px-2 py-6 font-sans text-[11px] font-bold text-text-secondary uppercase tracking-[0.12em] w-[42%]">Name</th>
@@ -83,7 +83,7 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
               <th className="px-6 py-6 w-[5%]"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-border-subtle">
+          <tbody className="flex flex-col md:table-row-group gap-3 md:gap-0 p-3 md:p-0 md:divide-y divide-border-subtle bg-transparent">
             {entries.map((entry, index) => {
               const rank = index + startIndex;
               const isExpanded = expandedRoll === entry.roll_number;
@@ -117,17 +117,31 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                   {/* Main Row */}
                   <tr
                     onClick={() => toggleRow(entry.roll_number)}
-                    className={rowClass}
+                    className={`${rowClass} flex flex-col md:table-row relative rounded-2xl md:rounded-none border border-border-subtle md:border-none p-4 md:p-0`}
                     style={{ animationDelay: `${Math.min(index, 20) * 45}ms` }}
                   >
-                    <td className="relative pl-4 pr-1 py-6">
-                      {/* Left hover indicator line */}
+                    {/* Desktop Rank */}
+                    <td className="hidden md:table-cell relative pl-4 pr-1 py-6">
                       <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-accent-primary to-accent-violet rounded-r opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                       <span className={`font-sans text-lg font-extrabold tracking-tight ${rankColor}`}>
                         {rank.toString().padStart(2, '0')}
                       </span>
                     </td>
-                    <td className="px-2 py-6">
+
+                    {/* Mobile Header: Rank & Branch */}
+                    <td className="md:hidden flex items-center justify-between border-b border-white/5 pb-3 mb-3">
+                      <div className="flex items-center gap-2">
+                        <span className={`font-sans text-[15px] font-extrabold tracking-tight ${rankColor}`}>
+                          #{rank.toString().padStart(2, '0')}
+                        </span>
+                        <span className="text-[9px] uppercase font-bold text-text-tertiary">Rank</span>
+                      </div>
+                      <span className="text-[11px] font-bold text-text-secondary uppercase tracking-wider">
+                        {entry.students.branch === 'CSE_AIML' ? 'CSE AI/ML' : entry.students.branch}
+                      </span>
+                    </td>
+
+                    <td className="md:table-cell px-0 md:px-2 py-0 md:py-6 flex items-center justify-between w-full">
                       <div className="flex items-center gap-4">
                         {rank === 1 ? (
                           <div className={`w-10 h-10 rounded-full border ${badgeColor} flex items-center justify-center font-bold bg-bg-secondary ${rankColor} transition-transform duration-300 group-hover:scale-105 avatar-float avatar-gold-pulse`}>
@@ -143,25 +157,33 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                           </div>
                         )}
                         <div>
-                          <p className={`font-sans text-[14px] font-bold tracking-tight mb-0.5 ${rank <= 3 ? rankColor : 'text-text-primary'}`}>
+                          <p className={`font-sans text-[14px] md:text-[14px] font-bold tracking-tight mb-0.5 ${rank <= 3 ? rankColor : 'text-text-primary'}`}>
                             {entry.students.name}
                           </p>
-                          <p className="font-mono text-xs text-text-secondary">{entry.roll_number}</p>
+                          <p className="font-mono text-[11px] md:text-xs text-text-secondary">{entry.roll_number}</p>
                         </div>
                       </div>
+                      
+                      {/* Mobile SGPA */}
+                      <div className="md:hidden flex flex-col items-end">
+                        <span className="text-[9px] uppercase tracking-wider font-bold text-text-tertiary mb-0.5">SGPA</span>
+                        <span className={`font-sans text-lg font-extrabold ${rank <= 3 ? rankColor : 'text-text-primary'}`}>
+                          <AnimatedNumber value={entry.overall_sgpa} enabled={true} />
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-6 py-6 text-text-primary font-sans text-[13px] font-medium truncate">
+                    <td className="hidden md:table-cell px-6 py-6 text-text-primary font-sans text-[13px] font-medium truncate">
                       {entry.students.branch === 'CSE_AIML' ? 'CSE AI/ML' : entry.students.branch}
                     </td>
-                    <td className="px-6 py-6 font-sans text-[13px] font-medium text-center">
+                    <td className="hidden md:table-cell px-6 py-6 font-sans text-[13px] font-medium text-center">
                       {entry.total_semesters_submitted}
                     </td>
-                    <td className="px-6 py-6 font-sans text-base font-extrabold text-center">
+                    <td className="hidden md:table-cell px-6 py-6 font-sans text-base font-extrabold text-center">
                       <span className={rank <= 3 ? rankColor : 'text-text-primary'}>
                         <AnimatedNumber value={entry.overall_sgpa} enabled={true} />
                       </span>
                     </td>
-                    <td className="px-6 py-6 text-center text-text-secondary">
+                    <td className="hidden md:table-cell px-6 py-6 text-center text-text-secondary">
                       <ChevronDown
                         className={`w-5 h-5 transition-all duration-300 ease-out
                           ${isExpanded
@@ -174,15 +196,15 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
 
                   {/* Expanded Row */}
                   {openedRolls.has(entry.roll_number) && (
-                    <tr className={`${isExpanded ? (rank === 1 ? 'bg-accent-gold/5' : rank === 2 ? 'bg-accent-primary/5' : rank === 3 ? 'bg-accent-bronze/5' : '') : 'pointer-events-none h-0 overflow-hidden'}`}>
-                      <td colSpan={6} className="p-0">
+                    <tr className={`${isExpanded ? (rank === 1 ? 'bg-accent-gold/5' : rank === 2 ? 'bg-accent-primary/5' : rank === 3 ? 'bg-accent-bronze/5' : '') : 'pointer-events-none h-0 overflow-hidden'} block md:table-row`}>
+                      <td colSpan={6} className="p-0 block md:table-cell border-none md:border-t border-border-subtle">
                         <div className={`expand-wrapper ${isExpanded ? 'open' : ''}`}>
                           <div>
-                            <div className="px-8 pb-8 pt-2">
-                              <div className="glass-podium border border-border-subtle/50 rounded-2xl p-8 shadow-2xl">
-                                <div className="flex justify-between items-start mb-8">
-                                <h3 className={`font-sans text-lg font-bold tracking-tight ${rank <= 3 ? rankColor : 'text-text-primary'}`}>
-                                  {entry.students.name} — {entry.students.branch} — <span className="font-mono text-xs text-text-secondary">Roll: {entry.roll_number}</span>
+                            <div className="px-2 md:px-8 pb-4 md:pb-8 pt-2">
+                              <div className="glass-podium border border-border-subtle/50 rounded-2xl p-5 md:p-8 shadow-2xl">
+                                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6 md:mb-8">
+                                <h3 className={`font-sans text-base md:text-lg font-bold tracking-tight ${rank <= 3 ? rankColor : 'text-text-primary'}`}>
+                                  {entry.students.name} <span className="hidden md:inline">—</span> <span className="block md:inline mt-1 md:mt-0 text-sm md:text-base font-medium">{entry.students.branch}</span> <br className="md:hidden" /> <span className="font-mono text-[10px] md:text-xs text-text-secondary mt-1 block md:inline">Roll: {entry.roll_number}</span>
                                 </h3>
                                 <button
                                   onClick={() => toggleRow(entry.roll_number)}

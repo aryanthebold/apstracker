@@ -34,7 +34,7 @@ export default function HomePage() {
         <div className="relative flex flex-col items-center text-center z-10 max-w-4xl mx-auto space-y-5">
 
           {/* Batch badge */}
-          <div className="animate-fade-in-down">
+          <div className="md:animate-fade-in-down">
             <span className="inline-flex items-center gap-2 rounded-full bg-accent-primary/8 border border-accent-primary/18 px-4 py-1.5 text-[11px] font-bold text-accent-primary tracking-[0.15em] uppercase backdrop-blur-sm">
 
               GL Bajaj Group of Institutes, Mathura
@@ -42,7 +42,7 @@ export default function HomePage() {
           </div>
 
           {/* Main Logo */}
-          <div className="animate-fade-in-up delay-100 space-y-0">
+          <div className="md:animate-fade-in-up md:delay-100 space-y-0">
             <h1
               className="text-[3.8rem] sm:text-[5.5rem] md:text-[6.5rem] lg:text-[7.5rem] font-black tracking-tighter sm:tracking-[0.06em] logo-glow-gradient leading-none select-none font-figtree sm:font-coolvetica"
             >
@@ -54,12 +54,12 @@ export default function HomePage() {
           </div>
 
           {/* Subtitle */}
-          <p className="animate-fade-in-up delay-200 text-text-secondary text-xs md:text-sm leading-relaxed max-w-lg opacity-85">
+          <p className="md:animate-fade-in-up md:delay-200 text-text-secondary text-xs md:text-sm leading-relaxed max-w-lg opacity-85">
             Your academic leaderboard, report card tracker, and analytics hub — all in one place.
           </p>
 
           {/* CTA Buttons */}
-          <div className="animate-fade-in-up delay-300 flex flex-wrap items-center justify-center gap-4 pt-1">
+          <div className="md:animate-fade-in-up md:delay-300 flex flex-wrap items-center justify-center gap-4 pt-1">
             <Link
               href="/leaderboard"
               className="btn-pebble glow-blue inline-flex items-center justify-center text-white font-bold px-8 py-3.5 text-xs gap-2 group"
@@ -79,7 +79,7 @@ export default function HomePage() {
         </div>
 
         {/* Stats section at bottom of hero */}
-        <div className="relative animate-fade-in-up delay-400 w-full max-w-4xl mx-auto z-10 mt-8 space-y-3">
+        <div className="relative md:animate-fade-in-up md:delay-400 w-full max-w-4xl mx-auto z-10 mt-8 space-y-3">
           <div className="flex items-center justify-between px-1 mb-2">
             <div className="flex items-center gap-2.5">
               <span className="relative flex h-2 w-2">
@@ -92,7 +92,7 @@ export default function HomePage() {
             </div>
             <span className="text-[10px] font-mono text-text-tertiary tracking-wider">2024–28</span>
           </div>
-          <div className="bg-bg-secondary/35 backdrop-blur-2xl border border-border-subtle rounded-[1.75rem] p-5 shadow-2xl animate-glow-pulse">
+          <div className="bg-bg-secondary/35 backdrop-blur-2xl border border-border-subtle rounded-[1.75rem] p-5 shadow-2xl md:animate-glow-pulse">
             <StatsBar />
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
               nextSection.scrollIntoView({ behavior: 'smooth' });
             }
           }}
-          className="animate-fade-in-up delay-500 absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-30 hover:opacity-60 transition-opacity cursor-pointer"
+          className="md:animate-fade-in-up md:delay-500 absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-30 hover:opacity-60 transition-opacity cursor-pointer"
         >
           <span className="text-[9px] uppercase tracking-[0.2em] text-text-secondary">Scroll goes brrrrrrrrrr</span>
           <ChevronDown className="h-3 w-3 text-text-secondary animate-bounce" />

@@ -760,8 +760,8 @@ export default function AdminPage() {
               </div>
 
               {searchResults.length > 0 && (
-                <div className="glass-panel rounded-xl overflow-hidden border border-border-subtle bg-bg-secondary/35">
-                  <table className="w-full text-left text-sm">
+                <div className="glass-panel rounded-xl overflow-x-auto custom-scrollbar border border-border-subtle bg-bg-secondary/35">
+                  <table className="w-full text-left text-sm min-w-[600px]">
                     <thead>
                       <tr className="border-b border-border-subtle text-xs uppercase text-text-secondary font-semibold bg-bg-secondary/50">
                         <th className="p-4 pl-6">Roll Number</th>
@@ -773,7 +773,7 @@ export default function AdminPage() {
                     </thead>
                     <tbody className="divide-y divide-border-subtle font-medium text-xs text-text-primary">
                       {searchResults.map((student, index) => (
-                        <tr key={student.id} className="hover:bg-bg-tertiary/20 group transition-all animate-tr-fade" style={{ animationDelay: `${index * 30}ms` }}>
+                        <tr key={student.id} onClick={() => openStudentDetails(student.roll_number)} className="cursor-pointer hover:bg-bg-tertiary/20 group transition-all animate-tr-fade" style={{ animationDelay: `${index * 30}ms` }}>
                           <td className="p-4 pl-6 font-mono text-text-secondary">{student.roll_number}</td>
                           <td className="p-4">{student.name}</td>
                           <td className="p-4">{student.branch}</td>
@@ -811,8 +811,8 @@ export default function AdminPage() {
                   <Download className="h-4 w-4 text-accent-primary" /> Export CSV
                 </button>
               </div>
-              <div className="glass-panel rounded-xl overflow-hidden border border-border-subtle bg-bg-secondary/35">
-                <table className="w-full text-left text-sm">
+              <div className="glass-panel rounded-xl overflow-x-auto custom-scrollbar border border-border-subtle bg-bg-secondary/35">
+                <table className="w-full text-left text-sm min-w-[700px]">
                   <thead>
                     <tr className="border-b border-border-subtle text-xs uppercase text-text-secondary font-semibold bg-bg-secondary/50">
                       <th className="p-4 pl-6">Roll Number</th>
@@ -869,7 +869,7 @@ export default function AdminPage() {
                         </tr>
                       ) : (
                         // ── Normal row ───────────────────────────────────
-                        <tr key={student.id} className="hover:bg-bg-tertiary/20 transition-all animate-tr-fade" style={{ animationDelay: `${(index % 20) * 30}ms` }}>
+                        <tr key={student.id} onClick={() => openStudentDetails(student.roll_number)} className="cursor-pointer hover:bg-bg-tertiary/20 transition-all animate-tr-fade" style={{ animationDelay: `${(index % 20) * 30}ms` }}>
                           <td className="p-4 pl-6 font-mono text-text-secondary">{student.roll_number}</td>
                           <td className="p-4 cursor-pointer hover:text-accent-primary" onClick={() => openStudentDetails(student.roll_number)}>{student.name}</td>
                           <td className="p-4">{student.branch}</td>
@@ -879,7 +879,7 @@ export default function AdminPage() {
                               {student.has_submitted ? 'Submitted' : 'Pending'}
                             </span>
                           </td>
-                          <td className="p-4 text-right pr-6 flex items-center justify-end gap-2">
+                          <td className="p-4 text-right pr-6 flex items-center justify-end gap-2" onClick={e => e.stopPropagation()}>
                             <button onClick={() => openStudentDetails(student.roll_number)}
                               className="inline-flex items-center gap-1 text-text-secondary hover:text-accent-primary p-1.5 rounded-lg transition-all" title="View student details">
                               <Eye className="h-4 w-4" />
@@ -919,8 +919,8 @@ export default function AdminPage() {
                   <Download className="h-4 w-4 text-accent-primary" /> Export CSV
                 </button>
               </div>
-              <div className="glass-panel rounded-xl overflow-hidden border border-border-subtle bg-bg-secondary/35">
-                <table className="w-full text-left text-sm">
+              <div className="glass-panel rounded-xl overflow-x-auto custom-scrollbar border border-border-subtle bg-bg-secondary/35">
+                <table className="w-full text-left text-sm min-w-[700px]">
                   <thead>
                     <tr className="border-b border-border-subtle text-xs uppercase text-text-secondary font-semibold bg-bg-secondary/50">
                       <th className="p-4 pl-6">Roll Number</th>
@@ -934,14 +934,14 @@ export default function AdminPage() {
                   </thead>
                   <tbody className="divide-y divide-border-subtle font-medium text-xs text-text-primary">
                     {filteredBacks.map((student, index) => (
-                      <tr key={student.id} className="hover:bg-bg-tertiary/20 transition-all animate-tr-fade" style={{ animationDelay: `${(index % 20) * 30}ms` }}>
+                      <tr key={student.id} onClick={() => openStudentDetails(student.roll_number)} className="cursor-pointer hover:bg-bg-tertiary/20 transition-all animate-tr-fade" style={{ animationDelay: `${(index % 20) * 30}ms` }}>
                         <td className="p-4 pl-6 font-mono text-text-secondary">{student.roll_number}</td>
                         <td className="p-4 cursor-pointer hover:text-accent-primary" onClick={() => openStudentDetails(student.roll_number)}>{student.students?.name || 'Unknown'}</td>
                         <td className="p-4">{student.students?.branch || 'Unknown'}</td>
                         <td className="p-4 text-right font-mono font-bold text-accent-gold">{student.rank ? `#${student.rank}` : '-'}</td>
                         <td className="p-4 text-right text-accent-danger font-semibold">{student.total_backs} papers</td>
                         <td className="p-4 text-right text-accent-primary font-bold">{student.overall_sgpa?.toFixed(2)}</td>
-                        <td className="p-4 text-right pr-6 flex items-center justify-end gap-2">
+                        <td className="p-4 text-right pr-6 flex items-center justify-end gap-2" onClick={e => e.stopPropagation()}>
                           <button onClick={() => openStudentDetails(student.roll_number)}
                             className="inline-flex items-center gap-1 text-text-secondary hover:text-accent-primary p-1.5 rounded-lg transition-all" title="View student details">
                             <Eye className="h-4 w-4" />
@@ -971,8 +971,8 @@ export default function AdminPage() {
                   <Download className="h-4 w-4 text-accent-primary" /> Export CSV
                 </button>
               </div>
-              <div className="glass-panel rounded-xl overflow-hidden border border-border-subtle bg-bg-secondary/35">
-                <table className="w-full text-left text-sm">
+              <div className="glass-panel rounded-xl overflow-x-auto custom-scrollbar border border-border-subtle bg-bg-secondary/35">
+                <table className="w-full text-left text-sm min-w-[600px]">
                   <thead>
                     <tr className="border-b border-border-subtle text-xs uppercase text-text-secondary font-semibold bg-bg-secondary/50">
                       <th className="p-4 pl-6">Roll Number</th>
@@ -984,14 +984,14 @@ export default function AdminPage() {
                   </thead>
                   <tbody className="divide-y divide-border-subtle font-medium text-xs text-text-primary">
                     {filteredPending.map((student, index) => (
-                      <tr key={student.id} className="hover:bg-bg-tertiary/20 transition-all animate-tr-fade" style={{ animationDelay: `${(index % 20) * 30}ms` }}>
+                      <tr key={student.id} onClick={() => openStudentDetails(student.roll_number)} className="cursor-pointer hover:bg-bg-tertiary/20 transition-all animate-tr-fade" style={{ animationDelay: `${(index % 20) * 30}ms` }}>
                         <td className="p-4 pl-6 font-mono text-text-secondary">{student.roll_number}</td>
                         <td className="p-4 cursor-pointer hover:text-accent-primary" onClick={() => openStudentDetails(student.roll_number)}>{student.name}</td>
                         <td className="p-4">{student.branch}</td>
                         <td className="p-4">
                           <span className="inline-block px-2 py-0.5 rounded-full text-[10px] bg-accent-danger/10 text-accent-danger">Not Submitted</span>
                         </td>
-                        <td className="p-4 text-right pr-6">
+                        <td className="p-4 text-right pr-6" onClick={e => e.stopPropagation()}>
                           <button onClick={() => openStudentDetails(student.roll_number)}
                             className="inline-flex items-center gap-1 text-text-secondary hover:text-accent-primary p-1.5 rounded-lg transition-all" title="View student details">
                             <Eye className="h-4 w-4" />
@@ -1025,8 +1025,8 @@ export default function AdminPage() {
                   <p className="text-text-secondary text-sm">No UFM-flagged students found in the database.</p>
                 </div>
               ) : (
-                <div className="glass-panel rounded-xl overflow-hidden border border-border-subtle bg-bg-secondary/35">
-                  <table className="w-full text-left text-sm">
+                <div className="glass-panel rounded-xl overflow-x-auto custom-scrollbar border border-border-subtle bg-bg-secondary/35">
+                  <table className="w-full text-left text-sm min-w-[700px]">
                     <thead>
                       <tr className="border-b border-border-subtle text-xs uppercase text-text-secondary font-semibold bg-bg-secondary/50">
                         <th className="p-4 pl-6">Roll Number</th>
@@ -1039,7 +1039,7 @@ export default function AdminPage() {
                     </thead>
                     <tbody className="divide-y divide-border-subtle font-medium text-xs text-text-primary">
                       {ufmStudents.map((student, index) => (
-                        <tr key={student.roll_number} className="hover:bg-bg-tertiary/20 transition-all animate-tr-fade bg-accent-danger/3" style={{ animationDelay: `${(index % 20) * 30}ms` }}>
+                        <tr key={student.roll_number} onClick={() => openStudentDetails(student.roll_number)} className="cursor-pointer hover:bg-bg-tertiary/20 transition-all animate-tr-fade bg-accent-danger/3" style={{ animationDelay: `${(index % 20) * 30}ms` }}>
                           <td className="p-4 pl-6 font-mono text-text-secondary">{student.roll_number}</td>
                           <td className="p-4 cursor-pointer hover:text-accent-primary" onClick={() => openStudentDetails(student.roll_number)}>
                             {student.students?.name || 'Unknown'}
@@ -1056,7 +1056,7 @@ export default function AdminPage() {
                               <span className="text-text-tertiary text-[10px]">No remark extracted</span>
                             )}
                           </td>
-                          <td className="p-4 text-right pr-6">
+                          <td className="p-4 text-right pr-6" onClick={e => e.stopPropagation()}>
                             <button onClick={() => openStudentDetails(student.roll_number)}
                               className="inline-flex items-center gap-1 text-accent-primary bg-accent-primary/10 hover:bg-accent-primary/20 px-3 py-1.5 rounded-lg transition-all text-xs font-semibold">
                               <Eye className="h-3.5 w-3.5" /> View

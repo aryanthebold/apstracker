@@ -114,19 +114,18 @@ export default function SubjectToppersPage() {
           </button>
         </div>
       ) : toppersList.length === 0 ? (
-        <div className="glass-panel rounded-xl p-16 text-center text-text-secondary animate-fade-in-up">
+        <div className="glass-panel rounded-xl p-16 text-center text-text-secondary md:animate-fade-in-up">
           <div className="w-12 h-12 bg-bg-tertiary border border-border-subtle rounded-full flex items-center justify-center mx-auto mb-4 animate-glow-pulse">
             <span className="text-xl">∅</span>
           </div>
           No records submitted for Semester {semester} yet. Try uploading results first!
         </div>
       ) : (
-        <ScrollReveal delay={150} direction="up" className="w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 w-full">
           {toppersList.map((subject, subjectIndex) => (
             <div
               key={subject.subject_code}
-              className="glass-panel glass-panel-hover rounded-[20px] p-5 md:p-6 flex flex-col justify-between relative overflow-hidden animate-fade-in-up"
+              className="glass-panel glass-panel-hover rounded-[20px] p-5 md:p-6 flex flex-col justify-between relative overflow-hidden md:animate-fade-in-up"
               style={{ animationDelay: `${subjectIndex * 50}ms` }}
             >
               {/* Background watermark of the subject code */}
@@ -205,8 +204,7 @@ export default function SubjectToppersPage() {
               </div>
             </div>
           ))}
-          </div>
-        </ScrollReveal>
+        </div>
       )}
     </div>
   );
