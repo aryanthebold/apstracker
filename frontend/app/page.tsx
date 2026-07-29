@@ -8,7 +8,7 @@ import { useEffect, useRef } from 'react';
 
 export default function HomePage() {
   return (
-      <div className="w-full flex flex-col min-h-screen text-text-primary selection:bg-accent-primary/30 selection:text-accent-primary">
+    <div className="w-full flex flex-col min-h-screen text-text-primary selection:bg-accent-primary/30 selection:text-accent-primary">
 
       {/* =============================================
           SECTION 1: Hero
@@ -37,7 +37,7 @@ export default function HomePage() {
           <div className="md:animate-fade-in-down">
             <span className="inline-flex items-center gap-2 rounded-full bg-accent-primary/8 border border-accent-primary/18 px-4 py-1.5 text-[11px] font-bold text-accent-primary tracking-[0.15em] uppercase backdrop-blur-sm">
 
-              GL Bajaj Group of Institutes, Mathura
+              GL Bajaj Group of Institutions, Mathura
             </span>
           </div>
 
@@ -98,7 +98,7 @@ export default function HomePage() {
         </div>
 
         {/* Scroll hint */}
-        <button 
+        <button
           onClick={() => {
             const nextSection = document.getElementById('explore');
             if (nextSection) {

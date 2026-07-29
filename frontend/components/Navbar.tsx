@@ -35,9 +35,8 @@ export default function Navbar() {
     <>
       {/* Desktop Navigation — sticky */}
       <header
-        className={`sticky top-0 z-50 w-full hidden md:block pointer-events-none transition-all duration-500 ${
-          scrolled ? 'pt-3' : 'pt-5'
-        }`}
+        className={`sticky top-0 z-50 w-full hidden md:block pointer-events-none transition-all duration-500 ${scrolled ? 'pt-3' : 'pt-5'
+          }`}
       >
         <div className="mx-auto max-w-7xl px-8 flex items-center justify-between w-full">
           {/* Logo */}
@@ -51,16 +50,15 @@ export default function Navbar() {
               </span>
               <span className="text-text-primary"> Tracker</span>
             </span>
-            <span className="text-[9px] text-text-secondary font-medium tracking-widest uppercase mt-0.5">
-              · GL Bajaj Institute ·
+            <span className="text-[11px] text-text-secondary font-medium tracking-widest uppercase mt-0.5">
+              · GL Bajaj Mathura ·
             </span>
           </Link>
 
           {/* Nav links bubble - centered */}
           <div
-            className={`liquid-glass-nav rounded-full px-6 py-0 flex h-[54px] items-center pointer-events-auto transition-all duration-500 ${
-              scrolled ? 'liquid-glass-nav-scrolled shadow-2xl' : ''
-            }`}
+            className={`liquid-glass-nav rounded-full px-6 py-0 flex h-[54px] items-center pointer-events-auto transition-all duration-500 ${scrolled ? 'liquid-glass-nav-scrolled shadow-2xl' : ''
+              }`}
           >
             <nav className="flex items-center gap-1">
               {navLinks.map((link) => {
@@ -69,11 +67,10 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative px-4 py-2 text-[13px] font-semibold transition-all duration-200 rounded-full ${
-                      isActive
+                    className={`relative px-4 py-2 text-[13px] font-semibold transition-all duration-200 rounded-full ${isActive
                         ? 'text-accent-primary bg-accent-primary/10'
                         : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
-                    }`}
+                      }`}
                   >
                     {link.label}
                     {isActive && (
@@ -130,9 +127,8 @@ export default function Navbar() {
 
       {/* Mobile Slide-in Drawer */}
       <aside
-        className={`fixed top-0 right-0 h-full w-[78vw] max-w-[320px] z-[70] bg-bg-secondary/95 backdrop-blur-2xl border-l border-border-subtle flex flex-col pt-6 px-6 pb-10 md:hidden transition-transform duration-300 ease-out ${
-          drawerOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed top-0 right-0 h-full w-[78vw] max-w-[320px] z-[70] bg-bg-secondary/95 backdrop-blur-2xl border-l border-border-subtle flex flex-col pt-6 px-6 pb-10 md:hidden transition-transform duration-300 ease-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         {/* Drawer header */}
         <div className="flex items-center justify-between mb-8">
@@ -156,11 +152,10 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setDrawerOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200 ${
-                  isActive
+                className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200 ${isActive
                     ? 'text-accent-primary bg-accent-primary/10 border border-accent-primary/20'
                     : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
-                }`}
+                  }`}
               >
                 <Icon className="h-4 w-4 shrink-0" />
                 {link.label}
