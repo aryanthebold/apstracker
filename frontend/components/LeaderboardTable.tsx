@@ -5,6 +5,7 @@ import { LeaderboardEntry, fetchStudentDetails, StudentDetails } from '@/lib/api
 import { ChevronDown, ChevronUp, Loader2, X } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import AnimatedNumber from '@/components/AnimatedNumber';
+import Sparkline from '@/components/Sparkline';
 
 interface LeaderboardTableProps {
   entries: LeaderboardEntry[];
@@ -80,6 +81,7 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
               <th className="px-6 py-6 font-sans text-[11px] font-bold text-text-secondary uppercase tracking-[0.12em] w-[20%]">Branch</th>
               <th className="px-6 py-6 font-sans text-[11px] font-bold text-text-secondary uppercase tracking-[0.12em] text-center w-[15%]">Semesters</th>
               <th className="px-6 py-6 font-sans text-[11px] font-bold text-text-secondary uppercase tracking-[0.12em] text-center w-[10%]">SGPA</th>
+              <th className="px-4 py-6 font-sans text-[11px] font-bold text-text-secondary uppercase tracking-[0.12em] text-center w-[10%]">Trend</th>
               <th className="px-6 py-6 w-[5%]"></th>
             </tr>
           </thead>
@@ -182,6 +184,16 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                       <span className={rank <= 3 ? rankColor : 'text-text-primary'}>
                         <AnimatedNumber value={entry.overall_sgpa} enabled={true} />
                       </span>
+                    </td>
+                    {/* Trend sparkline — shows after first expand */}
+                    <td className="hidden md:table-cell px-4 py-6 text-center">
+                      {details ? (
+                        <Sparkline
+                          data={details.semesters.map((s) => ({ semester: s.semester, sgpa: s.sgpa }))}
+                        />
+                      ) : (
+                        <span className="text-text-tertiary font-mono text-[10px]">—</span>
+                      )}
                     </td>
                     <td className="hidden md:table-cell px-6 py-6 text-center text-text-secondary">
                       <ChevronDown

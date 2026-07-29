@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import StatsBar from '@/components/StatsBar';
+import ParticipationBar from '@/components/ParticipationBar';
+import TopPerformerCard from '@/components/MostImprovedCard';
+import BranchStandingsCard from '@/components/BranchStandingsCard';
 import { Award, UploadCloud, Search, BookOpen, ExternalLink, ArrowRight, Sparkles, ChevronDown } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
@@ -58,6 +61,11 @@ export default function HomePage() {
             Your academic leaderboard, report card tracker, and analytics hub — all in one place.
           </p>
 
+          {/* Participation progress bar */}
+          <div className="md:animate-fade-in-up md:delay-250 w-full max-w-lg">
+            <ParticipationBar />
+          </div>
+
           {/* CTA Buttons */}
           <div className="md:animate-fade-in-up md:delay-300 flex flex-wrap items-center justify-center gap-4 pt-1">
             <Link
@@ -94,6 +102,12 @@ export default function HomePage() {
           </div>
           <div className="bg-bg-secondary/35 backdrop-blur-2xl border border-border-subtle rounded-[1.75rem] p-5 shadow-2xl md:animate-glow-pulse">
             <StatsBar />
+          </div>
+
+          {/* Top Performer + Branch Standings */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:animate-fade-in-up md:delay-500">
+            <TopPerformerCard />
+            <BranchStandingsCard />
           </div>
         </div>
 

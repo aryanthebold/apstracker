@@ -3,15 +3,53 @@
 import { useEffect, useState } from 'react';
 import { fetchSubjectToppers, SubjectToppers } from '@/lib/api';
 import ScrollReveal from '@/components/ScrollReveal';
-import { Loader2, BookOpen, AlertCircle, Award } from 'lucide-react';
+import { Loader2, BookOpen, AlertCircle } from 'lucide-react';
 
 export default function SubjectToppersPage() {
   const [toppersList, setToppersList] = useState<SubjectToppers[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [semester, setSemester] = useState(1);
+  // Available semesters discovered dynamically from data
+  const [availableSems, setAvailableSems] = useState<number[]>([]);
+  const [semsLoading, setSemsLoading] = useState(true);
+  const [semester, setSemester] = useState<number | null>(null);
   const [branch, setBranch] = useState('');
+
+  const branches = [
+    { value: '', label: 'All Branches' },
+    { value: 'CSE', label: 'CSE' },
+    { value: 'CSE_AIML', label: 'CSE AI/ML' },
+    { value: 'CST', label: 'CST' },
+  ];
+
+  // On mount: probe all 8 semesters in parallel to see which have data
+  useEffect(() => {
+    const probeAll = async () => {
+      setSemsLoading(true);
+      const checks = await Promise.allSettled(
+        [1, 2, 3, 4, 5, 6, 7, 8].map((s) =>
+          fetchSubjectToppers(s).then((res) => ({ sem: s, hasData: res.data.length > 0 }))
+        )
+      );
+      const available = checks
+        .filter(
+          (r): r is PromiseFulfilledResult<{ sem: number; hasData: boolean }> =>
+            r.status === 'fulfilled' && r.value.hasData
+        )
+        .map((r) => r.value.sem);
+
+      setAvailableSems(available);
+      // Default to the highest available semester
+      if (available.length > 0) {
+        const highest = available[available.length - 1];
+        setSemester(highest);
+      }
+      setSemsLoading(false);
+    };
+
+    probeAll();
+  }, []);
 
   const loadSubjectToppers = (sem: number, br: string) => {
     setLoading(true);
@@ -29,16 +67,10 @@ export default function SubjectToppersPage() {
   };
 
   useEffect(() => {
-    loadSubjectToppers(semester, branch);
+    if (semester !== null) {
+      loadSubjectToppers(semester, branch);
+    }
   }, [semester, branch]);
-
-  const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
-  const branches = [
-    { value: '', label: 'All Branches' },
-    { value: 'CSE', label: 'CSE' },
-    { value: 'CSE_AIML', label: 'CSE AI/ML' },
-    { value: 'CST', label: 'CST' },
-  ];
 
   return (
     <div className="flex-1 pt-8 pb-28 px-4 md:px-8 max-w-7xl mx-auto w-full space-y-7">
@@ -61,19 +93,6 @@ export default function SubjectToppersPage() {
             </div>
 
             <div className="flex items-center gap-3 flex-wrap pl-11 md:pl-0">
-              {/* Semester Selector */}
-              <select
-                value={semester}
-                onChange={(e) => setSemester(Number(e.target.value))}
-                className="input-glass rounded-xl px-4 py-2 text-xs font-semibold uppercase tracking-wider outline-none cursor-pointer"
-              >
-                {semesters.map((s) => (
-                  <option key={s} value={s} className="bg-bg-secondary normal-case font-normal">
-                    Semester {s}
-                  </option>
-                ))}
-              </select>
-
               {/* Branch Selector */}
               <select
                 value={branch}
@@ -91,8 +110,35 @@ export default function SubjectToppersPage() {
         </div>
       </ScrollReveal>
 
+      {/* Dynamic Semester Tabs */}
+      {semsLoading ? (
+        <div className="flex gap-2 flex-wrap">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="skeleton-shimmer h-9 w-24 rounded-full" />
+          ))}
+        </div>
+      ) : availableSems.length > 0 ? (
+        <div className="flex gap-2 flex-wrap">
+          {availableSems.map((s) => (
+            <button
+              key={s}
+              onClick={() => setSemester(s)}
+              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                semester === s
+                  ? 'bg-accent-primary text-white shadow-lg shadow-accent-primary/25'
+                  : 'bg-bg-secondary/50 border border-border-subtle text-text-secondary hover:text-text-primary hover:border-accent-primary/30'
+              }`}
+            >
+              Sem {s}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className="text-text-secondary text-sm">No semester data found.</div>
+      )}
+
       {/* Main Grid */}
-      {loading ? (
+      {loading || semsLoading ? (
         <div className="glass-panel rounded-xl p-24 flex flex-col items-center justify-center gap-3">
           <Loader2 className="h-8 w-8 animate-spin text-accent-primary" />
           <span className="text-text-secondary text-sm font-medium">Parsing subject scorers...</span>
@@ -107,7 +153,7 @@ export default function SubjectToppersPage() {
             <p className="text-xs text-text-secondary mt-1">{error}</p>
           </div>
           <button
-            onClick={() => loadSubjectToppers(semester, branch)}
+            onClick={() => semester !== null && loadSubjectToppers(semester, branch)}
             className="inline-flex items-center justify-center rounded-lg bg-bg-tertiary border border-border-subtle hover:bg-bg-tertiary/75 px-4 py-2 text-xs font-semibold text-text-primary active:scale-95 transition-all"
           >
             Retry Connection
@@ -209,3 +255,4 @@ export default function SubjectToppersPage() {
     </div>
   );
 }
+

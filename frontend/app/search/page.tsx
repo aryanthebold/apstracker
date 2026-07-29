@@ -1,18 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { searchStudents, fetchStudentDetails, Student, StudentDetails } from '@/lib/api';
-import { Search, Loader2, FileText, ChevronDown, ChevronUp, AlertCircle, UploadCloud, Award } from 'lucide-react';
+import { Search, Loader2, FileText, ChevronDown, ChevronUp, AlertCircle, UploadCloud, Award, Share2, Check } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
 import AnimatedNumber from '@/components/AnimatedNumber';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 
-export default function SearchPage() {
-  const [query, setQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+function SearchPageInner() {
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(() => searchParams.get('q') || '');
+  const [debouncedQuery, setDebouncedQuery] = useState(() => searchParams.get('q') || '');
   const [results, setResults] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
+  const [copiedRoll, setCopiedRoll] = useState<string | null>(null);
 
   const [expandedRoll, setExpandedRoll] = useState<string | null>(null);
   const [studentDetails, setStudentDetails] = useState<{ [roll: string]: StudentDetails }>({});
@@ -70,6 +73,17 @@ export default function SearchPage() {
       } finally {
         setLoadingDetails((prev) => ({ ...prev, [rollNumber]: false }));
       }
+    }
+  };
+
+  const handleShare = async (rollNumber: string) => {
+    const url = `${window.location.origin}/search?q=${rollNumber}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedRoll(rollNumber);
+      setTimeout(() => setCopiedRoll(null), 2000);
+    } catch {
+      toast.error('Failed to copy link');
     }
   };
 
@@ -176,6 +190,21 @@ export default function SearchPage() {
                 </div>
 
                 <div className="flex items-center gap-2 md:gap-3 text-right">
+                  {/* Share button */}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleShare(student.roll_number); }}
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold border transition-all duration-200 ${
+                      copiedRoll === student.roll_number
+                        ? 'border-accent-success/40 text-accent-success bg-accent-success/10'
+                        : 'border-border-subtle text-text-secondary hover:text-text-primary hover:border-accent-primary/30'
+                    }`}
+                  >
+                    {copiedRoll === student.roll_number ? (
+                      <><Check className="h-3 w-3" /> Copied!</>
+                    ) : (
+                      <><Share2 className="h-3 w-3" /> Share</>
+                    )}
+                  </button>
                   {student.has_submitted && studentRank && (
                     <span className="inline-flex items-center gap-1 font-mono font-bold px-2 py-0.5 rounded-full text-[10px] text-accent-gold bg-accent-gold/10 border border-accent-gold/20 shadow-sm">
                       <Award className="h-3 w-3 text-accent-gold" />
@@ -298,5 +327,13 @@ export default function SearchPage() {
         </div>
       </ScrollReveal>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="flex-1 flex items-center justify-center"><Loader2 className="h-6 w-6 animate-spin text-accent-primary" /></div>}>
+      <SearchPageInner />
+    </Suspense>
   );
 }
