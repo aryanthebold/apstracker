@@ -86,6 +86,16 @@ def get_stats():
     )
     sgpas = [r["overall_sgpa"] for r in sgpa_res.data]
     avg_sgpa = sum(sgpas) / len(sgpas) if sgpas else 0
+    top_sgpa = max(sgpas) if sgpas else 0
+
+    # Clean records (students with 0 backs/no backs)
+    clean_res = (
+        supabase.table("results")
+        .select("id", count="exact")
+        .eq("has_backs", False)
+        .execute()
+    )
+    clean_records = clean_res.count if clean_res.count is not None else 0
 
     # Total backs
     backs_res = supabase.table("results").select("total_backs").execute()
@@ -98,6 +108,8 @@ def get_stats():
         "total_submitted": total_submitted,
         "average_sgpa": avg_sgpa,
         "total_backs": total_backs,
+        "top_sgpa": top_sgpa,
+        "clean_records": clean_records,
     }
 
 

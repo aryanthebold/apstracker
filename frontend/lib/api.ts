@@ -68,6 +68,8 @@ export interface BatchStats {
   total_submitted: number;
   average_sgpa: number;
   total_backs: number;
+  top_sgpa: number;
+  clean_records: number;
 }
 
 export interface SubjectToppers {

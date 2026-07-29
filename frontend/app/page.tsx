@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import StatsBar from '@/components/StatsBar';
-import IridescentBackground from '@/components/IridescentBackground';
 import { Award, UploadCloud, Search, BookOpen, ExternalLink, ArrowRight, Sparkles, ChevronDown } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
@@ -15,9 +14,6 @@ export default function HomePage() {
           SECTION 1: Hero
           ============================================= */}
       <section className="relative min-h-[calc(100vh-90px)] flex flex-col items-center justify-center py-20 md:py-12 px-4 md:px-8">
-
-        {/* Iridescent animated gradient background */}
-        <IridescentBackground />
 
         {/* Backgrounds wrapper */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">

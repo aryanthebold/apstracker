@@ -50,9 +50,8 @@ export default function StatsBar({ initialStats }: StatsBarProps) {
     ? ((stats.total_submitted / stats.total_students) * 100).toFixed(1)
     : '0';
 
-  // top_sgpa and clean_records may not be in the API yet — gracefully fallback
-  const topSgpa = (stats as any).top_sgpa ?? null;
-  const cleanRecords = (stats as any).clean_records ?? null;
+  const topSgpa = stats.top_sgpa;
+  const cleanRecords = stats.clean_records;
 
   const cards = [
     {
