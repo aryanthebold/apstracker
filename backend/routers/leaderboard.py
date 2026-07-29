@@ -99,7 +99,11 @@ def get_subject_toppers(
 
     subjects: dict = {}
     for mark in res.data:
-        code = mark["subject_code"]
+        code = mark.get("subject_code", "")
+        # Filter out garbage subject codes caused by OCR column shifts (e.g., 'C', 'F')
+        if not code or len(code.strip()) < 3:
+            continue
+
         if code not in subjects:
             subjects[code] = {
                 "subject_name": mark["subject_name"],
