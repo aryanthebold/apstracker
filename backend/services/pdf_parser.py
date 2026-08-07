@@ -25,8 +25,8 @@ _RE_SUBJECT = re.compile(
     re.MULTILINE,
 )
 
-# Valid grade: one or more uppercase letters, optionally followed by '+'
-_RE_GRADE = re.compile(r"^[A-Z][A-Z+]*$")
+# Valid grade: one or more uppercase letters, optionally followed by '+', and optionally ending in '*'
+_RE_GRADE = re.compile(r"^[A-Z][A-Z+]*\*?$")
 
 
 # ── Small helpers ──────────────────────────────────────────────────────────────
@@ -172,7 +172,8 @@ def parse_pdf(file_bytes: bytes) -> dict:
                     internal = external = 0
                     grade = ""
 
-                is_back = (grade == "F")
+                grade_clean = grade.replace("*", "")
+                is_back = (grade_clean == "F" or grade_clean == "ABS")
                 if is_back:
                     sem_data["backs_in_sem"] += 1
 
