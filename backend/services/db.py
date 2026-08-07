@@ -61,8 +61,8 @@ async def save_parsed_result(student_id: str, roll_number: str, parsed_data: dic
     raw_session_summary = parsed_data.get("overall", {}).get("result_status", "")
     has_backs = total_backs > 0
     if not has_backs and raw_session_summary:
-        summary_upper = raw_session_summary.upper()
-        if "FAIL" in summary_upper or "CP" in summary_upper:
+        summary_upper = raw_session_summary.upper().replace(" ", "")
+        if "FAIL" in summary_upper or ("CP" in summary_upper and "CP(0)" not in summary_upper):
             has_backs = True
 
     result_entry = {
