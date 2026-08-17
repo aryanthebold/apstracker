@@ -247,19 +247,31 @@ function SearchPageInner() {
                       <span>Parsing records...</span>
                     </div>
                   ) : details ? (
-                    <div className="space-y-4">
+                    <div
+                      className="space-y-4"
+                      style={{
+                        backdropFilter: 'blur(16px)',
+                        WebkitBackdropFilter: 'blur(16px)',
+                        background: 'rgba(17, 19, 24, 0.75)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '16px',
+                        padding: '16px',
+                        willChange: 'transform',
+                        transform: 'translateZ(0)',
+                      }}
+                    >
                       {/* Overall stats */}
                       {details.result && (
                         <div className="grid grid-cols-2 bg-bg-primary/50 border border-border-subtle/80 rounded-lg p-3 text-xs gap-2">
                           <div>
-                            <span className="text-text-secondary block">Overall SGPA:</span>
-                            <span className="font-mono font-bold text-accent-primary text-base">
+                            <span style={{ color: '#8B95A1' }} className="block text-xs">Overall CGPA:</span>
+                            <span className="font-mono font-bold text-accent-primary" style={{ fontSize: '18px', fontWeight: 600, color: '#FFFFFF' }}>
                               <AnimatedNumber value={details.result.overall_sgpa} enabled={isExpanded} />
                             </span>
                           </div>
                           <div>
-                            <span className="text-text-secondary block">Leaderboard Rank:</span>
-                            <span className="font-mono font-bold text-accent-gold text-base">
+                            <span style={{ color: '#8B95A1' }} className="block text-xs">Leaderboard Rank:</span>
+                            <span className="font-mono font-bold text-accent-gold" style={{ fontSize: '18px', fontWeight: 600 }}>
                               {details.result.rank ? `#${details.result.rank}` : 'N/A'}
                             </span>
                           </div>
@@ -281,33 +293,67 @@ function SearchPageInner() {
                             key={sem.id}
                             className="bg-bg-primary/30 border border-border-subtle rounded-lg p-3 space-y-2 animate-fade-in-up"
                           >
+                            {/* Semester header */}
                             <div className="flex justify-between items-center border-b border-border-subtle pb-1.5">
-                              <span className="font-bold text-xs text-text-primary">
+                              <span className="font-bold text-xs uppercase tracking-wider" style={{ color: '#4F8EF7', fontWeight: 600 }}>
                                 Semester {sem.semester}
                               </span>
-                              <span className="font-mono font-bold text-accent-primary text-xs">
-                                SGPA: {sem.sgpa ? sem.sgpa.toFixed(2) : 'N/A'}
+                              <span className="font-mono font-bold text-xs" style={{ color: '#8B95A1' }}>
+                                SGPA:{' '}
+                                <span style={{ color: '#FFFFFF', fontWeight: 600, fontSize: '14px' }}>
+                                  {sem.sgpa ? sem.sgpa.toFixed(2) : 'N/A'}
+                                </span>
                               </span>
                             </div>
+
+                            {/* Table header */}
+                            <div className="grid grid-cols-[1fr_auto_auto] gap-2 pb-1 border-b border-border-subtle/50">
+                              <span className="text-[10px] font-bold uppercase tracking-[0.05em]" style={{ color: '#8B95A1' }}>Subject</span>
+                              <span className="text-[10px] font-bold uppercase tracking-[0.05em] text-right" style={{ color: '#8B95A1' }}>Marks</span>
+                              <span className="text-[10px] font-bold uppercase tracking-[0.05em] text-right w-8" style={{ color: '#8B95A1' }}>Grade</span>
+                            </div>
+
+                            {/* Subject rows */}
                             <div className="space-y-1.5">
-                              {sem.subjects.map((sub) => (
-                                <div
-                                  key={sub.id}
-                                  className="flex justify-between items-center text-xs text-text-secondary"
-                                >
-                                  <span className="truncate max-w-[240px] font-semibold text-text-primary text-[13px]">
-                                    {sub.subject_name}
-                                  </span>
-                                  <div className="flex gap-2">
-                                    <span className="font-mono text-[11px] font-medium text-accent-primary">
-                                      {sub.internal_marks ?? '-'}+{sub.external_marks ?? '-'}
+                              {sem.subjects.map((sub) => {
+                                // Grade color mapping
+                                const gradeColor: Record<string, string> = {
+                                  'O': '#FFD700',
+                                  'A+': '#3DDC84', 'A': '#3DDC84',
+                                  'B+': '#4F8EF7', 'B': '#4F8EF7',
+                                  'C': '#F5A623',
+                                  'D': '#FF8C42',
+                                  'E': '#FF5C5C',
+                                  'F': '#FF5C5C',
+                                };
+                                const gradeC = gradeColor[sub.grade ?? ''] ?? '#FFFFFF';
+                                const isCaType = sub.subject_type === 'CA' || sub.external_marks == null;
+
+                                return (
+                                  <div
+                                    key={sub.id}
+                                    className="grid grid-cols-[1fr_auto_auto] gap-2 items-center"
+                                  >
+                                    <div>
+                                      <span className="font-semibold truncate block" style={{ color: '#F0F2F5', fontWeight: 500, fontSize: '12px' }}>
+                                        {sub.subject_name}
+                                      </span>
+                                      <span className="block" style={{ color: '#8B95A1', fontSize: '11px' }}>
+                                        {sub.subject_type}
+                                      </span>
+                                    </div>
+                                    <span className="font-mono text-right whitespace-nowrap" style={{ color: '#FFFFFF', fontWeight: 500, fontSize: '11px' }}>
+                                      {isCaType
+                                        ? <>{sub.internal_marks ?? '-'} <span style={{ color: '#8B95A1' }}>CA</span></>
+                                        : <>{sub.internal_marks ?? '-'} <span style={{ color: '#8B95A1' }}>+</span> {sub.external_marks ?? '-'} <span style={{ color: '#8B95A1' }}>=</span> {sub.total_marks ?? ((sub.internal_marks ?? 0) + (sub.external_marks ?? 0))}</>
+                                      }
                                     </span>
-                                    <span className="font-mono font-extrabold w-4 text-center text-text-primary text-[12px]">
+                                    <span className="font-mono font-extrabold text-right w-8" style={{ color: gradeC, fontSize: '12px' }}>
                                       {sub.grade || '-'}
                                     </span>
                                   </div>
-                                </div>
-                              ))}
+                                );
+                              })}
                             </div>
                           </div>
                         ))}

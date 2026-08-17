@@ -32,6 +32,10 @@ export default function RootLayout({
       lang="en"
       className={`${jetbrainsMono.variable} antialiased dark`}
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      </head>
       <body className="min-h-screen flex flex-col text-text-primary font-sans selection:bg-accent-primary/30 selection:text-accent-primary relative">
         {/* Floating Iridescent Background Mesh */}
         <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none bg-[#080A0F]">

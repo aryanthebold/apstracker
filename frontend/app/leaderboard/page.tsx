@@ -52,7 +52,7 @@ function LeaderboardSkeleton() {
 }
 
 export default function LeaderboardPage() {
-  // All-time top 3 — never changes when paginating or filtering list
+  // Top 3 for podium — derived from the filtered dataset, not a separate API call
   const [top3, setTop3] = useState<LeaderboardEntry[]>([]);
   const [top3Loading, setTop3Loading] = useState(true);
 
@@ -72,41 +72,57 @@ export default function LeaderboardPage() {
     order: 'desc',
   });
 
-  // ── Load fixed top-3 once ──────────────────────────────────────────────────
-  useEffect(() => {
-    setTop3Loading(true);
-    fetchLeaderboard({ sort: 'sgpa', order: 'desc', limit: 3, offset: 0 })
-      .then((res) => {
-        setTop3(res.data);
-        setTop3Loading(false);
-      })
-      .catch(() => setTop3Loading(false));
-  }, []);
-
-  // ── Load paginated list (rank 4+) ─────────────────────────────────────────
+  // ── Load top 3 + paginated list from same filtered fetch ──────────────────
   const loadPage = useCallback(
     (currentPage: number, activeFilters: FilterState) => {
       setLoading(true);
+      if (currentPage === 0) {
+        setTop3Loading(true);
+      }
       setError(null);
 
-      const offset = 3 + currentPage * PAGE_SIZE;
-
-      fetchLeaderboard({
-        branch: activeFilters.branch || undefined,
-        sort: activeFilters.sort,
-        order: activeFilters.order,
-        limit: PAGE_SIZE + 1,
-        offset,
-      })
-        .then((res) => {
-          setEntries(res.data.slice(0, PAGE_SIZE));
-          setTotalCount(res.data.length > PAGE_SIZE ? (currentPage + 2) * PAGE_SIZE : (currentPage + 1) * PAGE_SIZE - (PAGE_SIZE - res.data.slice(0, PAGE_SIZE).length));
-          setLoading(false);
+      if (currentPage === 0) {
+        // First page: fetch top 3 + list rows together from offset 0
+        fetchLeaderboard({
+          branch: activeFilters.branch || undefined,
+          sort: activeFilters.sort,
+          order: activeFilters.order,
+          limit: PAGE_SIZE + 3 + 1, // top3 + page rows + peek-ahead
+          offset: 0,
         })
-        .catch((err) => {
-          setError(err.message || 'Failed to fetch leaderboard');
-          setLoading(false);
-        });
+          .then((res) => {
+            const all = res.data;
+            setTop3(all.slice(0, 3));
+            setTop3Loading(false);
+            setEntries(all.slice(3, 3 + PAGE_SIZE));
+            setTotalCount(all.length > PAGE_SIZE + 3 ? (1 + 1) * PAGE_SIZE : Math.max(0, all.length - 3));
+            setLoading(false);
+          })
+          .catch((err) => {
+            setTop3Loading(false);
+            setError(err.message || 'Failed to fetch leaderboard');
+            setLoading(false);
+          });
+      } else {
+        // Subsequent pages: fetch paginated list only (podium stays from page 0 fetch)
+        const offset = 3 + currentPage * PAGE_SIZE;
+        fetchLeaderboard({
+          branch: activeFilters.branch || undefined,
+          sort: activeFilters.sort,
+          order: activeFilters.order,
+          limit: PAGE_SIZE + 1,
+          offset,
+        })
+          .then((res) => {
+            setEntries(res.data.slice(0, PAGE_SIZE));
+            setTotalCount(res.data.length > PAGE_SIZE ? (currentPage + 2) * PAGE_SIZE : (currentPage + 1) * PAGE_SIZE - (PAGE_SIZE - res.data.slice(0, PAGE_SIZE).length));
+            setLoading(false);
+          })
+          .catch((err) => {
+            setError(err.message || 'Failed to fetch leaderboard');
+            setLoading(false);
+          });
+      }
     },
     []
   );

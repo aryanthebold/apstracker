@@ -263,9 +263,9 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                                       }}
                                     >
                                       <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
-                                        <h4 className="font-sans text-[11px] font-bold text-text-primary uppercase tracking-wider">Semester {sem.semester}</h4>
-                                        <span className="font-sans text-xs text-accent-primary font-extrabold">
-                                          SGPA: <AnimatedNumber value={sem.sgpa} enabled={isExpanded} />
+                                        <h4 className="font-sans text-[11px] font-bold uppercase tracking-wider" style={{ color: '#4F8EF7', fontWeight: 600 }}>Semester {sem.semester}</h4>
+                                        <span className="font-mono text-xs font-bold" style={{ color: '#8B95A1' }}>
+                                          SGPA: <span style={{ color: '#FFFFFF', fontSize: '14px', fontWeight: 600 }}><AnimatedNumber value={sem.sgpa} enabled={isExpanded} /></span>
                                         </span>
                                       </div>
                                       <ul className="space-y-4">
@@ -273,13 +273,23 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                                           const maxMarks = sub.total_marks || 100;
                                           const obtained = (sub.internal_marks || 0) + (sub.external_marks || 0);
                                           const percentage = maxMarks > 0 ? (obtained / maxMarks) * 100 : 0;
+                                          const gradeColor: Record<string, string> = {
+                                            'O': '#FFD700',
+                                            'A+': '#3DDC84', 'A': '#3DDC84',
+                                            'B+': '#4F8EF7', 'B': '#4F8EF7',
+                                            'C': '#F5A623',
+                                            'D': '#FF8C42',
+                                            'E': '#FF5C5C',
+                                            'F': '#FF5C5C',
+                                          };
+                                          const gradeC = gradeColor[sub.grade ?? ''] ?? '#FFFFFF';
 
                                           return (
                                             <li key={sub.id} className="flex flex-col gap-1.5">
-                                              <div className="flex justify-between text-sm font-sans">
-                                                <span className="text-text-secondary font-semibold truncate pr-2 max-w-[180px]">{sub.subject_name}</span>
-                                                <span className="text-accent-primary font-extrabold whitespace-nowrap text-[13px]">
-                                                  {sub.grade || '-'} | {obtained}/{maxMarks}
+                                              <div className="flex justify-between text-sm">
+                                                <span className="font-semibold truncate pr-2 max-w-[180px]" style={{ color: '#F0F2F5', fontWeight: 500 }}>{sub.subject_name}</span>
+                                                <span className="font-mono font-extrabold whitespace-nowrap" style={{ color: gradeC, fontSize: '13px' }}>
+                                                  {sub.grade || '-'} <span style={{ color: '#8B95A1', fontWeight: 400 }}>|</span> <span style={{ color: '#FFFFFF', fontWeight: 500 }}>{obtained}/{maxMarks}</span>
                                                 </span>
                                               </div>
                                               <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">

@@ -132,6 +132,8 @@ h1, h2, h3 {
   backdrop-filter: blur(16px) saturate(160%);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   border: 1px solid var(--border-subtle);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .panel-solid {
@@ -156,6 +158,8 @@ h1, h2, h3 {
 .glass-podium {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 100%);
   backdrop-filter: blur(20px);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .gold-glow {
@@ -186,6 +190,8 @@ h1, h2, h3 {
     0 0 0 1px rgba(255, 255, 255, 0.04) inset,
     0 8px 32px rgba(0, 0, 0, 0.4),
     0 2px 8px rgba(0, 0, 0, 0.2);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 /* Sticky nav scrolled state */

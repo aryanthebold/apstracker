@@ -448,7 +448,15 @@ export default function AdminPage() {
 
   const filteredStudents = students.filter(s => branchFilter === 'ALL' || s.branch === branchFilter);
   const filteredPending = pendingStudents.filter(s => branchFilter === 'ALL' || s.branch === branchFilter);
-  const filteredBacks = backsData?.students_with_backs.filter(s => branchFilter === 'ALL' || s.students?.branch === branchFilter) || [];
+
+  // Fix 5a: Only show students who have/had backs (total_backs > 0 OR they appear in the list with 0 = cleared)
+  // Fix 5b: Sort by total_backs descending
+  const rawFilteredBacks = (backsData?.students_with_backs || []).filter(
+    s => branchFilter === 'ALL' || s.students?.branch === branchFilter
+  );
+  // Students with 0 backs in the API response had backs before and cleared them
+  const clearedRolls = new Set(rawFilteredBacks.filter(s => s.total_backs === 0).map(s => s.roll_number));
+  const filteredBacks = [...rawFilteredBacks].sort((a, b) => (b.total_backs ?? 0) - (a.total_backs ?? 0));
 
   // Statistics summaries
   const totalStudentsCount = students.length;
@@ -936,7 +944,26 @@ export default function AdminPage() {
                     {filteredBacks.map((student, index) => (
                       <tr key={student.id} onClick={() => openStudentDetails(student.roll_number)} className="cursor-pointer hover:bg-bg-tertiary/20 transition-all animate-tr-fade" style={{ animationDelay: `${(index % 20) * 30}ms` }}>
                         <td className="p-4 pl-6 font-mono text-text-secondary">{student.roll_number}</td>
-                        <td className="p-4 cursor-pointer hover:text-accent-primary" onClick={() => openStudentDetails(student.roll_number)}>{student.students?.name || 'Unknown'}</td>
+                        <td className="p-4 cursor-pointer hover:text-accent-primary" onClick={() => openStudentDetails(student.roll_number)}>
+                          <span className="flex items-center gap-2">
+                            {student.students?.name || 'Unknown'}
+                            {clearedRolls.has(student.roll_number) && (
+                              <span style={{
+                                background: 'rgba(61, 220, 132, 0.15)',
+                                color: '#3DDC84',
+                                border: '1px solid #3DDC84',
+                                fontSize: '10px',
+                                fontWeight: 700,
+                                padding: '1px 7px',
+                                borderRadius: '999px',
+                                letterSpacing: '0.05em',
+                                textTransform: 'uppercase',
+                              }}>
+                                Cleared
+                              </span>
+                            )}
+                          </span>
+                        </td>
                         <td className="p-4">{student.students?.branch || 'Unknown'}</td>
                         <td className="p-4 text-right font-mono font-bold text-accent-gold">{student.rank ? `#${student.rank}` : '-'}</td>
                         <td className="p-4 text-right text-accent-danger font-semibold">{student.total_backs} papers</td>

@@ -79,7 +79,7 @@ export interface SubjectToppers {
 }
 
 export async function fetchStats(): Promise<BatchStats> {
-  const res = await fetch(`${API_BASE_URL}/students/stats`);
+  const res = await fetch(`${API_BASE_URL}/students/stats`, { next: { revalidate: 30 } } as any);
   if (!res.ok) throw new Error('Failed to fetch batch stats');
   return res.json();
 }
@@ -102,7 +102,7 @@ export async function fetchLeaderboard(params: LeaderboardFilterParams = {}): Pr
   if (params.limit) url.searchParams.append('limit', String(params.limit));
   if (params.offset !== undefined) url.searchParams.append('offset', String(params.offset));
 
-  const res = await fetch(url.toString());
+  const res = await fetch(url.toString(), { next: { revalidate: 30 } } as any);
   if (!res.ok) throw new Error('Failed to fetch leaderboard');
   return res.json();
 }
@@ -128,7 +128,7 @@ export async function fetchSubjectToppers(semester: number, branch?: string): Pr
   url.searchParams.append('semester', String(semester));
   if (branch) url.searchParams.append('branch', branch);
 
-  const res = await fetch(url.toString());
+  const res = await fetch(url.toString(), { next: { revalidate: 30 } } as any);
   if (!res.ok) throw new Error('Failed to fetch subject toppers');
   return res.json();
 }

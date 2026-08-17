@@ -23,6 +23,8 @@ export default function IridescentBackground() {
           )`,
           backgroundSize: '300% 300%',
           animation: 'iridescent 8s ease-in-out infinite',
+          willChange: 'background-position',
+          transform: 'translateZ(0)',
         }}
       />
       {/* Dark overlay for text readability */}
