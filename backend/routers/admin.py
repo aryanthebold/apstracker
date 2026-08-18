@@ -137,50 +137,49 @@ def get_all_backs():
 @router.post("/repair-backs", dependencies=[Depends(verify_admin)])
 def repair_backs():
     """
-    One-time repair: recounts total_backs for every student from grade data
-    already stored in subject_marks, then updates results.total_backs and
-    results.has_backs accordingly.
-
-    Uses the same is_back logic as the fixed pdf_parser:
-      - grade in ('F', 'ABS', 'E')
-      - grade ends with '*'
+    One-time repair: recounts total_backs for every student from the literal
+    back_paper column in subject_marks, then updates results.total_backs,
+    results.has_backs, and cleared status accordingly.
 
     No PDF re-uploads needed.
     """
     supabase = get_db()
 
-    # 1. Pull every subject mark row
-    back_marks = supabase.table("subject_marks").select("roll_number, grade").execute()
-
-    # 2. Recount per roll_number using the corrected is_back logic
-    back_counts: dict = {}
-    for row in back_marks.data:
-        roll = row["roll_number"]
-        grade = (row.get("grade") or "").strip()
-        grade_clean = grade.replace("*", "")
-        is_back = grade_clean in ("F", "ABS", "E") or grade.endswith("*")
-        if is_back:
-            back_counts[roll] = back_counts.get(roll, 0) + 1
-
-    # 3. Pull current results to find who needs updating
-    all_results = supabase.table("results").select("roll_number, total_backs, has_backs").execute()
+    # 1. Pull current results to find existing statuses
+    all_results = supabase.table("results").select("roll_number, total_backs, has_backs, cleared").execute()
 
     needs_update = []
     for r in all_results.data:
         roll = r["roll_number"]
-        correct_backs = back_counts.get(roll, 0)
-        correct_has_backs = correct_backs > 0
 
-        # Preserve existing has_backs=True from session-summary fallback
-        # (students flagged via FAIL summary but 0 subject-level backs)
-        if r.get("has_backs") and correct_backs == 0:
-            correct_has_backs = True
+        # Recount backs based on literal back_paper column
+        backs_count = (
+            supabase.table("subject_marks")
+            .select("id")
+            .eq("roll_number", roll)
+            .neq("back_paper", "--")
+            .neq("back_paper", "")
+            .not_.is_("back_paper", "null")
+            .execute()
+        )
+        total_backs = len(backs_count.data)
+        has_backs = total_backs > 0
 
-        if r["total_backs"] != correct_backs or r["has_backs"] != correct_has_backs:
+        # Fix "Cleared" tag: only mark cleared if they HAD backs before but now have none
+        previously_had_backs = r.get("total_backs", 0) > 0
+        now_cleared = total_backs == 0
+        cleared = previously_had_backs and now_cleared
+
+        if (
+            r["total_backs"] != total_backs 
+            or r["has_backs"] != has_backs 
+            or r.get("cleared") != cleared
+        ):
             needs_update.append({
                 "roll_number": roll,
-                "total_backs": correct_backs,
-                "has_backs": correct_has_backs,
+                "total_backs": total_backs,
+                "has_backs": has_backs,
+                "cleared": cleared
             })
 
     # 4. Apply updates
@@ -188,6 +187,7 @@ def repair_backs():
         supabase.table("results").update({
             "total_backs": item["total_backs"],
             "has_backs": item["has_backs"],
+            "cleared": item["cleared"]
         }).eq("roll_number", item["roll_number"]).execute()
 
     return {
