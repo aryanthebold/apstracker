@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   adminFetchAllStudents,
@@ -281,37 +282,39 @@ export default function AdminPage() {
   const renderStudentModal = () => {
     if (!selectedStudentId) return null;
     const modalRank = studentDetails?.result?.rank || studentDetails?.student?.rank;
-    return (
-      <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        onClick={() => { setSelectedStudentId(null); setStudentDetails(null); }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          background: 'rgba(0, 0, 0, 0.6)',
-          zIndex: 999
-        }}
-      >
+    
+    return createPortal(
+      <>
+        {/* Backdrop */}
+        <div
+          onClick={() => { setSelectedStudentId(null); setStudentDetails(null); }}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.7)',
+            zIndex: 9998,
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)'
+          }}
+        />
+        {/* Profile Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', duration: 0.35, bounce: 0.15 }}
-          onClick={(e) => e.stopPropagation()}
-          className="bg-bg-primary border border-border-subtle rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative"
+          className="bg-bg-primary border border-border-subtle flex flex-col shadow-2xl"
           style={{
             position: 'fixed',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            zIndex: 1000,
+            zIndex: 9999,
+            width: '90%',
+            maxWidth: '900px',
             maxHeight: '90vh',
-            overflowY: 'auto'
+            overflowY: 'auto',
+            borderRadius: '16px',
           }}
         >
           <button onClick={() => { setSelectedStudentId(null); setStudentDetails(null); }} className="absolute top-4 right-4 p-2 bg-bg-secondary hover:bg-bg-tertiary rounded-full transition-colors z-10">
@@ -379,7 +382,7 @@ export default function AdminPage() {
                         const backs = sem.subjects.filter(sub => sub.is_back || sub.grade === 'F');
                         if (backs.length === 0) return null;
                         return (
-                          <div key={sem.id} className="text-sm bg-bg-primary/50 p-3 rounded-lg border border-accent-danger/10">
+                           <div key={sem.id} className="text-sm bg-bg-primary/50 p-3 rounded-lg border border-accent-danger/10">
                             <span className="font-semibold text-text-primary block mb-2">Semester {sem.semester}</span>
                             <ul className="space-y-2 text-text-secondary">
                               {backs.map(b => (
@@ -447,9 +450,11 @@ export default function AdminPage() {
             )}
           </div>
         </motion.div>
-      </motion.div>
+      </>,
+      document.body
     );
   };
+
 
   // Auth Screen
   if (!isAuthorized) {
