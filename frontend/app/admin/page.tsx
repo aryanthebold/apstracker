@@ -302,27 +302,27 @@ export default function AdminPage() {
                 WebkitBackdropFilter: 'blur(4px)'
               }}
             />
-            {/* Profile Card */}
-            <motion.div
-              key="modal"
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          transition={{ type: 'spring', duration: 0.35, bounce: 0.15 }}
-          className="bg-bg-primary border border-border-subtle flex flex-col shadow-2xl"
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 9999,
-            width: '90%',
-            maxWidth: '900px',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-            borderRadius: '16px',
-          }}
-        >
+            {/* Centering Container */}
+            <div 
+              className="fixed inset-0 flex items-center justify-center pointer-events-none p-4 sm:p-6"
+              style={{ zIndex: 9999 }}
+            >
+              {/* Profile Card */}
+              <motion.div
+                key="modal"
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                transition={{ type: 'spring', duration: 0.35, bounce: 0.15 }}
+                className="bg-bg-primary border border-border-subtle flex flex-col shadow-2xl pointer-events-auto"
+                style={{
+                  width: '100%',
+                  maxWidth: '900px',
+                  maxHeight: '90vh',
+                  overflowY: 'auto',
+                  borderRadius: '16px',
+                }}
+              >
           <button onClick={() => { setSelectedStudentId(null); setStudentDetails(null); }} className="absolute top-4 right-4 p-2 bg-bg-secondary hover:bg-bg-tertiary rounded-full transition-colors z-10">
             <X className="h-5 w-5 text-text-secondary" />
           </button>
@@ -456,6 +456,7 @@ export default function AdminPage() {
             )}
           </div>
         </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>,
