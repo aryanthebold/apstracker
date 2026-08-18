@@ -173,7 +173,15 @@ def parse_pdf(file_bytes: bytes) -> dict:
                     grade = ""
 
                 grade_clean = grade.replace("*", "")
-                is_back = (grade_clean == "F" or grade_clean == "ABS")
+                # is_back = failed subject. AKTU uses:
+                #   F     → Failed
+                #   ABS   → Absent (treated as fail)
+                #   E     → Carry-over / fail grade in some AKTU PDFs
+                #   *     → Asterisk suffix on any grade = back-paper attempt mark
+                is_back = (
+                    grade_clean in ("F", "ABS", "E")
+                    or grade.endswith("*")          # e.g. "F*", "E*" — back paper score
+                )
                 if is_back:
                     sem_data["backs_in_sem"] += 1
 

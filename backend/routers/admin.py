@@ -73,10 +73,46 @@ def get_not_submitted():
 @router.get("/backs", dependencies=[Depends(verify_admin)])
 def get_all_backs():
     supabase = get_db()
-    # Find students with backs
-    res = supabase.table("results").select("*, students(*)").eq("has_backs", True).execute()
 
-    # Optionally we can fetch all subject_marks where is_back=True
+    # Primary query: any student where total_backs > 0 (catches cases where
+    # has_backs was incorrectly saved as False despite total_backs > 0)
+    res = (
+        supabase.table("results")
+        .select("*, students(*)")
+        .gt("total_backs", 0)
+        .execute()
+    )
+
+    # Also include students where has_backs=True (catches students whose backs were
+    # detected via session summary fallback rather than subject-level is_back flags)
+    has_backs_res = (
+        supabase.table("results")
+        .select("*, students(*)")
+        .eq("has_backs", True)
+        .execute()
+    )
+
+    # Merge the two sets (deduplicate by roll_number)
+    seen_rolls = set(r["roll_number"] for r in res.data)
+    merged = list(res.data)
+    for item in has_backs_res.data:
+        if item["roll_number"] not in seen_rolls:
+            merged.append(item)
+            seen_rolls.add(item["roll_number"])
+
+    # Auto-repair: any row with total_backs > 0 but has_backs = False is corrupted
+    corrupted_rolls = [
+        r["roll_number"] for r in merged
+        if r.get("total_backs", 0) > 0 and not r.get("has_backs", False)
+    ]
+    if corrupted_rolls:
+        supabase.table("results").update({"has_backs": True}).in_("roll_number", corrupted_rolls).execute()
+        # Reflect the fix in our in-memory response
+        for item in merged:
+            if item["roll_number"] in corrupted_rolls:
+                item["has_backs"] = True
+
+    # Optionally fetch all subject_marks where is_back=True
     backs_res = supabase.table("subject_marks").select("*, students(*)").eq("is_back", True).execute()
 
     all_results = (
@@ -89,12 +125,74 @@ def get_all_backs():
     )
     rank_map = {r["roll_number"]: idx for idx, r in enumerate(all_results.data, start=1)}
 
-    for item in res.data:
+    for item in merged:
         item["rank"] = rank_map.get(item["roll_number"])
 
     return {
-        "students_with_backs": res.data,
+        "students_with_backs": merged,
         "back_subjects": backs_res.data
+    }
+
+
+@router.post("/repair-backs", dependencies=[Depends(verify_admin)])
+def repair_backs():
+    """
+    One-time repair: recounts total_backs for every student from grade data
+    already stored in subject_marks, then updates results.total_backs and
+    results.has_backs accordingly.
+
+    Uses the same is_back logic as the fixed pdf_parser:
+      - grade in ('F', 'ABS', 'E')
+      - grade ends with '*'
+
+    No PDF re-uploads needed.
+    """
+    supabase = get_db()
+
+    # 1. Pull every subject mark row
+    back_marks = supabase.table("subject_marks").select("roll_number, grade").execute()
+
+    # 2. Recount per roll_number using the corrected is_back logic
+    back_counts: dict = {}
+    for row in back_marks.data:
+        roll = row["roll_number"]
+        grade = (row.get("grade") or "").strip()
+        grade_clean = grade.replace("*", "")
+        is_back = grade_clean in ("F", "ABS", "E") or grade.endswith("*")
+        if is_back:
+            back_counts[roll] = back_counts.get(roll, 0) + 1
+
+    # 3. Pull current results to find who needs updating
+    all_results = supabase.table("results").select("roll_number, total_backs, has_backs").execute()
+
+    needs_update = []
+    for r in all_results.data:
+        roll = r["roll_number"]
+        correct_backs = back_counts.get(roll, 0)
+        correct_has_backs = correct_backs > 0
+
+        # Preserve existing has_backs=True from session-summary fallback
+        # (students flagged via FAIL summary but 0 subject-level backs)
+        if r.get("has_backs") and correct_backs == 0:
+            correct_has_backs = True
+
+        if r["total_backs"] != correct_backs or r["has_backs"] != correct_has_backs:
+            needs_update.append({
+                "roll_number": roll,
+                "total_backs": correct_backs,
+                "has_backs": correct_has_backs,
+            })
+
+    # 4. Apply updates
+    for item in needs_update:
+        supabase.table("results").update({
+            "total_backs": item["total_backs"],
+            "has_backs": item["has_backs"],
+        }).eq("roll_number", item["roll_number"]).execute()
+
+    return {
+        "message": f"Repair complete. {len(needs_update)} student(s) corrected.",
+        "corrected_rolls": [i["roll_number"] for i in needs_update],
     }
 
 
