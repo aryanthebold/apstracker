@@ -280,28 +280,34 @@ export default function AdminPage() {
 
   // ─── Student Modal ───────────────────────────────────────────────────────
   const renderStudentModal = () => {
-    if (!selectedStudentId) return null;
+    if (typeof window === 'undefined') return null;
     const modalRank = studentDetails?.result?.rank || studentDetails?.student?.rank;
     
     return createPortal(
-      <>
-        {/* Backdrop */}
-        <div
-          onClick={() => { setSelectedStudentId(null); setStudentDetails(null); }}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0, 0, 0, 0.7)',
-            zIndex: 9998,
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)'
-          }}
-        />
-        {/* Profile Card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 15 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 15 }}
+      <AnimatePresence>
+        {selectedStudentId && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => { setSelectedStudentId(null); setStudentDetails(null); }}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                background: 'rgba(0, 0, 0, 0.7)',
+                zIndex: 9998,
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)'
+              }}
+            />
+            {/* Profile Card */}
+            <motion.div
+              key="modal"
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', duration: 0.35, bounce: 0.15 }}
           className="bg-bg-primary border border-border-subtle flex flex-col shadow-2xl"
           style={{
@@ -450,7 +456,9 @@ export default function AdminPage() {
             )}
           </div>
         </motion.div>
-      </>,
+          </>
+        )}
+      </AnimatePresence>,
       document.body
     );
   };
@@ -512,9 +520,7 @@ export default function AdminPage() {
 
   return (
     <div className="flex-1 pt-8 pb-28 px-4 md:px-8 max-w-7xl mx-auto w-full space-y-7 relative">
-      <AnimatePresence>
-        {selectedStudentId && renderStudentModal()}
-      </AnimatePresence>
+      {renderStudentModal()}
 
       {/* Admin header */}
       <ScrollReveal direction="down" duration={500}>
