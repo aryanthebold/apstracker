@@ -100,6 +100,18 @@ def get_all_backs():
             merged.append(item)
             seen_rolls.add(item["roll_number"])
 
+    # Also include students who have cleared their backs
+    cleared_res = (
+        supabase.table("results")
+        .select("*, students(*)")
+        .eq("cleared", True)
+        .execute()
+    )
+    for item in cleared_res.data:
+        if item["roll_number"] not in seen_rolls:
+            merged.append(item)
+            seen_rolls.add(item["roll_number"])
+
     # Auto-repair: any row with total_backs > 0 but has_backs = False is corrupted
     corrupted_rolls = [
         r["roll_number"] for r in merged
