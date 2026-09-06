@@ -58,7 +58,7 @@ export default function HomePage() {
                 APS Tracker
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] group-hover:shadow-[0_0_12px_#34d399] group-hover:scale-125 transition-all duration-300"></span>
     </span>
-    <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono group-hover:text-zinc-300 transition-colors">2024–2028</span>
+    <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono group-hover:text-zinc-300 transition-colors">GL Bajaj Mathura</span>
     </div>
     </Link>
 
@@ -249,7 +249,7 @@ export default function HomePage() {
     <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
     </svg>
     <span className="text-xs font-medium text-zinc-200 group-hover:text-white transition-colors">
-                Batch of 2024–2028 Academic Portal
+                " Only for 2024-2028 Batch :)"
               </span>
     <span className="text-xs text-zinc-400 group-hover:text-emerald-300 group-hover:translate-x-1 transition-all duration-300">→</span>
     </div>
@@ -263,7 +263,7 @@ export default function HomePage() {
     </div>
 
     <p className="text-sm sm:text-base md:text-lg text-zinc-400 font-normal max-w-xl mx-auto leading-relaxed mb-9 transition-colors hover:text-zinc-300 duration-300">
-              Precision GPA distribution, percentile benchmarking, and live academic intelligence for the 2024–2028 engineering batch.
+              Your academic leaderboard, report card tracker, and analytics hub - all in one place.
             </p>
 
     <div className="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
@@ -287,7 +287,7 @@ export default function HomePage() {
     <path d="M19 14l-7 7m0 0l-7-7m7 7V3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5"></path>
     </svg>
     </div>
-    <span className="font-mono text-[11px] text-zinc-300 group-hover:text-white transition-colors">01/03 · Scroll goes brrrrrrrrrrrrrr!</span>
+    <span className="font-mono text-[11px] text-zinc-300 group-hover:text-white transition-colors">· Scroll goes brrrrrrrrrrrrrr!</span>
     </div>
 
     <div className="flex items-center gap-3 group cursor-default">
