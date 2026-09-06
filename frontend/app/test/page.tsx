@@ -156,7 +156,7 @@ export default function HomePage() {
     <line stroke="white" strokeOpacity="0.15" strokeWidth="1" x1="640" x2="640" y1="370" y2="500"></line>
     </svg>
 
-    <div className="absolute left-28 top-36 pointer-events-auto animate-float-slow interactive-metric-node cursor-pointer group" data-purpose="data-node-top-sgpa">
+    <div className="absolute left-12 top-36 pointer-events-auto animate-float-slow interactive-metric-node cursor-pointer group" data-purpose="data-node-top-sgpa">
     <div className="flex items-center gap-3">
     <div className="w-8 h-8 rounded-full glass-pill border border-emerald-400/40 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.3)] group-hover:scale-110 group-hover:border-emerald-300 group-hover:shadow-[0_0_22px_rgba(16,185,129,0.55)] transition-all duration-300">
     <svg className="w-3.5 h-3.5 text-emerald-300 transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
