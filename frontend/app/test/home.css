@@ -1,0 +1,267 @@
+
+@keyframes starTwinkle { 0%, 100% { opacity: 0.25; transform: scale(0.85); } 50% { opacity: 0.95; transform: scale(1.2); } }
+.star-twinkle { animation: starTwinkle infinite ease-in-out; will-change: transform, opacity; }
+
+/* Micro-interaction & Transition System */
+:root {
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Continuous ambient breathing behind APS title */
+@keyframes ambientBreathe {
+  0%, 100% { opacity: 0.45; transform: scale(1.15); filter: blur(36px); }
+  50% { opacity: 0.85; transform: scale(1.35); filter: blur(48px); }
+}
+.tube-ambient-breathe {
+  animation: ambientBreathe 6s ease-in-out infinite;
+}
+
+/* Continuous logo subtle orbital spin and hover glow */
+@keyframes logoSlowRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.logo-orbit-ring {
+  animation: logoSlowRotate 24s linear infinite;
+  transform-origin: center;
+}
+.group:hover .logo-orbit-ring {
+  animation-duration: 6s;
+}
+
+/* Metric node card interactive hover lift & border sheen */
+.interactive-metric-node {
+  transition: transform 0.45s var(--ease-spring), border-color 0.4s ease, box-shadow 0.45s var(--ease-spring);
+  will-change: transform, box-shadow;
+}
+.interactive-metric-node:hover {
+  transform: translateY(-5px) scale(1.03);
+}
+.interactive-metric-node:hover .glass-pill {
+  border-color: rgba(45, 212, 191, 0.45);
+  box-shadow: 0 12px 35px -8px rgba(0, 0, 0, 0.8), 0 0 25px rgba(45, 212, 191, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* Feature card enhanced hover physics & glow */
+.interactive-feature-card {
+  transition: transform 0.45s var(--ease-spring), border-color 0.4s ease, box-shadow 0.45s var(--ease-spring);
+  will-change: transform, box-shadow;
+}
+.interactive-feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 65px -10px rgba(0, 0, 0, 0.8), 0 0 40px rgba(45, 212, 191, 0.14), inset 0 1px 2px rgba(255, 255, 255, 0.12);
+}
+.interactive-feature-card:hover .feature-icon-badge {
+  transform: rotate(-6deg) scale(1.08);
+  border-color: rgba(45, 212, 191, 0.7);
+  box-shadow: 0 0 25px rgba(45, 212, 191, 0.5);
+}
+.interactive-feature-card:hover .feature-category-pill {
+  border-color: rgba(45, 212, 191, 0.65);
+  box-shadow: 0 0 16px rgba(45, 212, 191, 0.35);
+  color: #a7f3d0;
+}
+.interactive-feature-card:hover .explore-btn {
+  transform: scale(1.04);
+  box-shadow: 0 0 28px rgba(45, 212, 191, 0.75);
+}
+.interactive-feature-card:hover .explore-arrow {
+  transform: translateX(4px);
+}
+
+/* Indicator progress breathing & pulsing */
+@keyframes barPulseGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(52, 211, 153, 0.7); opacity: 0.9; }
+  50% { box-shadow: 0 0 18px rgba(45, 212, 191, 1); opacity: 1; }
+}
+.progress-live-bar {
+  animation: barPulseGlow 2.4s ease-in-out infinite;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .star-twinkle,
+  .logo-orbit-ring,
+  .tube-ambient-breathe,
+  .circuit-pulse-stream-outward,
+  .circuit-sparkle-dash,
+  .animate-float-slow,
+  .animate-float-delayed,
+  .progress-live-bar,
+  .flicker-neon-title {
+    animation: none !important;
+  }
+  .interactive-metric-node:hover,
+  .interactive-feature-card:hover,
+  .btn-kinetic:hover {
+    transform: none !important;
+  }
+}
+
+
+
+    /* Deep space background mesh */
+    body {
+      background-color: #050707;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    /* Ambient atmospheric lighting */
+    .hero-glow-teal {
+      background: radial-gradient(ellipse 70% 50% at 75% 30%, rgba(20, 184, 166, 0.18), transparent 70%);
+    }
+
+    .hero-glow-sage {
+      background: radial-gradient(ellipse 60% 45% at 85% 45%, rgba(140, 166, 153, 0.15), transparent 60%);
+    }
+
+    .hero-glow-dark-core {
+      background: radial-gradient(circle at 35% 50%, rgba(5, 7, 7, 0.95), rgba(5, 7, 7, 0.2) 70%);
+    }
+
+    /* Subtle Circuit & Star Canvas */
+    .stardust-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+                        radial-gradient(rgba(52, 211, 153, 0.08) 1px, transparent 1px);
+      background-size: 48px 48px, 96px 96px;
+      background-position: 0 0, 24px 24px;
+    }
+
+    /* Glassmorphism Border & Backdrops */
+    .glass-pill {
+      background: rgba(18, 24, 23, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+      transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(10, 14, 13, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.07);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(52, 211, 153, 0.25);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 30px rgba(20, 184, 166, 0.08);
+    }
+
+    /* Metallic / Chrome Text Gradient */
+    .text-metallic {
+      background: linear-gradient(180deg, #FFFFFF 20%, #A1A8A5 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-glow {
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Fluorescent tube ignite animation */
+    .flicker-neon-title {
+      animation: fluorescentFlicker 2.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      will-change: opacity, filter;
+    }
+
+    .tube-ambient-halo {
+      animation: haloFadeIn 2.6s ease-out forwards;
+    }
+
+    @keyframes haloFadeIn {
+      0% { opacity: 0; }
+      12% { opacity: 0.8; }
+      16% { opacity: 0.1; }
+      26% { opacity: 0.9; }
+      30% { opacity: 0.3; }
+      35% { opacity: 0.85; }
+      100% { opacity: 0.65; }
+    }
+
+    /* Continuous Circuit Electrical Pulse Animations (Outward from Center) */
+    .circuit-track {
+      stroke: rgba(255, 255, 255, 0.07);
+      stroke-width: 1.25;
+      fill: none;
+    }
+
+    .circuit-pulse-stream-outward {
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-dasharray: 14 180;
+      animation: circuitStreamFlowOutward 3.2s linear infinite;
+      filter: drop-shadow(0 0 6px rgba(45, 212, 191, 0.95)) drop-shadow(0 0 12px rgba(20, 184, 166, 0.6));
+    }
+
+    .circuit-sparkle-dash {
+      fill: none;
+      stroke-width: 1.2;
+      stroke-dasharray: 6 12;
+      animation: dashFlow 20s linear infinite;
+    }
+
+    @keyframes circuitStreamFlowOutward {
+      0% {
+        stroke-dashoffset: 200;
+      }
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes dashFlow {
+      to {
+        stroke-dashoffset: -360;
+      }
+    }
+
+    @keyframes energyBeacon {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.6);
+        opacity: 0.2;
+      }
+    }
+
+    .energy-beacon {
+      animation: energyBeacon 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      transform-origin: center;
+    }
+
+    /* Minimal Celestial Constellations */
+    .constellation-group {
+      opacity: 0.5;
+      cursor: pointer;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: stroke;
+    }
+
+    .constellation-line {
+      stroke: #8ca699;
+      stroke-width: 1.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: stroke 0.4s cubic-bezier(0.16, 1, 0.3, 1), stroke-width 0.4s ease;
+    }
+
+    /* Kinetic Action Buttons */
+    .btn-kinetic {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease;
+      will-change: transform, box-shadow;
+    }
+    .btn-kinetic:hover {
+      transform: translateY(-2px) scale(1.025);
+    }
+    .btn-kinetic:active {
+      transform: translateY(0px) scale(0.98);
+    }
+  
