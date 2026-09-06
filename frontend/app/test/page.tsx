@@ -11,6 +11,10 @@ export default function HomePage() {
 
   useEffect(() => {
     let cancelled = false;
+
+    // Hide original layout elements
+    document.body.classList.add('test-page-override');
+
     fetchStats()
       .then((data) => {
         if (!cancelled) setStats(data);
@@ -20,11 +24,20 @@ export default function HomePage() {
       });
     return () => {
       cancelled = true;
+      document.body.classList.remove('test-page-override');
     };
   }, []);
 
   return (
     <>
+      <style>{`
+        /* Override root layout */
+        .test-page-override > header.sticky,
+        .test-page-override > div > canvas,
+        .test-page-override > div.fixed.inset-0.-z-50 {
+          display: none !important;
+        }
+      `}</style>
     <svg aria-hidden="true" className="inline-defs-container" style={{position: 'absolute', width: '0', height: '0', overflow: 'hidden'}}><defs><linearGradient id="brandLogoGrad" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stopColor="#2dd4bf"></stop><stop offset="50%" stopColor="#06b6d4"></stop><stop offset="100%" stopColor="#10b981"></stop></linearGradient><linearGradient id="brandOrbGrad" x1="100%" x2="0%" y1="0%" y2="100%"><stop offset="0%" stopColor="#34d399"></stop><stop offset="50%" stopColor="#14b8a6"></stop><stop offset="100%" stopColor="#06b6d4"></stop></linearGradient></defs></svg>
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" data-purpose="ambient-lighting">
     <div className="absolute inset-0 stardust-pattern opacity-60 transition-opacity duration-1000"></div>
