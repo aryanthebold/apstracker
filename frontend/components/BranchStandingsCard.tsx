@@ -49,47 +49,47 @@ export default function BranchStandingsCard() {
 
   const maxAvg = Math.max(...standings.map((s) => s.avg));
 
-  const barColors = [
-    { bar: 'bg-accent-gold', text: 'text-accent-gold', border: 'border-accent-gold/30' },
-    { bar: 'bg-accent-primary', text: 'text-accent-primary', border: 'border-accent-primary/20' },
-    { bar: 'bg-accent-cyan', text: 'text-accent-cyan', border: 'border-accent-cyan/20' },
+  const barTheme = [
+    { bar: 'bg-gradient-to-r from-amber-400 to-amber-200 shadow-[0_0_8px_rgba(251,191,36,0.5)]', text: 'text-amber-300' },
+    { bar: 'bg-gradient-to-r from-teal-400 to-emerald-300 shadow-[0_0_8px_rgba(45,212,191,0.5)]', text: 'text-teal-300' },
+    { bar: 'bg-gradient-to-r from-cyan-400 to-sky-300 shadow-[0_0_8px_rgba(34,211,238,0.5)]', text: 'text-cyan-300' },
   ];
 
   return (
-    <div className="glass-panel rounded-[1.75rem] p-6 relative overflow-hidden border border-border-subtle hover:border-accent-primary/20 transition-all duration-300 group">
+    <div className="glass-pill rounded-2xl p-4 relative overflow-hidden border border-white/10 hover:border-teal-400/30 transition-all duration-300 group shadow-[0_0_20px_rgba(45,212,191,0.05)] hover:shadow-[0_0_30px_rgba(45,212,191,0.15)] bg-[#041414]/60">
       {/* Background glow */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/5 rounded-full blur-2xl transition-all duration-500 group-hover:w-44 group-hover:h-44" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-accent-primary/20 to-transparent" />
+      <div className="absolute top-0 right-0 w-24 h-24 bg-teal-500/10 rounded-full blur-xl transition-all duration-500 group-hover:w-32 group-hover:h-32" />
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-teal-400/20 via-transparent to-transparent" />
 
-      <div className="relative z-10 space-y-4">
+      <div className="relative z-10 space-y-3">
         {/* Header */}
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-xl bg-accent-primary/10 flex items-center justify-center">
-            <BarChart2 className="h-3.5 w-3.5 text-accent-primary" />
+          <div className="w-6 h-6 rounded-lg bg-teal-500/10 flex items-center justify-center border border-teal-400/20">
+            <BarChart2 className="h-3 w-3 text-teal-300" />
           </div>
-          <p className="text-[10px] font-bold text-text-secondary uppercase tracking-[0.15em]">
+          <p className="text-[9px] font-bold text-zinc-300 uppercase tracking-widest">
             Branch Standings
           </p>
         </div>
 
         {/* Bars */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           {standings.map((stat, i) => {
             const pct = maxAvg > 0 ? (stat.avg / maxAvg) * 100 : 0;
-            const colors = barColors[i] || barColors[2];
+            const theme = barTheme[i] || barTheme[2];
             return (
               <div key={stat.branch} className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2">
-                    {i === 0 && <span className="text-[10px]">🥇</span>}
-                    <span className={`font-bold ${colors.text}`}>{stat.label}</span>
-                    <span className="text-text-tertiary text-[10px]">({stat.count} students)</span>
+                <div className="flex items-center justify-between text-[10px]">
+                  <div className="flex items-center gap-1.5">
+                    {i === 0 && <span className="text-[9px]">🥇</span>}
+                    <span className={`font-bold tracking-wide ${theme.text}`}>{stat.label}</span>
+                    <span className="text-zinc-500 text-[9px] font-mono">({stat.count})</span>
                   </div>
-                  <span className={`font-mono font-bold ${colors.text}`}>{stat.avg.toFixed(2)}</span>
+                  <span className={`font-mono font-bold ${theme.text}`}>{stat.avg.toFixed(2)}</span>
                 </div>
-                <div className="w-full h-1.5 bg-bg-secondary/60 rounded-full overflow-hidden">
+                <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden border border-white/[0.02]">
                   <div
-                    className={`h-full ${colors.bar} rounded-full transition-all duration-700 ease-out`}
+                    className={`h-full ${theme.bar} rounded-full transition-all duration-700 ease-out`}
                     style={{ width: animate ? `${pct}%` : '0%' }}
                   />
                 </div>
@@ -97,8 +97,6 @@ export default function BranchStandingsCard() {
             );
           })}
         </div>
-
-        <p className="text-[10px] text-text-tertiary">Average cumulative SGPA per branch</p>
       </div>
     </div>
   );
