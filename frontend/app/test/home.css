@@ -92,6 +92,8 @@
   animation: float 8s ease-in-out 2s infinite;
 }
 
+
+
 /* Reduced motion accessibility */
 @media (prefers-reduced-motion: reduce) {
   .star-twinkle,
@@ -123,11 +125,11 @@
 
     /* Ambient atmospheric lighting */
     .hero-glow-teal {
-      background: radial-gradient(ellipse 70% 50% at 75% 30%, rgba(20, 184, 166, 0.18), transparent 70%);
+     background: radial-gradient(ellipse 70% 50% at 75% 30%, rgba(20, 184, 166, 0.18), transparent 70%);
     }
 
     .hero-glow-sage {
-      background: radial-gradient(ellipse 60% 45% at 85% 45%, rgba(140, 166, 153, 0.15), transparent 60%);
+    background: radial-gradient(ellipse 60% 45% at 85% 45%, rgba(140, 166, 153, 0.15), transparent 60%);
     }
 
     .hero-glow-dark-core {
@@ -168,6 +170,7 @@
     /* Metallic / Chrome Text Gradient */
     .text-metallic {
       background: linear-gradient(180deg, #FFFFFF 20%, #A1A8A5 100%);
+      background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -277,5 +280,52 @@
     }
     .btn-kinetic:active {
       transform: translateY(0px) scale(0.98);
+    }
+
+    /* ===== Reference-style Navbar Glass ===== */
+    .nav-glass-bar {
+      background: rgba(18, 24, 23, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .nav-glass-bar:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 6px 32px 0 rgba(0, 0, 0, 0.4), 0 0 20px rgba(20, 184, 166, 0.06), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+    }
+
+    /* ===== Vertical Grid Lines Overlay ===== */
+    .grid-lines-overlay {
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.018) 0px,
+          rgba(255, 255, 255, 0.018) 1px,
+          transparent 1px,
+          transparent 200px
+        );
+      background-size: 200px 100%;
+      background-position: center;
+    }
+
+    /* ===== Decorative Curved Lines ===== */
+    @keyframes curveDrift {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+    .decorative-curve {
+      animation: curveDrift 12s ease-in-out infinite;
+    }
+
+    /* ===== Noise Overlay ===== */
+    .noise-overlay {
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+      mix-blend-mode: overlay;
     }
   
