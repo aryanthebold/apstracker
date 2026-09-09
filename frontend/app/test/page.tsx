@@ -226,9 +226,9 @@ export default function HomePage() {
 
 
 
-          <div className="absolute inset-0 pointer-events-none hidden lg:block" data-purpose="interactive-circuit-network">
-
-            <svg className="w-full h-full" fill="none" viewBox="0 0 1200 680" xmlns="http://www.w3.org/2000/svg">
+          <div className="absolute inset-0 pointer-events-none hidden lg:flex items-center justify-center overflow-hidden" data-purpose="interactive-circuit-network">
+            <div className="relative w-full max-w-[1200px] aspect-[1200/680]">
+              <svg className="absolute inset-0 w-full h-full" fill="none" viewBox="0 0 1200 680" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
               <defs>
 
                 <linearGradient id="glowPulseTealOut" x1="100%" x2="0%" y1="0%" y2="0%">
@@ -286,8 +286,10 @@ export default function HomePage() {
               <line stroke="white" strokeOpacity="0.15" strokeWidth="1" x1="640" x2="640" y1="370" y2="500"></line>
             </svg>
 
-            <div className="absolute left-12 top-36 pointer-events-auto animate-float-slow interactive-metric-node cursor-pointer group" data-purpose="data-node-top-sgpa">
-              <div className="flex items-center gap-3">
+            <div className="absolute pointer-events-none" style={{ left: '17.5%', top: '26.47%' }}>
+              <div className="relative" style={{ transform: 'translate(calc(-100% - 12px), -50%)' }}>
+                <div className="pointer-events-auto animate-float-slow interactive-metric-node cursor-pointer group" data-purpose="data-node-top-sgpa">
+                  <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full glass-pill border border-emerald-400/40 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.3)] group-hover:scale-110 group-hover:border-emerald-300 group-hover:shadow-[0_0_22px_rgba(16,185,129,0.55)] transition-all duration-300">
                   <svg className="w-3.5 h-3.5 text-emerald-300 transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <polygon points="12 2 2 22 22 22 12 2"></polygon>
@@ -306,12 +308,16 @@ export default function HomePage() {
                       </span>
                     )}
                   </div>
+                  </div>
                 </div>
               </div>
             </div>
+            </div>
 
-            <div className="absolute left-20 top-80 pointer-events-auto animate-float-delayed interactive-metric-node cursor-pointer group" data-purpose="data-node-clean-records">
-              <div className="flex items-center gap-3">
+            <div className="absolute pointer-events-none" style={{ left: '19.58%', top: '51.17%' }}>
+              <div className="relative" style={{ transform: 'translate(calc(-100% - 12px), -50%)' }}>
+                <div className="pointer-events-auto animate-float-delayed interactive-metric-node cursor-pointer group" data-purpose="data-node-clean-records">
+                  <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full glass-pill border border-white/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.15)] group-hover:scale-110 group-hover:border-teal-300/60 group-hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] transition-all duration-300">
                   <svg className="w-3.5 h-3.5 text-zinc-300 group-hover:text-teal-200 transition-colors duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -326,12 +332,16 @@ export default function HomePage() {
                     <span className="text-sm font-mono font-bold text-white tracking-tight group-hover:text-teal-200 transition-colors">{stats ? stats.clean_records : "—"}</span>
                     <span className="text-[10px] text-zinc-400 group-hover:text-zinc-300 transition-colors">Students Passed</span>
                   </div>
+                  </div>
                 </div>
               </div>
             </div>
+            </div>
 
-            <div className="absolute top-32 pointer-events-auto animate-float-delayed interactive-metric-node cursor-pointer group" data-purpose="data-node-batch-avg" style={{ right: '4%' }}>
-              <div className="flex items-center gap-3 flex-row-reverse">
+            <div className="absolute pointer-events-none" style={{ left: '82.08%', top: '24.7%' }}>
+              <div className="relative" style={{ transform: 'translate(12px, -50%)' }}>
+                <div className="pointer-events-auto animate-float-delayed interactive-metric-node cursor-pointer group" data-purpose="data-node-batch-avg">
+                  <div className="flex items-center gap-3 flex-row-reverse">
                 <div className="w-8 h-8 rounded-full glass-pill border border-teal-400/40 flex items-center justify-center shadow-[0_0_20px_rgba(20,184,166,0.35)] group-hover:scale-110 group-hover:border-teal-300 group-hover:shadow-[0_0_25px_rgba(45,212,191,0.6)] transition-all duration-300">
                   <svg className="w-4 h-4 text-teal-300 animate-spin group-hover:text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2" style={{ animationDuration: '18s' }} viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="3"></circle>
@@ -347,12 +357,16 @@ export default function HomePage() {
                     <span className="text-xs font-mono text-zinc-400 group-hover:text-zinc-300 transition-colors">Avg SGPA</span>
                     <span className="text-sm font-mono font-bold text-white tracking-tight group-hover:text-teal-200 transition-colors">{stats ? stats.average_sgpa.toFixed(2) : "—"}</span>
                   </div>
+                  </div>
                 </div>
               </div>
             </div>
+            </div>
 
-            <div className="absolute right-28 top-80 pointer-events-auto animate-float-slow interactive-metric-node cursor-pointer group" data-purpose="data-node-total-enrolled">
-              <div className="flex items-center gap-3 flex-row-reverse">
+            <div className="absolute pointer-events-none" style={{ left: '80%', top: '51.17%' }}>
+              <div className="relative" style={{ transform: 'translate(12px, -50%)' }}>
+                <div className="pointer-events-auto animate-float-slow interactive-metric-node cursor-pointer group" data-purpose="data-node-total-enrolled">
+                  <div className="flex items-center gap-3 flex-row-reverse">
                 <div className="w-8 h-8 rounded-full glass-pill border border-white/15 flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:scale-110 group-hover:border-emerald-300/60 group-hover:shadow-[0_0_22px_rgba(52,211,153,0.45)] transition-all duration-300">
                   <svg className="w-3.5 h-3.5 text-zinc-300 group-hover:text-emerald-300 transition-colors duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
@@ -367,8 +381,11 @@ export default function HomePage() {
                     <span className="text-sm font-mono font-bold text-white tracking-tight group-hover:text-emerald-300 transition-colors">{stats ? stats.total_students : "—"}</span>
                     <span className="text-[10px] text-zinc-400 font-mono group-hover:text-zinc-300 transition-colors">Engineers</span>
                   </div>
+                  </div>
                 </div>
               </div>
+            </div>
+            </div>
             </div>
           </div>
 
