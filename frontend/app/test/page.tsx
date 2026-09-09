@@ -226,7 +226,7 @@ export default function HomePage() {
 
 
 
-          <div className="absolute inset-0 pointer-events-none hidden lg:flex items-center justify-center overflow-hidden" data-purpose="interactive-circuit-network">
+          <div className="absolute inset-0 pointer-events-none hidden lg:flex items-start justify-center overflow-hidden" data-purpose="interactive-circuit-network">
             <div className="relative w-full max-w-[1200px] aspect-[1200/680]">
               <svg className="absolute inset-0 w-full h-full" fill="none" viewBox="0 0 1200 680" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
               <defs>
