@@ -468,7 +468,7 @@ export default function HomePage() {
               </a>
             </div>
 
-            <div className="mt-12 w-full max-w-lg mx-auto relative z-30 pointer-events-auto">
+            <div className="mt-12 w-full max-w-[460px] mx-auto relative z-30 pointer-events-auto">
               <BranchStandingsCard />
             </div>
           </div>

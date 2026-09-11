@@ -56,26 +56,28 @@ export default function BranchStandingsCard() {
   ];
 
   return (
-    <div className="glass-pill rounded-2xl p-5 sm:px-7 relative overflow-hidden transition-all duration-300 group shadow-[0_0_25px_rgba(45,212,191,0.06)] hover:shadow-[0_0_35px_rgba(45,212,191,0.18)] bg-[#041414]/30 backdrop-blur-md">
-      {/* Animated Edge Glow Border */}
+    <div className="rounded-2xl p-4 sm:px-5 relative overflow-hidden transition-all duration-300 group shadow-[0_0_20px_rgba(45,212,191,0.12)] hover:shadow-[0_0_35px_rgba(45,212,191,0.25)] bg-[#041414]/30 backdrop-blur-md border border-teal-500/20">
+      {/* Subtle Running Edge Glow (Gradient + Box Shadow Pulse) */}
       <div 
-        className="absolute inset-0 rounded-2xl pointer-events-none p-[1px] opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute -inset-[1px] rounded-2xl pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity duration-300"
         style={{
-          background: 'linear-gradient(90deg, rgba(45,212,191,0.4) 0%, rgba(6,182,212,0.15) 33%, rgba(52,211,153,0.4) 66%, rgba(45,212,191,0.4) 100%)',
+          background: 'linear-gradient(90deg, rgba(45,212,191,0.6) 0%, rgba(6,182,212,0.2) 25%, rgba(52,211,153,0.7) 50%, rgba(6,182,212,0.2) 75%, rgba(45,212,191,0.6) 100%)',
           backgroundSize: '200% 100%',
-          animation: 'edgeGlowRun 8s linear infinite',
+          animation: 'edgeGlowRun 6s linear infinite',
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude',
+          padding: '1.5px',
+          filter: 'drop-shadow(0 0 6px rgba(45,212,191,0.4))'
         }}
       />
-      {/* Background glow */}
-      <div className="absolute top-0 right-0 w-28 h-28 bg-teal-500/10 rounded-full blur-xl transition-all duration-500 group-hover:w-36 group-hover:h-36 pointer-events-none" />
+      {/* Background radial glow */}
+      <div className="absolute top-0 right-0 w-28 h-28 bg-teal-500/15 rounded-full blur-xl transition-all duration-500 group-hover:w-36 group-hover:h-36 pointer-events-none" />
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <div className="w-6 h-6 rounded border border-teal-400/30 bg-teal-500/15 flex items-center justify-center shadow-[0_0_10px_rgba(45,212,191,0.2)]">
+        <div className="flex items-center justify-center gap-2 mb-3.5">
+          <div className="w-5.5 h-5.5 rounded border border-teal-400/30 bg-teal-500/15 flex items-center justify-center shadow-[0_0_10px_rgba(45,212,191,0.25)]">
             <BarChart2 className="h-3.5 w-3.5 text-teal-300" />
           </div>
           <p className="text-xs font-extrabold text-zinc-200 uppercase tracking-widest">
@@ -84,7 +86,7 @@ export default function BranchStandingsCard() {
         </div>
 
         {/* Branches Container */}
-        <div className="flex flex-row items-center justify-between gap-4 sm:gap-8">
+        <div className="flex flex-row items-center justify-between gap-3 sm:gap-6">
           {standings.map((stat, i) => {
             const pct = maxAvg > 0 ? (stat.avg / maxAvg) * 100 : 0;
             const theme = barTheme[i] || barTheme[2];
