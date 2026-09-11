@@ -56,39 +56,49 @@ export default function BranchStandingsCard() {
   ];
 
   return (
-    <div className="glass-pill rounded-2xl p-4 sm:px-6 relative overflow-hidden border border-white/10 hover:border-teal-400/30 transition-all duration-300 group shadow-[0_0_20px_rgba(45,212,191,0.05)] hover:shadow-[0_0_30px_rgba(45,212,191,0.15)] bg-[#041414]/60">
+    <div className="glass-pill rounded-2xl p-5 sm:px-7 relative overflow-hidden transition-all duration-300 group shadow-[0_0_25px_rgba(45,212,191,0.06)] hover:shadow-[0_0_35px_rgba(45,212,191,0.18)] bg-[#041414]/30 backdrop-blur-md">
+      {/* Animated Edge Glow Border */}
+      <div 
+        className="absolute inset-0 rounded-2xl pointer-events-none p-[1px] opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background: 'linear-gradient(90deg, rgba(45,212,191,0.4) 0%, rgba(6,182,212,0.15) 33%, rgba(52,211,153,0.4) 66%, rgba(45,212,191,0.4) 100%)',
+          backgroundSize: '200% 100%',
+          animation: 'edgeGlowRun 8s linear infinite',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+        }}
+      />
       {/* Background glow */}
-      <div className="absolute top-0 right-0 w-24 h-24 bg-teal-500/10 rounded-full blur-xl transition-all duration-500 group-hover:w-32 group-hover:h-32" />
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-teal-400/20 via-transparent to-transparent" />
+      <div className="absolute top-0 right-0 w-28 h-28 bg-teal-500/10 rounded-full blur-xl transition-all duration-500 group-hover:w-36 group-hover:h-36 pointer-events-none" />
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-center gap-2 mb-3">
-          <div className="w-5 h-5 rounded border border-teal-400/20 bg-teal-500/10 flex items-center justify-center">
-            <BarChart2 className="h-2.5 w-2.5 text-teal-300" />
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="w-6 h-6 rounded border border-teal-400/30 bg-teal-500/15 flex items-center justify-center shadow-[0_0_10px_rgba(45,212,191,0.2)]">
+            <BarChart2 className="h-3.5 w-3.5 text-teal-300" />
           </div>
-          <p className="text-[9px] font-bold text-zinc-300 uppercase tracking-widest">
+          <p className="text-xs font-extrabold text-zinc-200 uppercase tracking-widest">
             Branch Standings
           </p>
         </div>
 
         {/* Branches Container */}
-        <div className="flex flex-row items-center justify-between gap-3 sm:gap-6">
+        <div className="flex flex-row items-center justify-between gap-4 sm:gap-8">
           {standings.map((stat, i) => {
             const pct = maxAvg > 0 ? (stat.avg / maxAvg) * 100 : 0;
             const theme = barTheme[i] || barTheme[2];
             return (
               <div key={stat.branch} className="flex flex-col w-1/3">
                 {/* SGPA Score */}
-                <div className="flex items-end justify-between mb-1.5">
-                  <div className="w-4">{i === 0 && <span className="text-[10px] animate-bounce block">🥇</span>}</div>
-                  <span className={`font-mono font-bold text-[11px] ${theme.text}`}>
+                <div className="flex items-end justify-end mb-1.5">
+                  <span className={`font-mono font-bold text-sm sm:text-base ${theme.text}`}>
                     {stat.avg.toFixed(2)}
                   </span>
                 </div>
                 
                 {/* Horizontal Bar */}
-                <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/[0.02]">
+                <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden border border-white/[0.05]">
                   <div
                     className={`h-full ${theme.bar} rounded-full transition-all duration-700 ease-out`}
                     style={{ width: animate ? `${pct}%` : '0%' }}
@@ -96,9 +106,9 @@ export default function BranchStandingsCard() {
                 </div>
                 
                 {/* Branch Name & Count */}
-                <div className="flex flex-col items-center mt-1.5 text-center">
-                  <span className={`font-bold tracking-wide text-[10px] ${theme.text}`}>{stat.label}</span>
-                  <span className="text-zinc-500 text-[8px] font-mono mt-0.5">{stat.count} students</span>
+                <div className="flex flex-col items-center mt-2 text-center">
+                  <span className={`font-bold tracking-wide text-xs sm:text-sm ${theme.text}`}>{stat.label}</span>
+                  <span className="text-zinc-400 text-[10px] sm:text-xs font-mono mt-0.5">{stat.count} students</span>
                 </div>
               </div>
             );

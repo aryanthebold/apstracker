@@ -826,3 +826,12 @@ body::before {
   transition: width 0.1s linear;
   box-shadow: 0 0 8px rgba(79, 142, 247, 0.6);
 }
+
+@keyframes edgeGlowRun {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}
