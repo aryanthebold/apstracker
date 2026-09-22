@@ -150,23 +150,22 @@ def get_all_backs():
 def repair_backs():
     """
     One-time repair: recounts total_backs for every student from the is_back
-    boolean column in subject_marks, then updates results.total_backs,
-    results.has_backs, and cleared status accordingly.
+    boolean column in subject_marks, then updates results.total_backs and
+    results.has_backs accordingly.
 
     No PDF re-uploads needed. This corrects data written by the old parser that
     incorrectly flagged subjects as backlogs (e.g. due to the spurious "E" grade).
     """
     supabase = get_db()
 
-    # 1. Pull current results to find existing statuses
-    all_results = supabase.table("results").select("roll_number, total_backs, has_backs, cleared").execute()
+    # 1. Pull current results
+    all_results = supabase.table("results").select("roll_number, total_backs, has_backs").execute()
 
     needs_update = []
     for r in all_results.data:
         roll = r["roll_number"]
 
         # Recount backs using the is_back boolean column (which actually exists in the schema).
-        # The old code used a nonexistent "back_paper" column which always returned 0.
         backs_count = (
             supabase.table("subject_marks")
             .select("id", count="exact")
@@ -177,29 +176,18 @@ def repair_backs():
         total_backs = backs_count.count or 0
         has_backs = total_backs > 0
 
-        # Fix "Cleared" tag: only mark cleared if they HAD backs before but now have none
-        previously_had_backs = r.get("total_backs", 0) > 0
-        now_cleared = total_backs == 0
-        cleared = previously_had_backs and now_cleared
-
-        if (
-            r["total_backs"] != total_backs 
-            or r["has_backs"] != has_backs 
-            or r.get("cleared") != cleared
-        ):
+        if r["total_backs"] != total_backs or r["has_backs"] != has_backs:
             needs_update.append({
                 "roll_number": roll,
                 "total_backs": total_backs,
                 "has_backs": has_backs,
-                "cleared": cleared
             })
 
-    # 4. Apply updates
+    # 2. Apply updates
     for item in needs_update:
         supabase.table("results").update({
             "total_backs": item["total_backs"],
             "has_backs": item["has_backs"],
-            "cleared": item["cleared"]
         }).eq("roll_number", item["roll_number"]).execute()
 
     return {
