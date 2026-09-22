@@ -63,16 +63,6 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
     { value: 'CST', label: 'CST' },
   ];
 
-  const sortOptions = [
-    { value: 'sgpa' as const, label: '📈 CGPA' },
-    { value: 'backs' as const, label: '🔺 Backs' },
-  ];
-
-  const orderOptions = [
-    { value: 'desc' as const, label: '↑ High → Low' },
-    { value: 'asc' as const, label: '↓ Low → High' },
-  ];
-
   return (
     <section className="flex flex-col gap-4 mb-8 p-5 md:p-6 rounded-3xl bg-bg-secondary/40 border border-border-subtle backdrop-blur-md relative z-30">
       {/* Filter pill groups */}
@@ -84,26 +74,6 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
             options={branchOptions}
             value={filters.branch}
             onChange={(v) => updateFilter('branch', v)}
-          />
-        </div>
-
-        {/* Sort */}
-        <div className="flex flex-col gap-1.5">
-          <span className="text-[9px] font-bold text-text-secondary uppercase tracking-[0.15em] pl-1">Sort By</span>
-          <PillGroup
-            options={sortOptions}
-            value={filters.sort}
-            onChange={(v) => updateFilter('sort', v)}
-          />
-        </div>
-
-        {/* Order */}
-        <div className="flex flex-col gap-1.5">
-          <span className="text-[9px] font-bold text-text-secondary uppercase tracking-[0.15em] pl-1">Order</span>
-          <PillGroup
-            options={orderOptions}
-            value={filters.order}
-            onChange={(v) => updateFilter('order', v)}
           />
         </div>
       </div>

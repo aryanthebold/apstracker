@@ -1,11 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { LeaderboardEntry, fetchStudentDetails, StudentDetails } from '@/lib/api';
-import { ChevronDown, ChevronUp, Loader2, X } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import React from 'react';
+import { LeaderboardEntry } from '@/lib/api';
 import AnimatedNumber from '@/components/AnimatedNumber';
-import Sparkline from '@/components/Sparkline';
 
 interface LeaderboardTableProps {
   entries: LeaderboardEntry[];
@@ -13,43 +10,6 @@ interface LeaderboardTableProps {
 }
 
 export default function LeaderboardTable({ entries, startIndex = 4 }: LeaderboardTableProps) {
-  const [expandedRoll, setExpandedRoll] = useState<string | null>(null);
-  const [studentDetails, setStudentDetails] = useState<{ [roll: string]: StudentDetails }>({});
-  const [loadingDetails, setLoadingDetails] = useState<{ [roll: string]: boolean }>({});
-  const [openedRolls, setOpenedRolls] = useState<Set<string>>(new Set());
-
-  const toggleRow = async (rollNumber: string) => {
-    if (rollNumber === '2405110100040') {
-      toast.error('Nice try! but get better.');
-      return;
-    }
-
-    setOpenedRolls((prev) => {
-      const next = new Set(prev);
-      next.add(rollNumber);
-      return next;
-    });
-
-    if (expandedRoll === rollNumber) {
-      setExpandedRoll(null);
-      return;
-    }
-
-    setExpandedRoll(rollNumber);
-
-    if (!studentDetails[rollNumber] && !loadingDetails[rollNumber]) {
-      setLoadingDetails((prev) => ({ ...prev, [rollNumber]: true }));
-      try {
-        const details = await fetchStudentDetails(rollNumber);
-        setStudentDetails((prev) => ({ ...prev, [rollNumber]: details }));
-      } catch (err) {
-        console.error('Failed to fetch student details', err);
-      } finally {
-        setLoadingDetails((prev) => ({ ...prev, [rollNumber]: false }));
-      }
-    }
-  };
-
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -82,19 +42,15 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
               <th className="px-6 py-6 font-sans text-[11px] font-bold text-text-secondary uppercase tracking-[0.12em] text-center w-[15%]">Semesters</th>
               <th className="px-6 py-6 font-sans text-[11px] font-bold text-text-secondary uppercase tracking-[0.12em] text-center w-[10%]">SGPA</th>
               <th className="px-4 py-6 font-sans text-[11px] font-bold text-text-secondary uppercase tracking-[0.12em] text-center w-[10%]">Trend</th>
-              <th className="px-6 py-6 w-[5%]"></th>
             </tr>
           </thead>
           <tbody className="flex flex-col md:table-row-group gap-3 md:gap-0 p-3 md:p-0 md:divide-y divide-border-subtle bg-transparent">
             {entries.map((entry, index) => {
               const rank = index + startIndex;
-              const isExpanded = expandedRoll === entry.roll_number;
               const hasBacks = entry.has_backs || entry.total_backs > 0;
-              const details = studentDetails[entry.roll_number];
-              const isLoading = loadingDetails[entry.roll_number];
  
               // Styling based on rank
-              let rowClass = "transition-colors duration-200 ease-out cursor-pointer animate-tr-fade tr-glow ";
+              let rowClass = "transition-colors duration-200 ease-out animate-tr-fade tr-glow ";
               let rankColor = "text-text-primary";
               let badgeColor = "border-border-subtle";
 
@@ -118,7 +74,6 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                 <React.Fragment key={entry.id}>
                   {/* Main Row */}
                   <tr
-                    onClick={() => toggleRow(entry.roll_number)}
                     className={`${rowClass} flex flex-col md:table-row relative rounded-2xl md:rounded-none border border-border-subtle md:border-none p-4 md:p-0`}
                     style={{ animationDelay: `${Math.min(index, 20) * 45}ms` }}
                   >
@@ -185,140 +140,10 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                         <AnimatedNumber value={entry.overall_sgpa} enabled={true} />
                       </span>
                     </td>
-                    {/* Trend sparkline — shows after first expand */}
                     <td className="hidden md:table-cell px-4 py-6 text-center">
-                      {details ? (
-                        <Sparkline
-                          data={details.semesters.map((s) => ({ semester: s.semester, sgpa: s.sgpa }))}
-                        />
-                      ) : (
-                        <span className="text-text-tertiary font-mono text-[10px]">—</span>
-                      )}
-                    </td>
-                    <td className="hidden md:table-cell px-6 py-6 text-center text-text-secondary">
-                      <ChevronDown
-                        className={`w-5 h-5 transition-all duration-300 ease-out
-                          ${isExpanded
-                            ? 'rotate-180 opacity-100 text-accent-primary'
-                            : 'rotate-0 opacity-0 group-hover:opacity-100'
-                          }`}
-                      />
+                      <span className="text-text-tertiary font-mono text-[10px]">—</span>
                     </td>
                   </tr>
-
-                  {/* Expanded Row */}
-                  {openedRolls.has(entry.roll_number) && (
-                    <tr className={`${isExpanded ? (rank === 1 ? 'bg-accent-gold/5' : rank === 2 ? 'bg-accent-primary/5' : rank === 3 ? 'bg-accent-bronze/5' : '') : 'pointer-events-none h-0 overflow-hidden'} block md:table-row`}>
-                      <td colSpan={6} className="p-0 block md:table-cell border-none md:border-t border-border-subtle">
-                        <div className={`expand-wrapper ${isExpanded ? 'open' : ''}`}>
-                          <div>
-                            <div className="px-2 md:px-8 pb-4 md:pb-8 pt-2">
-                              <div className="glass-podium border border-border-subtle/50 rounded-2xl p-5 md:p-8 shadow-2xl">
-                                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6 md:mb-8">
-                                <h3 className={`font-sans text-base md:text-lg font-bold tracking-tight ${rank <= 3 ? rankColor : 'text-text-primary'}`}>
-                                  {entry.students.name} <span className="hidden md:inline">—</span> <span className="block md:inline mt-1 md:mt-0 text-sm md:text-base font-medium">{entry.students.branch}</span> <br className="md:hidden" /> <span className="font-mono text-[10px] md:text-xs text-text-secondary mt-1 block md:inline">Roll: {entry.roll_number}</span>
-                                </h3>
-                                <button
-                                  onClick={() => toggleRow(entry.roll_number)}
-                                  className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-all duration-200 active:scale-95 active:opacity-75 underline decoration-dotted underline-offset-4"
-                                >
-                                  <X className="w-4 h-4" />
-                                  <span className="font-sans text-[11px] font-bold uppercase tracking-wider">Close Details</span>
-                                </button>
-                              </div>
-
-                              {isLoading ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                  {[...Array(3)].map((_, i) => (
-                                    <div key={i} className="bg-bg-primary/50 border border-white/5 rounded-xl p-5 space-y-4">
-                                      <div className="flex justify-between items-center mb-2 border-b border-white/5 pb-2">
-                                        <div className="skeleton-shimmer h-4 w-24 rounded" />
-                                        <div className="skeleton-shimmer h-4 w-12 rounded" />
-                                      </div>
-                                      <div className="space-y-3">
-                                        {[...Array(4)].map((_, j) => (
-                                          <div key={j} className="space-y-1.5">
-                                            <div className="flex justify-between">
-                                              <div className="skeleton-shimmer h-3 w-32 rounded" />
-                                              <div className="skeleton-shimmer h-3 w-16 rounded" />
-                                            </div>
-                                            <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                                              <div className="skeleton-shimmer h-full w-full" />
-                                            </div>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : details ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                  {details.semesters.map((sem, semIndex) => (
-                                    <div
-                                      key={sem.id}
-                                      className="bg-bg-primary/50 border border-white/5 rounded-xl p-5 animate-fade-in-up"
-                                      style={{
-                                        animationDelay: `${semIndex * 100}ms`,
-                                        animationFillMode: 'both'
-                                      }}
-                                    >
-                                      <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
-                                        <h4 className="font-sans text-[11px] font-bold uppercase tracking-wider" style={{ color: '#4F8EF7', fontWeight: 600 }}>Semester {sem.semester}</h4>
-                                        <span className="font-mono text-xs font-bold" style={{ color: '#8B95A1' }}>
-                                          SGPA: <span style={{ color: '#FFFFFF', fontSize: '14px', fontWeight: 600 }}><AnimatedNumber value={sem.sgpa} enabled={isExpanded} /></span>
-                                        </span>
-                                      </div>
-                                      <ul className="space-y-4">
-                                        {sem.subjects.map((sub, subIndex) => {
-                                          const maxMarks = sub.total_marks || 100;
-                                          const obtained = (sub.internal_marks || 0) + (sub.external_marks || 0);
-                                          const percentage = maxMarks > 0 ? (obtained / maxMarks) * 100 : 0;
-                                          const gradeColor: Record<string, string> = {
-                                            'O': '#FFD700',
-                                            'A+': '#3DDC84', 'A': '#3DDC84',
-                                            'B+': '#4F8EF7', 'B': '#4F8EF7',
-                                            'C': '#F5A623',
-                                            'D': '#FF8C42',
-                                            'E': '#FF5C5C',
-                                            'F': '#FF5C5C',
-                                          };
-                                          const gradeC = gradeColor[sub.grade ?? ''] ?? '#FFFFFF';
-
-                                          return (
-                                            <li key={sub.id} className="flex flex-col gap-1.5">
-                                              <div className="flex justify-between text-sm">
-                                                <span className="font-semibold truncate pr-2 max-w-[180px]" style={{ color: '#F0F2F5', fontWeight: 500 }}>{sub.subject_name}</span>
-                                                <span className="font-mono font-extrabold whitespace-nowrap" style={{ color: gradeC, fontSize: '13px' }}>
-                                                  {sub.grade || '-'} <span style={{ color: '#8B95A1', fontWeight: 400 }}>|</span> <span style={{ color: '#FFFFFF', fontWeight: 500 }}>{obtained}/{maxMarks}</span>
-                                                </span>
-                                              </div>
-                                              <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                                                <div
-                                                  className="h-full bg-accent-primary animate-bar-fill"
-                                                  style={{
-                                                    '--bar-target': `${Math.min(100, percentage)}%`,
-                                                    animationDelay: `${subIndex * 50}ms`,
-                                                    animationFillMode: 'both'
-                                                  } as React.CSSProperties}
-                                                />
-                                              </div>
-                                            </li>
-                                          );
-                                        })}
-                                      </ul>
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : (
-                                  <div className="text-center py-8 text-accent-danger font-sans text-xs font-bold uppercase tracking-wider">Failed to load detailed records.</div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
                 </React.Fragment>
               );
             })}
