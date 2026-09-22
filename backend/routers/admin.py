@@ -74,8 +74,7 @@ def get_not_submitted():
 def get_all_backs():
     supabase = get_db()
 
-    # Primary query: any student where total_backs > 0 (catches cases where
-    # has_backs was incorrectly saved as False despite total_backs > 0)
+    # Primary query: any student where total_backs > 0
     res = (
         supabase.table("results")
         .select("*, students(*)")
@@ -100,18 +99,6 @@ def get_all_backs():
             merged.append(item)
             seen_rolls.add(item["roll_number"])
 
-    # Also include students who have cleared their backs
-    cleared_res = (
-        supabase.table("results")
-        .select("*, students(*)")
-        .eq("cleared", True)
-        .execute()
-    )
-    for item in cleared_res.data:
-        if item["roll_number"] not in seen_rolls:
-            merged.append(item)
-            seen_rolls.add(item["roll_number"])
-
     # Auto-repair: any row with total_backs > 0 but has_backs = False is corrupted
     corrupted_rolls = [
         r["roll_number"] for r in merged
@@ -119,12 +106,11 @@ def get_all_backs():
     ]
     if corrupted_rolls:
         supabase.table("results").update({"has_backs": True}).in_("roll_number", corrupted_rolls).execute()
-        # Reflect the fix in our in-memory response
         for item in merged:
             if item["roll_number"] in corrupted_rolls:
                 item["has_backs"] = True
 
-    # Optionally fetch all subject_marks where is_back=True
+    # Fetch all subject_marks where is_back=True for detail view
     backs_res = supabase.table("subject_marks").select("*, students(*)").eq("is_back", True).execute()
 
     all_results = (
