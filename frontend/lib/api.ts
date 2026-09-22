@@ -266,3 +266,20 @@ export async function adminUpdateStudent(
   }
   return res.json();
 }
+
+export interface RepairBacksResult {
+  message: string;
+  corrected_rolls: string[];
+}
+
+export async function adminRepairBacks(token: string): Promise<RepairBacksResult> {
+  const res = await fetch(`${API_BASE_URL}/admin/repair-backs`, {
+    method: 'POST',
+    headers: getAdminHeaders(token),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Repair failed' }));
+    throw new Error(err.detail || 'Repair failed');
+  }
+  return res.json();
+}

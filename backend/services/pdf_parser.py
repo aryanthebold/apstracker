@@ -59,14 +59,18 @@ def _parse_subject_rest(rest: str):
     Parse the trailing columns after the subject-type token:
         internal  external  [back_paper]  grade
 
-    Returns (internal_marks, external_marks, grade).
+    Returns (internal_marks, external_marks, grade, has_back_paper_mark).
+    has_back_paper_mark is True only when a numeric back-paper attempt score
+    was found in the third token slot — used by the caller to help determine
+    is_back independently of the grade letter.
     """
     parts = [p for p in rest.split() if p]
 
-    internal   = 0
-    external   = 0
-    grade      = ""
-    back_paper = "--"
+    internal          = 0
+    external          = 0
+    grade             = ""
+    back_paper        = "--"
+    has_back_paper_mark = False
 
     if len(parts) >= 1 and parts[0] != "--":
         internal = _safe_int(parts[0])
@@ -76,9 +80,10 @@ def _parse_subject_rest(rest: str):
     if len(parts) >= 3:
         tok = parts[2].replace("*", "")
         if tok.isdigit():
-            back_paper = parts[2]   # numeric → back-paper attempt score
+            back_paper = parts[2]           # numeric → back-paper attempt score
+            has_back_paper_mark = True
         elif _RE_GRADE.match(tok):
-            grade = tok             # letter → this is the grade early (3-col format)
+            grade = tok                     # letter → grade in 3-col format
     # Last token: usually the grade letter
     if parts and _RE_GRADE.match(parts[-1]):
         grade = parts[-1]
@@ -87,7 +92,7 @@ def _parse_subject_rest(rest: str):
     if back_paper != "--":
         external = _safe_int(back_paper)
 
-    return internal, external, grade
+    return internal, external, grade, has_back_paper_mark
 
 
 # ── Main parser ────────────────────────────────────────────────────────────────
@@ -165,23 +170,32 @@ def parse_pdf(file_bytes: bytes) -> dict:
             # Subject rows
             for code, name, sub_type, rest in _RE_SUBJECT.findall(block):
                 try:
-                    internal, external, grade = _parse_subject_rest(rest)
+                    internal, external, grade, has_back_paper_mark = _parse_subject_rest(rest)
                 except Exception as exc:
                     print(f"[pdf_parser] subject parse error sem={sem_num} code={code}: {exc}",
                           file=sys.stderr)
                     internal = external = 0
                     grade = ""
+                    has_back_paper_mark = False
 
                 grade_clean = grade.replace("*", "")
-                # is_back = failed subject. AKTU uses:
-                #   F     → Failed
+
+                # is_back = failed subject. AKTU official fail indicators:
+                #   F     → Failed (hard fail)
                 #   ABS   → Absent (treated as fail)
-                #   E     → Carry-over / fail grade in some AKTU PDFs
-                #   *     → Asterisk suffix on any grade = back-paper attempt mark
-                is_back = (
-                    grade_clean in ("F", "ABS", "E")
-                    or grade.endswith("*")          # e.g. "F*", "E*" — back paper score
-                )
+                #   F*    → Failed in back-paper attempt (asterisk on F grade only)
+                #
+                # NOTE: "E" is intentionally NOT included. AKTU's current grading
+                # scheme (O, A+, A, B+, B, C) has no "E" grade. The letter "E"
+                # frequently appears in subject names / subject codes and gets
+                # picked up by the regex as a spurious grade token, causing false
+                # backlog counts for students with clean records.
+                #
+                # A numeric back-paper mark in the third column (has_back_paper_mark)
+                # by itself does NOT mean the student currently has a backlog —
+                # it means they attempted a back-paper in the past. The *grade* is
+                # the authoritative pass/fail indicator.
+                is_back = grade_clean in ("F", "ABS") or grade == "F*"
                 if is_back:
                     sem_data["backs_in_sem"] += 1
 

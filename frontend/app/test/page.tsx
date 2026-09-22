@@ -318,113 +318,172 @@ export default function HomePage() {
               <line stroke="teal" strokeOpacity="0.3" strokeWidth="1" x1="590" x2="590" y1="340" y2="530"></line>
               <line stroke="white" strokeOpacity="0.15" strokeWidth="1" x1="640" x2="640" y1="370" y2="500"></line>
             </svg>
-
             <div className="absolute pointer-events-none" style={{ left: '17.5%', top: '26.47%' }}>
               <div className="relative" style={{ transform: 'translate(calc(-100% - 12px), -50%)' }}>
                 <div className="pointer-events-auto animate-float-slow interactive-metric-node cursor-pointer group" data-purpose="data-node-top-sgpa">
-                  <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full glass-pill border border-emerald-400/40 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.3)] group-hover:scale-110 group-hover:border-emerald-300 group-hover:shadow-[0_0_22px_rgba(16,185,129,0.55)] transition-all duration-300">
-                  <svg className="w-3.5 h-3.5 text-emerald-300 transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <polygon points="12 2 2 22 22 22 12 2"></polygon>
-                  </svg>
-                </div>
-                <div className="glass-pill px-3 py-1.5 rounded-xl border border-white/10 group-hover:bg-white/[0.08]">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span className="text-[11px] font-medium tracking-wide text-zinc-300 group-hover:text-white transition-colors">Top SGPA</span>
-                  </div>
-                  <div className="flex items-baseline gap-1.5 mt-0.5">
-                    <span className="text-sm font-mono font-bold text-white tracking-tight group-hover:text-emerald-300 transition-colors">{stats ? stats.top_sgpa.toFixed(2) : "—"}</span>
-                    {stats && (
-                      <span className="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-1 py-0.2 rounded border border-emerald-500/20 group-hover:bg-emerald-500/20 group-hover:border-emerald-400/40 transition-all">
-                        +{(stats.top_sgpa - stats.average_sgpa).toFixed(2)} vs avg
-                      </span>
-                    )}
-                  </div>
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-full glass-pill border border-emerald-400/40 flex items-center justify-center shadow-[0_0_18px_rgba(16,185,129,0.35)] group-hover:scale-110 group-hover:border-emerald-300 group-hover:shadow-[0_0_26px_rgba(16,185,129,0.6)] transition-all duration-300">
+                      <svg className="w-4 h-4 text-emerald-300 transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <polygon points="12 2 2 22 22 22 12 2"></polygon>
+                      </svg>
+                    </div>
+                    <div className="relative rounded-xl overflow-hidden p-[1px] bg-white/5 border border-emerald-400/20 group-hover:border-emerald-400/40 transition-colors">
+                      <div 
+                        className="absolute -inset-[1px] rounded-xl pointer-events-none opacity-75 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{
+                          background: 'linear-gradient(90deg, rgba(52,211,153,0.5) 0%, rgba(45,212,191,0.15) 30%, rgba(52,211,153,0.6) 60%, rgba(52,211,153,0.5) 100%)',
+                          backgroundSize: '200% 100%',
+                          animation: 'edgeGlowRun 5s linear infinite',
+                          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                          WebkitMaskComposite: 'xor',
+                          maskComposite: 'exclude',
+                          padding: '1px',
+                          filter: 'drop-shadow(0 0 5px rgba(52,211,153,0.5))'
+                        }}
+                      />
+                      <div className="glass-pill px-4 py-2 rounded-xl group-hover:bg-white/[0.08]">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                          <span className="text-xs font-semibold tracking-wide text-zinc-200 group-hover:text-white transition-colors">Top SGPA</span>
+                        </div>
+                        <div className="flex items-baseline gap-2 mt-1">
+                          <span className="text-base font-mono font-bold text-white tracking-tight group-hover:text-emerald-300 transition-colors">{stats ? stats.top_sgpa.toFixed(2) : "—"}</span>
+                          {stats && (
+                            <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 group-hover:bg-emerald-500/20 group-hover:border-emerald-400/40 transition-all">
+                              +{(stats.top_sgpa - stats.average_sgpa).toFixed(2)} vs avg
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
 
             <div className="absolute pointer-events-none" style={{ left: '19.58%', top: '51.17%' }}>
               <div className="relative" style={{ transform: 'translate(calc(-100% - 12px), -50%)' }}>
                 <div className="pointer-events-auto animate-float-delayed interactive-metric-node cursor-pointer group" data-purpose="data-node-clean-records">
-                  <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full glass-pill border border-white/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.15)] group-hover:scale-110 group-hover:border-teal-300/60 group-hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] transition-all duration-300">
-                  <svg className="w-3.5 h-3.5 text-zinc-300 group-hover:text-teal-200 transition-colors duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                  </svg>
-                </div>
-                <div className="glass-pill px-3 py-1.5 rounded-xl border border-white/10 group-hover:bg-white/[0.08]">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 group-hover:bg-teal-300 group-hover:shadow-[0_0_8px_#2dd4bf] transition-all duration-300"></span>
-                    <span className="text-[11px] font-medium tracking-wide text-zinc-300 group-hover:text-white transition-colors">Clean Records</span>
-                  </div>
-                  <div className="flex items-baseline gap-1 mt-0.5">
-                    <span className="text-sm font-mono font-bold text-white tracking-tight group-hover:text-teal-200 transition-colors">{stats ? stats.clean_records : "—"}</span>
-                    <span className="text-[10px] text-zinc-400 group-hover:text-zinc-300 transition-colors">Students Passed</span>
-                  </div>
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-full glass-pill border border-white/20 flex items-center justify-center shadow-[0_0_18px_rgba(255,255,255,0.18)] group-hover:scale-110 group-hover:border-teal-300/60 group-hover:shadow-[0_0_24px_rgba(45,212,191,0.45)] transition-all duration-300">
+                      <svg className="w-4 h-4 text-zinc-300 group-hover:text-teal-200 transition-colors duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                      </svg>
+                    </div>
+                    <div className="relative rounded-xl overflow-hidden p-[1px] bg-white/5 border border-teal-400/20 group-hover:border-teal-400/40 transition-colors">
+                      <div 
+                        className="absolute -inset-[1px] rounded-xl pointer-events-none opacity-75 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{
+                          background: 'linear-gradient(90deg, rgba(45,212,191,0.5) 0%, rgba(52,211,153,0.15) 30%, rgba(45,212,191,0.6) 60%, rgba(45,212,191,0.5) 100%)',
+                          backgroundSize: '200% 100%',
+                          animation: 'edgeGlowRun 5.5s linear infinite',
+                          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                          WebkitMaskComposite: 'xor',
+                          maskComposite: 'exclude',
+                          padding: '1px',
+                          filter: 'drop-shadow(0 0 5px rgba(45,212,191,0.5))'
+                        }}
+                      />
+                      <div className="glass-pill px-4 py-2 rounded-xl group-hover:bg-white/[0.08]">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-zinc-400 group-hover:bg-teal-300 group-hover:shadow-[0_0_8px_#2dd4bf] transition-all duration-300"></span>
+                          <span className="text-xs font-semibold tracking-wide text-zinc-200 group-hover:text-white transition-colors">Clean Records</span>
+                        </div>
+                        <div className="flex items-baseline gap-1.5 mt-1">
+                          <span className="text-base font-mono font-bold text-white tracking-tight group-hover:text-teal-200 transition-colors">{stats ? stats.clean_records : "—"}</span>
+                          <span className="text-[11px] text-zinc-400 group-hover:text-zinc-300 transition-colors">Students Passed</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
 
             <div className="absolute pointer-events-none" style={{ left: '82.08%', top: '24.7%' }}>
               <div className="relative" style={{ transform: 'translate(12px, -50%)' }}>
                 <div className="pointer-events-auto animate-float-delayed interactive-metric-node cursor-pointer group" data-purpose="data-node-batch-avg">
-                  <div className="flex items-center gap-3 flex-row-reverse">
-                <div className="w-8 h-8 rounded-full glass-pill border border-teal-400/40 flex items-center justify-center shadow-[0_0_20px_rgba(20,184,166,0.35)] group-hover:scale-110 group-hover:border-teal-300 group-hover:shadow-[0_0_25px_rgba(45,212,191,0.6)] transition-all duration-300">
-                  <svg className="w-4 h-4 text-teal-300 animate-spin group-hover:text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2" style={{ animationDuration: '18s' }} viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"></path>
-                  </svg>
-                </div>
-                <div className="glass-pill px-3 py-1.5 rounded-xl border border-white/10 text-right group-hover:bg-white/[0.08]">
-                  <div className="flex items-center justify-end gap-1.5">
-                    <span className="text-[11px] font-medium tracking-wide text-zinc-300 group-hover:text-white transition-colors">Batch Avg SGPA</span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-teal-400 shadow-[0_0_6px_#14b8a6] group-hover:shadow-[0_0_10px_#2dd4bf] transition-all"></span>
-                  </div>
-                  <div className="flex items-baseline justify-end gap-1.5 mt-0.5">
-                    <span className="text-xs font-mono text-zinc-400 group-hover:text-zinc-300 transition-colors">Avg SGPA</span>
-                    <span className="text-sm font-mono font-bold text-white tracking-tight group-hover:text-teal-200 transition-colors">{stats ? stats.average_sgpa.toFixed(2) : "—"}</span>
-                  </div>
+                  <div className="flex items-center gap-3.5 flex-row-reverse">
+                    <div className="w-10 h-10 rounded-full glass-pill border border-teal-400/40 flex items-center justify-center shadow-[0_0_22px_rgba(20,184,166,0.4)] group-hover:scale-110 group-hover:border-teal-300 group-hover:shadow-[0_0_28px_rgba(45,212,191,0.65)] transition-all duration-300">
+                      <svg className="w-4.5 h-4.5 text-teal-300 animate-spin group-hover:text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2" style={{ animationDuration: '18s' }} viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"></path>
+                      </svg>
+                    </div>
+                    <div className="relative rounded-xl overflow-hidden p-[1px] bg-white/5 border border-teal-400/20 group-hover:border-teal-400/40 transition-colors">
+                      <div 
+                        className="absolute -inset-[1px] rounded-xl pointer-events-none opacity-75 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{
+                          background: 'linear-gradient(90deg, rgba(45,212,191,0.5) 0%, rgba(52,211,153,0.15) 30%, rgba(45,212,191,0.6) 60%, rgba(45,212,191,0.5) 100%)',
+                          backgroundSize: '200% 100%',
+                          animation: 'edgeGlowRun 5.2s linear infinite',
+                          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                          WebkitMaskComposite: 'xor',
+                          maskComposite: 'exclude',
+                          padding: '1px',
+                          filter: 'drop-shadow(0 0 5px rgba(45,212,191,0.5))'
+                        }}
+                      />
+                      <div className="glass-pill px-4 py-2 rounded-xl text-right group-hover:bg-white/[0.08]">
+                        <div className="flex items-center justify-end gap-2">
+                          <span className="text-xs font-semibold tracking-wide text-zinc-200 group-hover:text-white transition-colors">Batch Avg SGPA</span>
+                          <span className="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_6px_#14b8a6] group-hover:shadow-[0_0_10px_#2dd4bf] transition-all"></span>
+                        </div>
+                        <div className="flex items-baseline justify-end gap-2 mt-1">
+                          <span className="text-xs font-mono text-zinc-400 group-hover:text-zinc-300 transition-colors">Avg SGPA</span>
+                          <span className="text-base font-mono font-bold text-white tracking-tight group-hover:text-teal-200 transition-colors">{stats ? stats.average_sgpa.toFixed(2) : "—"}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
 
             <div className="absolute pointer-events-none" style={{ left: '80%', top: '51.17%' }}>
               <div className="relative" style={{ transform: 'translate(12px, -50%)' }}>
                 <div className="pointer-events-auto animate-float-slow interactive-metric-node cursor-pointer group" data-purpose="data-node-total-enrolled">
-                  <div className="flex items-center gap-3 flex-row-reverse">
-                <div className="w-8 h-8 rounded-full glass-pill border border-white/15 flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:scale-110 group-hover:border-emerald-300/60 group-hover:shadow-[0_0_22px_rgba(52,211,153,0.45)] transition-all duration-300">
-                  <svg className="w-3.5 h-3.5 text-zinc-300 group-hover:text-emerald-300 transition-colors duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                  </svg>
-                </div>
-                <div className="glass-pill px-3 py-1.5 rounded-xl border border-white/10 text-right group-hover:bg-white/[0.08]">
-                  <div className="flex items-center justify-end gap-1.5">
-                    <span className="text-[11px] font-medium tracking-wide text-zinc-300 group-hover:text-white transition-colors">Total Enrolled</span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#10b981] group-hover:shadow-[0_0_10px_#34d399] transition-all"></span>
-                  </div>
-                  <div className="flex items-baseline justify-end gap-1 mt-0.5">
-                    <span className="text-sm font-mono font-bold text-white tracking-tight group-hover:text-emerald-300 transition-colors">{stats ? stats.total_students : "—"}</span>
-                    <span className="text-[10px] text-zinc-400 font-mono group-hover:text-zinc-300 transition-colors">Engineers</span>
-                  </div>
+                  <div className="flex items-center gap-3.5 flex-row-reverse">
+                    <div className="w-10 h-10 rounded-full glass-pill border border-white/15 flex items-center justify-center shadow-[0_0_18px_rgba(255,255,255,0.12)] group-hover:scale-110 group-hover:border-emerald-300/60 group-hover:shadow-[0_0_26px_rgba(52,211,153,0.5)] transition-all duration-300">
+                      <svg className="w-4 h-4 text-zinc-300 group-hover:text-emerald-300 transition-colors duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                      </svg>
+                    </div>
+                    <div className="relative rounded-xl overflow-hidden p-[1px] bg-white/5 border border-emerald-400/20 group-hover:border-emerald-400/40 transition-colors">
+                      <div 
+                        className="absolute -inset-[1px] rounded-xl pointer-events-none opacity-75 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{
+                          background: 'linear-gradient(90deg, rgba(52,211,153,0.5) 0%, rgba(45,212,191,0.15) 30%, rgba(52,211,153,0.6) 60%, rgba(52,211,153,0.5) 100%)',
+                          backgroundSize: '200% 100%',
+                          animation: 'edgeGlowRun 6s linear infinite',
+                          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                          WebkitMaskComposite: 'xor',
+                          maskComposite: 'exclude',
+                          padding: '1px',
+                          filter: 'drop-shadow(0 0 5px rgba(52,211,153,0.5))'
+                        }}
+                      />
+                      <div className="glass-pill px-4 py-2 rounded-xl text-right group-hover:bg-white/[0.08]">
+                        <div className="flex items-center justify-end gap-2">
+                          <span className="text-xs font-semibold tracking-wide text-zinc-200 group-hover:text-white transition-colors">Total Enrolled</span>
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#10b981] group-hover:shadow-[0_0_10px_#34d399] transition-all"></span>
+                        </div>
+                        <div className="flex items-baseline justify-end gap-1.5 mt-1">
+                          <span className="text-base font-mono font-bold text-white tracking-tight group-hover:text-emerald-300 transition-colors">{stats ? stats.total_students : "—"}</span>
+                          <span className="text-[11px] text-zinc-400 font-mono group-hover:text-zinc-300 transition-colors">Engineers</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            </div>
-            </div>
           </div>
+        </div>
 
-          <div className="relative z-20 flex flex-col items-center text-center max-w-3xl mx-auto mt-6 sm:mt-12">
+        <div className="relative z-20 flex flex-col items-center text-center max-w-3xl mx-auto mt-2 sm:mt-4">
 
-            <div className="inline-flex items-center gap-2 glass-pill px-4 py-1.5 rounded-full mb-8 border border-white/10 hover:border-emerald-400/40 hover:bg-white/[0.08] hover:shadow-[0_0_24px_rgba(52,211,153,0.3)] transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 active:translate-y-0">
+            <div className="inline-flex items-center gap-2 glass-pill px-4 py-1.5 rounded-full mb-5 border border-white/10 hover:border-emerald-400/40 hover:bg-white/[0.08] hover:shadow-[0_0_24px_rgba(52,211,153,0.3)] transition-all duration-300 cursor-pointer group hover:-translate-y-0.5 active:translate-y-0">
               <svg className="w-3.5 h-3.5 text-emerald-400 group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
               </svg>
@@ -434,7 +493,7 @@ export default function HomePage() {
               <span className="text-xs text-zinc-400 group-hover:text-emerald-300 group-hover:translate-x-1 transition-all duration-300">→</span>
             </div>
 
-            <div className="relative mb-6">
+            <div className="relative mb-4">
 
 
               <h1
@@ -446,7 +505,7 @@ export default function HomePage() {
               </h1>
             </div>
 
-            <p className="text-sm sm:text-base md:text-lg text-zinc-400 font-normal max-w-xl mx-auto leading-relaxed mb-9 transition-colors hover:text-zinc-300 duration-300">
+            <p className="text-sm sm:text-base md:text-lg text-zinc-400 font-normal max-w-xl mx-auto leading-relaxed mb-6 transition-colors hover:text-zinc-300 duration-300">
               Your academic leaderboard, report card tracker, and analytics hub - all in one place.
             </p>
 
@@ -462,18 +521,18 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="flex justify-center w-full mt-4">
+            <div className="flex justify-center w-full mt-3">
               <a className="btn-kinetic px-7 py-3 rounded-full glass-pill text-white font-semibold text-xs tracking-wide border border-white/20 hover:bg-white/[0.09] hover:border-emerald-400/40 hover:shadow-[0_0_30px_rgba(52,211,153,0.3)] flex items-center justify-center" href="#notices">
                 Notices
               </a>
             </div>
 
-            <div className="mt-12 w-full max-w-[460px] mx-auto relative z-30 pointer-events-auto">
+            <div className="mt-6 w-full max-w-[460px] mx-auto relative z-30 pointer-events-auto">
               <BranchStandingsCard />
             </div>
           </div>
 
-          <div className="pt-16 pb-2 flex flex-col sm:flex-row items-center justify-between text-zinc-400 text-xs border-b border-white/[0.06]">
+          <div className="pt-8 pb-2 flex flex-col sm:flex-row items-center justify-between text-zinc-400 text-xs border-b border-white/[0.06]">
 
             <div className="flex items-center gap-2.5 glass-pill px-3 py-1.5 rounded-full mb-4 sm:mb-0 border border-white/10 hover:border-white/25 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300 cursor-pointer group">
               <div className="w-4 h-4 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">

@@ -149,11 +149,12 @@ def get_all_backs():
 @router.post("/repair-backs", dependencies=[Depends(verify_admin)])
 def repair_backs():
     """
-    One-time repair: recounts total_backs for every student from the literal
-    back_paper column in subject_marks, then updates results.total_backs,
+    One-time repair: recounts total_backs for every student from the is_back
+    boolean column in subject_marks, then updates results.total_backs,
     results.has_backs, and cleared status accordingly.
 
-    No PDF re-uploads needed.
+    No PDF re-uploads needed. This corrects data written by the old parser that
+    incorrectly flagged subjects as backlogs (e.g. due to the spurious "E" grade).
     """
     supabase = get_db()
 
@@ -164,17 +165,16 @@ def repair_backs():
     for r in all_results.data:
         roll = r["roll_number"]
 
-        # Recount backs based on literal back_paper column
+        # Recount backs using the is_back boolean column (which actually exists in the schema).
+        # The old code used a nonexistent "back_paper" column which always returned 0.
         backs_count = (
             supabase.table("subject_marks")
-            .select("id")
+            .select("id", count="exact")
             .eq("roll_number", roll)
-            .neq("back_paper", "--")
-            .neq("back_paper", "")
-            .not_.is_("back_paper", "null")
+            .eq("is_back", True)
             .execute()
         )
-        total_backs = len(backs_count.data)
+        total_backs = backs_count.count or 0
         has_backs = total_backs > 0
 
         # Fix "Cleared" tag: only mark cleared if they HAD backs before but now have none

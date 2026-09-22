@@ -10,12 +10,14 @@ import {
   adminDeleteStudentResult,
   adminFetchUFMStudents,
   adminUpdateStudent,
+  adminRepairBacks,
   searchStudents,
   fetchStudentDetails,
   Student,
   AdminBacks,
   StudentDetails,
   UFMStudent,
+  RepairBacksResult,
 } from '@/lib/api';
 import {
   Shield, Eye, Trash2, Loader2, AlertCircle, FileSpreadsheet, Layers, UserX,
@@ -56,6 +58,10 @@ export default function AdminPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Repair backs state
+  const [isRepairing, setIsRepairing] = useState(false);
+  const [repairResult, setRepairResult] = useState<RepairBacksResult | null>(null);
 
   const handleAuthorize = (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,6 +113,22 @@ export default function AdminPage() {
       loadData();
     }
   }, [isAuthorized]);
+
+  const handleRepairBacks = async () => {
+    if (!window.confirm('This will recalculate backlog counts for all students based on their stored subject data. Proceed?')) return;
+    setIsRepairing(true);
+    setRepairResult(null);
+    try {
+      const result = await adminRepairBacks(token);
+      setRepairResult(result);
+      toast.success(`Repair done — ${result.corrected_rolls.length} student(s) corrected.`);
+      loadData(); // Refresh all data so counts update immediately
+    } catch (err: any) {
+      toast.error(err.message || 'Repair failed');
+    } finally {
+      setIsRepairing(false);
+    }
+  };
 
   const handleDelete = (rollNumber: string) => {
     if (!window.confirm(`Are you sure you want to delete results for student ${rollNumber}?`)) return;
@@ -629,6 +651,43 @@ export default function AdminPage() {
                   <span className="text-xs text-text-secondary uppercase tracking-wider block">Clean Sheet</span>
                   <span className="text-3xl font-mono font-bold text-accent-success block mt-2">{overviewStats.cleanSheetCount}</span>
                   <p className="text-xs text-text-secondary mt-1">students with zero backs.</p>
+                </div>
+              </div>
+
+              {/* ── Repair Backlog Data card ────────────────────────────── */}
+              <div className="glass-panel rounded-xl p-5 border border-amber-500/15 bg-amber-500/5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <AlertOctagon className="h-4 w-4 text-amber-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-text-primary">Repair Backlog Data</p>
+                      <p className="text-xs text-text-secondary mt-0.5 max-w-md">
+                        Recalculates <span className="font-mono text-text-primary">total_backs</span> for every student from stored subject flags.
+                        Run this once after deploying the parser fix to correct any wrongly attributed backlogs.
+                      </p>
+                      {repairResult && (
+                        <div className="mt-2 text-xs text-amber-400 font-mono">
+                          ✓ {repairResult.message}
+                          {repairResult.corrected_rolls.length > 0 && (
+                            <span className="text-text-secondary ml-2">({repairResult.corrected_rolls.join(', ')})</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleRepairBacks}
+                    disabled={isRepairing}
+                    className="inline-flex items-center justify-center gap-2 shrink-0 rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-200 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed bg-amber-500/10 border border-amber-500/25 text-amber-300 hover:bg-amber-500/20 hover:border-amber-400/40"
+                  >
+                    {isRepairing ? (
+                      <><Loader2 className="h-3.5 w-3.5 animate-spin" /> Repairing…</>
+                    ) : (
+                      <><AlertOctagon className="h-3.5 w-3.5" /> Run Repair</>
+                    )}
+                  </button>
                 </div>
               </div>
 

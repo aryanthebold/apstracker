@@ -59,11 +59,14 @@ async def save_parsed_result(student_id: str, roll_number: str, parsed_data: dic
     total_backs = sum([sem.get("backs_in_sem", 0) for sem in parsed_data["semesters"]])
     
     raw_session_summary = parsed_data.get("overall", {}).get("result_status", "")
-    # has_backs is True if any subject-level backs exist OR the session summary indicates failure
+    # has_backs is True if any subject-level backs exist OR the session summary
+    # explicitly says FAIL. We intentionally do NOT check for "CP" here because
+    # "CP" (carry-paper) text can appear in subject codes and branch name strings,
+    # causing false positives for students with clean records.
     has_backs = total_backs > 0
     if not has_backs and raw_session_summary:
         summary_upper = raw_session_summary.upper().replace(" ", "")
-        if "FAIL" in summary_upper or ("CP" in summary_upper and "CP(0)" not in summary_upper):
+        if "FAIL" in summary_upper:
             has_backs = True
     # Explicit guard: has_backs can NEVER be False when total_backs > 0
     if total_backs > 0:
