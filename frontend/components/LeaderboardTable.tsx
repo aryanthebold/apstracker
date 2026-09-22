@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { LeaderboardEntry, fetchStudentDetails, StudentDetails } from '@/lib/api';
-import { ChevronDown, ChevronUp, Loader2, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, Loader2, X, Lock } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import AnimatedNumber from '@/components/AnimatedNumber';
 import Sparkline from '@/components/Sparkline';
@@ -18,7 +18,9 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
   const [loadingDetails, setLoadingDetails] = useState<{ [roll: string]: boolean }>({});
   const [openedRolls, setOpenedRolls] = useState<Set<string>>(new Set());
 
-  const toggleRow = async (rollNumber: string) => {
+  const toggleRow = async (entry: LeaderboardEntry) => {
+    const rollNumber = entry.roll_number;
+
     if (rollNumber === '2405110100040') {
       toast.error('Nice try! but get better.');
       return;
@@ -36,6 +38,10 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
     }
 
     setExpandedRoll(rollNumber);
+
+    if (entry.is_locked) {
+      return; // Do not fetch details for locked profiles
+    }
 
     if (!studentDetails[rollNumber] && !loadingDetails[rollNumber]) {
       setLoadingDetails((prev) => ({ ...prev, [rollNumber]: true }));
@@ -118,7 +124,7 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                 <React.Fragment key={entry.id}>
                   {/* Main Row */}
                   <tr
-                    onClick={() => toggleRow(entry.roll_number)}
+                    onClick={() => toggleRow(entry)}
                     className={`${rowClass} flex flex-col md:table-row relative rounded-2xl md:rounded-none border border-border-subtle md:border-none p-4 md:p-0`}
                     style={{ animationDelay: `${Math.min(index, 20) * 45}ms` }}
                   >
@@ -219,7 +225,7 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                                   {entry.students.name} <span className="hidden md:inline">—</span> <span className="block md:inline mt-1 md:mt-0 text-sm md:text-base font-medium">{entry.students.branch}</span> <br className="md:hidden" /> <span className="font-mono text-[10px] md:text-xs text-text-secondary mt-1 block md:inline">Roll: {entry.roll_number}</span>
                                 </h3>
                                 <button
-                                  onClick={() => toggleRow(entry.roll_number)}
+                                  onClick={() => toggleRow(entry)}
                                   className="flex items-center gap-2 text-text-secondary hover:text-text-primary transition-all duration-200 active:scale-95 active:opacity-75 underline decoration-dotted underline-offset-4"
                                 >
                                   <X className="w-4 h-4" />
@@ -227,7 +233,15 @@ export default function LeaderboardTable({ entries, startIndex = 4 }: Leaderboar
                                 </button>
                               </div>
 
-                              {isLoading ? (
+                              {entry.is_locked ? (
+                                <div className="flex flex-col items-center justify-center py-12 text-text-secondary animate-fade-in-up">
+                                  <Lock className="w-10 h-10 mb-4 text-purple-400 opacity-80" />
+                                  <p className="font-sans font-bold text-lg text-text-primary mb-1">Profile Locked</p>
+                                  <p className="font-medium text-sm text-text-secondary max-w-sm text-center">
+                                    The Profile is locked for now.
+                                  </p>
+                                </div>
+                              ) : isLoading ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                   {[...Array(3)].map((_, i) => (
                                     <div key={i} className="bg-bg-primary/50 border border-white/5 rounded-xl p-5 space-y-4">

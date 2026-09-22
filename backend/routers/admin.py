@@ -195,6 +195,32 @@ def repair_backs():
         "corrected_rolls": [i["roll_number"] for i in needs_update],
     }
 
+from pydantic import BaseModel
+
+class LockProfilesRequest(BaseModel):
+    threshold_sgpa: float
+
+@router.post("/lock-profiles", dependencies=[Depends(verify_admin)])
+def lock_profiles(req: LockProfilesRequest):
+    """
+    Locks the profiles of all students whose overall_sgpa is strictly less than the given threshold.
+    Sets is_locked = True for those below, and is_locked = False for those equal or above.
+    """
+    supabase = get_db()
+    
+    # First, unlock everyone (or those who shouldn't be locked)
+    supabase.table("results").update({"is_locked": False}).gte("overall_sgpa", req.threshold_sgpa).execute()
+    
+    # Then, lock those below threshold
+    res = supabase.table("results").update({"is_locked": True}).lt("overall_sgpa", req.threshold_sgpa).execute()
+    
+    # We can also lock those with NULL overall_sgpa if needed, but let's stick to the prompt.
+    
+    return {
+        "message": f"Profiles below {req.threshold_sgpa} SGPA have been locked.",
+        "locked_count": len(res.data) if res.data else 0
+    }
+
 
 @router.get("/ufm-students", dependencies=[Depends(verify_admin)])
 def get_ufm_students():

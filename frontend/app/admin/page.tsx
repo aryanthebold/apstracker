@@ -18,11 +18,12 @@ import {
   StudentDetails,
   UFMStudent,
   RepairBacksResult,
+  adminLockProfiles,
 } from '@/lib/api';
 import {
   Shield, Eye, Trash2, Loader2, AlertCircle, FileSpreadsheet, Layers, UserX,
   AlertOctagon, Search, Download, X, Filter, Award, BarChart2, AlertTriangle,
-  CheckCircle, Pencil, Save, XCircle, TrendingUp, Users
+  CheckCircle, Pencil, Save, XCircle, TrendingUp, Users, Lock
 } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
 import { toast } from 'react-hot-toast';
@@ -62,6 +63,11 @@ export default function AdminPage() {
   // Repair backs state
   const [isRepairing, setIsRepairing] = useState(false);
   const [repairResult, setRepairResult] = useState<RepairBacksResult | null>(null);
+
+  // Lock profiles state
+  const [lockThreshold, setLockThreshold] = useState<string>('');
+  const [isLocking, setIsLocking] = useState(false);
+  const [lockResult, setLockResult] = useState<{ message: string; locked_count: number } | null>(null);
 
   const handleAuthorize = (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,6 +133,28 @@ export default function AdminPage() {
       toast.error(err.message || 'Repair failed');
     } finally {
       setIsRepairing(false);
+    }
+  };
+
+  const handleLockProfiles = async () => {
+    const threshold = parseFloat(lockThreshold);
+    if (isNaN(threshold) || threshold < 0 || threshold > 10) {
+      toast.error('Please enter a valid SGPA threshold between 0 and 10.');
+      return;
+    }
+    if (!window.confirm(`This will lock profiles for all students below ${threshold} SGPA. Proceed?`)) return;
+    
+    setIsLocking(true);
+    setLockResult(null);
+    try {
+      const result = await adminLockProfiles(threshold, token);
+      setLockResult(result);
+      toast.success(result.message);
+      loadData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to lock profiles');
+    } finally {
+      setIsLocking(false);
     }
   };
 
@@ -688,6 +716,50 @@ export default function AdminPage() {
                       <><AlertOctagon className="h-3.5 w-3.5" /> Run Repair</>
                     )}
                   </button>
+              </div>
+
+              {/* ── Lock Profiles Card ────────────────────────────── */}
+              <div className="glass-panel rounded-xl p-5 border border-purple-500/15 bg-purple-500/5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-purple-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <Lock className="h-4 w-4 text-purple-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-text-primary">Lock Result Profiles</p>
+                      <p className="text-xs text-text-secondary mt-0.5 max-w-md">
+                        Lock the profiles of students whose overall SGPA falls below a certain threshold to prevent public disclosure.
+                      </p>
+                      {lockResult && (
+                        <div className="mt-2 text-xs text-purple-400 font-mono">
+                          ✓ {lockResult.message} ({lockResult.locked_count} locked)
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="10"
+                      step="0.01"
+                      value={lockThreshold}
+                      onChange={(e) => setLockThreshold(e.target.value)}
+                      placeholder="e.g. 6.0"
+                      className="w-24 bg-bg-primary/50 border border-border-subtle rounded-xl px-3 py-2 text-sm text-white focus:border-purple-500/50 outline-none"
+                    />
+                    <button
+                      onClick={handleLockProfiles}
+                      disabled={isLocking || !token || !lockThreshold}
+                      className="inline-flex items-center justify-center gap-2 shrink-0 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed bg-purple-500/10 border border-purple-500/25 text-purple-300 hover:bg-purple-500/20 hover:border-purple-400/40"
+                    >
+                      {isLocking ? (
+                        <><Loader2 className="h-3.5 w-3.5 animate-spin inline-block mr-2" /> Locking...</>
+                      ) : (
+                        <><Lock className="h-3.5 w-3.5" /> Lock Profiles</>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
 

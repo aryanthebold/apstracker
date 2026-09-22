@@ -23,6 +23,7 @@ export interface OverallResult {
   overall_sgpa: number | null;
   total_backs: number;
   has_backs: boolean;
+  is_locked?: boolean;
   raw_session_summary: string | null;
   uploaded_at: string;
   updated_at: string;
@@ -280,6 +281,22 @@ export async function adminRepairBacks(token: string): Promise<RepairBacksResult
   if (!res.ok) {
     const err = await res.json().catch(() => ({ detail: 'Repair failed' }));
     throw new Error(err.detail || 'Repair failed');
+  }
+  return res.json();
+}
+
+export async function adminLockProfiles(threshold: number, token: string): Promise<{ message: string; locked_count: number }> {
+  const res = await fetch(`${API_BASE_URL}/admin/lock-profiles`, {
+    method: 'POST',
+    headers: {
+      ...getAdminHeaders(token),
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ threshold_sgpa: threshold }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to lock profiles' }));
+    throw new Error(err.detail || 'Failed to lock profiles');
   }
   return res.json();
 }
