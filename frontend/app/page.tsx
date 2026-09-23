@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import StatsBar from '@/components/StatsBar';
 import ParticipationBar from '@/components/ParticipationBar';
-import TopPerformerCard from '@/components/MostImprovedCard';
 import BranchStandingsCard from '@/components/BranchStandingsCard';
 import { Award, UploadCloud, Search, BookOpen, ExternalLink, ArrowRight, Sparkles, ChevronDown } from 'lucide-react';
 import { useEffect, useRef } from 'react';
@@ -104,11 +103,7 @@ export default function HomePage() {
             <StatsBar />
           </div>
 
-          {/* Top Performer + Branch Standings */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:animate-fade-in-up md:delay-500">
-            <TopPerformerCard />
-            <BranchStandingsCard />
-          </div>
+          {/* Removed Top Performer and Branch Standings from here */}
         </div>
 
         {/* Scroll hint */}
@@ -143,6 +138,11 @@ export default function HomePage() {
           <p className="text-sm text-text-secondary leading-relaxed">
             Deep dive into student marks, rankings, and subject metrics- all parsed from official AKTU marksheets hehee :D
           </p>
+        </div>
+
+        {/* Branch Standings */}
+        <div className="w-full max-w-2xl mx-auto flex justify-center">
+          <BranchStandingsCard />
         </div>
 
         {/* Bento Cards */}
