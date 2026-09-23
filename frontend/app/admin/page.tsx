@@ -716,6 +716,7 @@ export default function AdminPage() {
                       <><AlertOctagon className="h-3.5 w-3.5" /> Run Repair</>
                     )}
                   </button>
+                </div>
               </div>
 
               {/* ── Lock Profiles Card ────────────────────────────── */}

@@ -139,19 +139,34 @@ def repair_backs():
     boolean column in subject_marks, then updates results.total_backs and
     results.has_backs accordingly.
 
-    No PDF re-uploads needed. This corrects data written by the old parser that
-    incorrectly flagged subjects as backlogs (e.g. due to the spurious "E" grade).
+    Paginates through ALL results in batches of 500 to avoid Supabase row limits.
     """
     supabase = get_db()
 
-    # 1. Pull current results
-    all_results = supabase.table("results").select("roll_number, total_backs, has_backs").execute()
+    # Paginate through ALL results in batches to handle 430+ students
+    PAGE_SIZE = 500
+    offset = 0
+    all_results_data = []
+
+    while True:
+        batch = (
+            supabase.table("results")
+            .select("roll_number, total_backs, has_backs")
+            .range(offset, offset + PAGE_SIZE - 1)
+            .execute()
+        )
+        if not batch.data:
+            break
+        all_results_data.extend(batch.data)
+        if len(batch.data) < PAGE_SIZE:
+            break
+        offset += PAGE_SIZE
 
     needs_update = []
-    for r in all_results.data:
+    for r in all_results_data:
         roll = r["roll_number"]
 
-        # Recount backs using the is_back boolean column (which actually exists in the schema).
+        # Recount backs using the is_back boolean column
         backs_count = (
             supabase.table("subject_marks")
             .select("id", count="exact")
@@ -169,7 +184,7 @@ def repair_backs():
                 "has_backs": has_backs,
             })
 
-    # 2. Apply updates
+    # Apply updates
     for item in needs_update:
         supabase.table("results").update({
             "total_backs": item["total_backs"],
@@ -177,7 +192,7 @@ def repair_backs():
         }).eq("roll_number", item["roll_number"]).execute()
 
     return {
-        "message": f"Repair complete. {len(needs_update)} student(s) corrected.",
+        "message": f"Repair complete. {len(needs_update)} student(s) corrected out of {len(all_results_data)} total.",
         "corrected_rolls": [i["roll_number"] for i in needs_update],
     }
 
