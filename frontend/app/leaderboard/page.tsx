@@ -174,7 +174,7 @@ export default function LeaderboardPage() {
       </ScrollReveal>
 
       {/* Local search — fast client-side filter */}
-      <ScrollReveal delay={80} direction="up">
+      {/* <ScrollReveal delay={80} direction="up">
         <div className="relative max-w-md mb-5">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-text-secondary pointer-events-none" />
           <input
@@ -185,7 +185,7 @@ export default function LeaderboardPage() {
             className="w-full input-glass rounded-2xl pl-11 pr-4 py-3 text-sm"
           />
         </div>
-      </ScrollReveal>
+      </ScrollReveal> */}
 
       {/* Filters */}
       <ScrollReveal delay={100} direction="up">

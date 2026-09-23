@@ -27,7 +27,7 @@ export default function Navbar() {
     { href: '/', label: 'Home', icon: Home },
     { href: '/leaderboard', label: 'Leaderboard', icon: Award },
     { href: '/subject', label: 'Subjects', icon: LayoutDashboard },
-    { href: '/search', label: 'Search', icon: Search },
+    // { href: '/search', label: 'Search', icon: Search },
     { href: '/admin', label: 'OverPower', icon: ShieldAlert },
   ];
 

@@ -57,7 +57,7 @@ export default function HomePage() {
 
           {/* Subtitle */}
           <p className="md:animate-fade-in-up md:delay-200 text-text-secondary text-xs md:text-sm leading-relaxed max-w-lg opacity-85">
-            Your academic leaderboard, report card tracker, and analytics hub — all in one place.
+            Your academic leaderboard, report card tracker, and analytics hub- all in one place.
           </p>
 
           {/* Participation progress bar */}
